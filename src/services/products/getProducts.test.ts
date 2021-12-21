@@ -4,6 +4,7 @@ import { HttpMethods, HttpStatusCodes } from '@/http/codes';
 import { Endpoints } from '@/services/endpoints';
 import { makeHttpResponse } from '@/utils/testing';
 import { UnexpectedError } from '@/errors/UnexpectedError';
+import { makeProducts } from '@/utils/testing/factories/products';
 
 jest.mock('@/http/request/request');
 
@@ -18,15 +19,6 @@ describe(getProducts, () => {
         statusCode,
       }),
     );
-
-  function makeProducts(): Products {
-    return [
-      { id: 1, name: 'Banana', price: 10.0, available: 10 },
-      { id: 2, name: 'Apple', price: 20.0, available: 15 },
-      { id: 3, name: 'Orange', price: 30.0, available: 8 },
-      { id: 4, name: 'Mango', price: 15.0, available: 20 },
-    ];
-  }
 
   beforeEach(() => {
     mockRequestToSucceed(makeProducts(), HttpStatusCodes.ok);
