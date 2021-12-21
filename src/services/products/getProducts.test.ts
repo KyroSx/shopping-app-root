@@ -1,16 +1,21 @@
 import { getProducts, Products } from '@/services/products';
 import { request } from '@/http/request';
-import { HttpMethods } from '@/http/codes';
+import { HttpMethods, HttpStatusCodes } from '@/http/codes';
 import { Endpoints } from '@/services/endpoints';
 import { makeHttpResponse } from '@/utils/testing';
+import { UnexpectedError } from '@/errors/UnexpectedError';
 
 jest.mock('@/http/request/request');
 
 describe(getProducts, () => {
-  const mockRequestToSucceed = (products: Products) =>
+  const mockRequestToSucceed = (
+    products: Products,
+    statusCode = HttpStatusCodes.ok,
+  ) =>
     (request as jest.Mock).mockReturnValue(
       makeHttpResponse({
         body: products,
+        statusCode,
       }),
     );
 
@@ -23,6 +28,10 @@ describe(getProducts, () => {
     ];
   }
 
+  beforeEach(() => {
+    mockRequestToSucceed(makeProducts(), HttpStatusCodes.ok);
+  });
+
   it('calls request with correct params', async () => {
     await getProducts();
 
@@ -34,10 +43,24 @@ describe(getProducts, () => {
 
   it('returns product list if request succeeds', async () => {
     const products = makeProducts();
-    mockRequestToSucceed(products);
+    mockRequestToSucceed(products, HttpStatusCodes.ok);
 
     const productsOutput = await getProducts();
 
     expect(productsOutput).toEqual(products);
   });
+
+  const statusCodes = [HttpStatusCodes.serverError, HttpStatusCodes.notFound];
+  it.each(statusCodes)(
+    'throws UnexpectedError if statusCode is %s',
+    async errorStatusCode => {
+      mockRequestToSucceed([], errorStatusCode);
+
+      try {
+        await getProducts();
+      } catch (error) {
+        expect(error).toEqual(new UnexpectedError());
+      }
+    },
+  );
 });

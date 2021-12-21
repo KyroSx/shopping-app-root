@@ -1,6 +1,7 @@
 import { request } from '@/http/request';
-import { HttpMethods } from '@/http/codes';
+import { HttpMethods, HttpStatusCodes } from '@/http/codes';
 import { Endpoints } from '@/services/endpoints';
+import { UnexpectedError } from '@/errors/UnexpectedError';
 
 export type Product = {
   id: number;
@@ -16,5 +17,11 @@ export async function getProducts(): Promise<Products> {
     method: HttpMethods.get,
   });
 
-  return response?.body;
+  switch (response.statusCode) {
+    case HttpStatusCodes.ok:
+      return response?.body;
+    case HttpStatusCodes.serverError:
+    default:
+      throw new UnexpectedError();
+  }
 }
