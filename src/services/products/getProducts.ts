@@ -2,14 +2,7 @@ import { request } from '@/http/request';
 import { HttpMethods, HttpStatusCodes } from '@/http/codes';
 import { Endpoints } from '@/services/endpoints';
 import { UnexpectedError } from '@/errors/UnexpectedError';
-
-export type Product = {
-  id: number;
-  name: string;
-  price: number;
-  available: number;
-};
-export type Products = Product[];
+import { Products } from '@/services/products';
 
 type RequestOutput = {
   products: Products;
