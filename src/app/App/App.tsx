@@ -4,7 +4,7 @@ import { GlobalStyle } from '@/ui/GlobalStyle';
 
 export const App: React.FC = () => (
   <>
-    <GlobalStyle />
     <Router />
+    <GlobalStyle />
   </>
 );

@@ -31,7 +31,7 @@ export async function request<T>(
       body: apiResponse?.data,
       statusCode: apiResponse?.status,
     };
-  } catch (error) {
+  } catch (error: any) {
     if (!isAxiosError(error)) throw error;
 
     return {
