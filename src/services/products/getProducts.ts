@@ -11,15 +11,19 @@ export type Product = {
 };
 export type Products = Product[];
 
+type RequestOutput = {
+  products: Products;
+};
+
 export async function getProducts(): Promise<Products> {
-  const response = await request<Products>({
+  const response = await request<RequestOutput>({
     url: Endpoints.products.all(),
     method: HttpMethods.get,
   });
 
   switch (response.statusCode) {
     case HttpStatusCodes.ok:
-      return response?.body;
+      return response.body.products;
     case HttpStatusCodes.serverError:
     default:
       throw new UnexpectedError();

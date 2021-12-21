@@ -14,12 +14,12 @@ describe(getProducts, () => {
   ) =>
     (request as jest.Mock).mockReturnValue(
       makeHttpResponse({
-        body: products,
+        body: { products },
         statusCode,
       }),
     );
 
-  function makeProducts() {
+  function makeProducts(): Products {
     return [
       { id: 1, name: 'Banana', price: 10.0, available: 10 },
       { id: 2, name: 'Apple', price: 20.0, available: 15 },
