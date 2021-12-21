@@ -3,6 +3,7 @@ import { renderReactQueryHook } from '@/utils/testing';
 import { getProducts, Products } from '@/services/products';
 import { makeProducts } from '@/utils/testing/factories/products';
 import { UnexpectedError } from '@/errors/UnexpectedError';
+import { delay } from '@/utils/time';
 
 jest.mock('@/services/products/getProducts');
 
@@ -14,10 +15,14 @@ describe(useProducts, () => {
   };
 
   const mockGetProductsService = (products: Products) =>
-    (getProducts as jest.Mock).mockReturnValue(products);
+    (getProducts as jest.Mock).mockImplementationOnce(async () => {
+      await delay(0.5);
+      return products;
+    });
 
   const mockGetProductsServiceToThrow = () =>
     (getProducts as jest.Mock).mockImplementationOnce(async () => {
+      await delay(0.5);
       throw new UnexpectedError();
     });
 

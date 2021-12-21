@@ -5,6 +5,7 @@ import { Endpoints } from '@/services/endpoints';
 import { makeHttpResponse } from '@/utils/testing';
 import { UnexpectedError } from '@/errors/UnexpectedError';
 import { makeProducts } from '@/utils/testing/factories/products';
+import { delay } from '@/utils/time';
 
 jest.mock('@/http/request/request');
 
@@ -13,14 +14,17 @@ describe(getProducts, () => {
     products: Products,
     statusCode = HttpStatusCodes.ok,
   ) =>
-    (request as jest.Mock).mockReturnValue(
-      makeHttpResponse({
+    (request as jest.Mock).mockImplementationOnce(async () => {
+      await delay(0.5);
+
+      return makeHttpResponse({
         body: { products },
         statusCode,
-      }),
-    );
+      });
+    });
 
   beforeEach(() => {
+    jest.resetAllMocks();
     mockRequestToSucceed(makeProducts(), HttpStatusCodes.ok);
   });
 
