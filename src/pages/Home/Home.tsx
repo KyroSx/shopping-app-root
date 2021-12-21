@@ -1,5 +1,6 @@
 import React from 'react';
+import { Texts } from '@/ui/craft/texts';
 
 export const Home: React.FC = () => {
-  return <>Dashboard</>;
+  return <>{Texts.home.description}</>;
 };
