@@ -1,9 +1,11 @@
 import { useProducts } from '@/ui/hooks/useProducts';
 import { renderReactQueryHook } from '@/utils/testing';
-import { getProducts, Products } from '@/services/products';
+import { getProducts } from '@/services/products';
 import { makeProducts } from '@/utils/testing/factories/products';
-import { UnexpectedError } from '@/errors/UnexpectedError';
-import { delay } from '@/utils/time';
+import {
+  mockGetProductsService,
+  mockGetProductsServiceToThrow,
+} from '@/utils/testing/mocks/services/getProducts';
 
 jest.mock('@/services/products/getProducts');
 
@@ -13,18 +15,6 @@ describe(useProducts, () => {
 
     return { hook };
   };
-
-  const mockGetProductsService = (products: Products) =>
-    (getProducts as jest.Mock).mockImplementationOnce(async () => {
-      await delay(0.5);
-      return products;
-    });
-
-  const mockGetProductsServiceToThrow = () =>
-    (getProducts as jest.Mock).mockImplementationOnce(async () => {
-      await delay(0.5);
-      throw new UnexpectedError();
-    });
 
   beforeEach(jest.resetAllMocks);
 
