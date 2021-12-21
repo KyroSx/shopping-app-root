@@ -1,8 +1,12 @@
 import { getByText, screen, waitFor } from '@testing-library/react';
 import { Home } from '@/pages/Home/Home';
 import { renderWithProviders } from '@/utils/testing';
-import { mockGetProductsService } from '@/utils/testing/mocks/services/getProducts';
+import {
+  mockGetProductsService,
+  mockGetProductsServiceToThrow,
+} from '@/utils/testing/mocks/services/getProducts';
 import { makeProducts } from '@/utils/testing/factories/products';
+import { Texts } from '@/ui/craft/texts';
 
 jest.mock('@/services/products/getProducts');
 
@@ -38,6 +42,17 @@ describe(Home, () => {
         );
         expect(availableElement).toBeInTheDocument();
       });
+    });
+  });
+
+  it('renders error descriptions if error happens', async () => {
+    mockGetProductsServiceToThrow();
+    renderHome();
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(Texts.global.error.unexpected),
+      ).toBeInTheDocument();
     });
   });
 });

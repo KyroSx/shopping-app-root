@@ -1,8 +1,12 @@
 import React from 'react';
 import { useProducts } from '@/ui/hooks/useProducts';
+import { Texts } from '@/ui/craft/texts';
 
 export const Home: React.FC = () => {
-  const { products } = useProducts();
+  const { products, hasUnexpectedErrorHappened } = useProducts();
+
+  if (hasUnexpectedErrorHappened)
+    return <div>{Texts.global.error.unexpected}</div>;
 
   return (
     <div>
