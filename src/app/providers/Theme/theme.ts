@@ -17,6 +17,10 @@ export const theme = {
       x200: '#E4E4E7',
     },
 
+    black: {
+      x1000: 'black',
+    },
+
     gray: {
       x50: '#F9FAFB',
       x200: '#E5E7EB',
@@ -26,6 +30,12 @@ export const theme = {
       x800: '#1F2937',
       x900: '#111827',
     },
+  },
+
+  zIndex: {
+    x100: '2',
+    x500: '4',
+    x1000: '8',
   },
 
   space: {

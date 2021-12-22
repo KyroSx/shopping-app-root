@@ -1,14 +1,16 @@
 import React from 'react';
-import { Router } from '@/app/routes/Router';
 import { GlobalStyle } from '@/ui/GlobalStyle';
 import { ReactWrapper } from '@/app/wrappers';
 import { Providers } from '@/app/providers';
+import { Loading } from '@/ui/components/Loading';
 
-export const App: React.FC = () => {
+export const App: React.FC = ({ children }) => {
   return (
     <ReactWrapper>
       <Providers>
-        <Router />
+        <Loading />
+
+        {children}
       </Providers>
 
       <GlobalStyle />

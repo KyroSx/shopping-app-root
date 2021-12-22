@@ -65,7 +65,7 @@ describe(Home, () => {
     mockGetProductsService(makeProducts());
     renderHome();
 
-    const loadingText = screen.getByText(Texts.global.loading.text);
+    const loadingText = await screen.findByText(Texts.global.loading.text);
     expect(loadingText).toBeInTheDocument();
 
     await waitFor(() => {

@@ -1,4 +1,3 @@
-import { waitFor } from '@testing-library/react';
 import { useProducts } from '@/ui/hooks/useProducts';
 import { renderReactQueryHook } from '@/utils/testing';
 import { getProducts } from '@/services/products';
@@ -43,16 +42,5 @@ describe(useProducts, () => {
 
     await hook.waitForNextUpdate();
     expect(hook.result.current.status.isUnexpectedError).toEqual(true);
-  });
-
-  it('returns loading status', async () => {
-    mockGetProductsService(makeProducts());
-    const { hook } = renderUseProducts();
-
-    expect(hook.result.current.status.isLoading).toBe(true);
-
-    await waitFor(() =>
-      expect(hook.result.current.status.isLoading).toBe(false),
-    );
   });
 });
