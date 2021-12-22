@@ -20,6 +20,11 @@ describe(Loading, () => {
     });
   };
 
+  beforeEach(() => {
+    jest.resetAllMocks();
+    mockIsFetching();
+  });
+
   it('renders loading if isFetching', async () => {
     mockIsFetching(true);
     renderLoading();

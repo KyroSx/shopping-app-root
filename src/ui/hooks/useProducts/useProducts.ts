@@ -10,7 +10,6 @@ export function useProducts() {
   return {
     products: query.data ?? [],
     status: {
-      isLoading: query.isFetching,
       isUnexpectedError: UnexpectedError.is(query?.error),
     },
   };
