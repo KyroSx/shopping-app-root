@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from '@/ui/components';
 
 export const Card = styled.div`
   margin: 12px 0;
@@ -30,13 +31,7 @@ export const Row = styled.div`
   margin-top: 6px;
 `;
 
-export const BuyButton = styled.button`
-  width: 100%;
-  background: black;
-  color: white;
-  border: 0;
+export const BuyButton = styled(Button)`
   border-radius: 0 0 6px 6px;
   margin-top: 8px;
-
-  padding: 4px;
 `;

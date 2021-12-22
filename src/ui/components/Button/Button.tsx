@@ -1,5 +1,7 @@
 import React from 'react';
 
+import * as Styles from './Button.styles';
+
 type HtmlButton = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export interface ButtonProps extends HtmlButton {
@@ -8,8 +10,8 @@ export interface ButtonProps extends HtmlButton {
 
 export function Button({ children, ...htmlProps }: ButtonProps) {
   return (
-    <button type="button" {...htmlProps}>
+    <Styles.Button type="button" {...htmlProps}>
       {children}
-    </button>
+    </Styles.Button>
   );
 }
