@@ -6,8 +6,10 @@ module.exports = {
   webpack: setupWebpack,
 };
 
-function setupWebpack() {
-  return override(setupPathAlias())
+function setupWebpack(config) {
+  const setup = override(setupPathAlias())
+
+  return setup(config)
 }
 
 function setupPathAlias() {
