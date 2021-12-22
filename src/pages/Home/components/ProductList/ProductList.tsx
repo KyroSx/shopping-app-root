@@ -12,6 +12,8 @@ export function ProductList({ children: products }: ProductListProps) {
       {products.map(product => (
         <div key={product.id} data-testid={product.id}>
           <ProductCard>{product}</ProductCard>
+
+          <br />
         </div>
       ))}
     </>

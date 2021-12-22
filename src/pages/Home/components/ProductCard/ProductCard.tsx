@@ -2,6 +2,7 @@ import React from 'react';
 import { Product } from '@/services/products';
 
 import * as Styles from './ProductCard.styles';
+import { Money } from '@/ui/components';
 
 interface ProductCardProps {
   children: Product;
@@ -14,7 +15,7 @@ export function ProductCard({ children: product }: ProductCardProps) {
         <Styles.Name>{product.name}</Styles.Name>
 
         <Styles.Row>
-          <Styles.Price>{product.price}</Styles.Price>
+          <Money>{product.price}</Money>
 
           <p>--</p>
 
@@ -22,7 +23,7 @@ export function ProductCard({ children: product }: ProductCardProps) {
         </Styles.Row>
       </Styles.Content>
 
-      <br />
+      <Styles.BuyButton>Buy</Styles.BuyButton>
     </Styles.Card>
   );
 }
