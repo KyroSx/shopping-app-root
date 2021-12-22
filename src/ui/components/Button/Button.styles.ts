@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { shade } from 'polished';
+import { Colors } from '@/ui/colors';
 
 export const Button = styled.button`
   color: white;
@@ -11,6 +11,6 @@ export const Button = styled.button`
 
   transition: background-color 0.2s;
   &:hover {
-    background-color: ${shade(0.2, '#333333')};
+    background-color: ${Colors.addShade('#333333', 0.2)};
   }
 `;
