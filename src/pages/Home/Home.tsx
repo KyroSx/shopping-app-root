@@ -2,6 +2,9 @@ import React from 'react';
 import { useProducts } from '@/ui/hooks/useProducts';
 import { Texts } from '@/ui/craft/texts';
 
+import * as Styles from './Home.styles';
+import { ProductList } from '@/pages/Home/components';
+
 export const Home: React.FC = () => {
   const { products, status } = useProducts();
 
@@ -11,16 +14,8 @@ export const Home: React.FC = () => {
     return <div>{Texts.global.error.unexpected}</div>;
 
   return (
-    <div>
-      {products.map(product => (
-        <div key={product.id} data-testid={product.id}>
-          <p>{product.name}</p>
-
-          <p>price:{product.price}</p>
-
-          <p>available:{product.available}</p>
-        </div>
-      ))}
-    </div>
+    <Styles.Container>
+      <ProductList>{products}</ProductList>
+    </Styles.Container>
   );
 };
