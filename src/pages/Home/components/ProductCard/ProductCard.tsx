@@ -1,22 +1,28 @@
 import React from 'react';
 import { Product } from '@/services/products';
 
+import * as Styles from './ProductCard.styles';
+
 interface ProductCardProps {
   children: Product;
 }
 
 export function ProductCard({ children: product }: ProductCardProps) {
   return (
-    <div>
-      <div>
-        <p>{product.name}</p>
+    <Styles.Card>
+      <Styles.Content>
+        <Styles.Name>{product.name}</Styles.Name>
 
-        <p>price:{product.price}</p>
+        <Styles.Row>
+          <Styles.Price>{product.price}</Styles.Price>
 
-        <p>available:{product.available}</p>
-      </div>
+          <p>--</p>
+
+          <Styles.Available>{product.available} left</Styles.Available>
+        </Styles.Row>
+      </Styles.Content>
 
       <br />
-    </div>
+    </Styles.Card>
   );
 }

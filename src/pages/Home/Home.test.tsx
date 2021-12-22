@@ -36,13 +36,13 @@ describe(Home, () => {
 
         const priceElement = getByText(
           productContainer,
-          `price:${product.price}`,
+          `$ ${product.price}.00`,
         );
         expect(priceElement).toBeInTheDocument();
 
         const availableElement = getByText(
           productContainer,
-          `available:${product.available}`,
+          `${product.available} left`,
         );
         expect(availableElement).toBeInTheDocument();
       });
