@@ -17,6 +17,10 @@ describe(Home, () => {
     return { home };
   };
 
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('renders product list', async () => {
     const products = makeProducts();
     mockGetProductsService(products);
@@ -53,6 +57,19 @@ describe(Home, () => {
       expect(
         screen.getByText(Texts.global.error.unexpected),
       ).toBeInTheDocument();
+    });
+  });
+
+  it('renders loading text', async () => {
+    mockGetProductsService(makeProducts());
+    renderHome();
+
+    const loadingText = screen.getByText(Texts.global.loading.text);
+    expect(loadingText).toBeInTheDocument();
+
+    await waitFor(() => {
+      const loading = screen.queryByText(Texts.global.loading.text);
+      expect(loading).not.toBeInTheDocument();
     });
   });
 });
