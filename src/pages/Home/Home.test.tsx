@@ -7,6 +7,7 @@ import {
 } from '@/utils/testing/mocks/services/getProducts';
 import { makeProducts } from '@/utils/testing/factories/products';
 import { Texts } from '@/ui/craft/texts';
+import { formatMoney } from '@/utils/formatting';
 
 jest.mock('@/services/products/getProducts');
 
@@ -36,7 +37,7 @@ describe(Home, () => {
 
         const priceElement = getByText(
           productContainer,
-          `$ ${product.price}.00`,
+          formatMoney(product.price),
         );
         expect(priceElement).toBeInTheDocument();
 
