@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import { Colors } from '@/ui/colors';
 
 export const Button = styled.button`
-  color: white;
-  background: #333333;
+  color: ${props => props.theme.colors.gray.x50};
+  background: ${props => props.theme.colors.gray.x900};
 
   width: 100%;
   border: 0;
@@ -11,6 +10,6 @@ export const Button = styled.button`
 
   transition: background-color 0.2s;
   &:hover {
-    background-color: ${Colors.addShade('#333333', 0.2)};
+    background-color: ${props => props.theme.colors.gray.x800};
   }
 `;
