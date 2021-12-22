@@ -2,22 +2,22 @@ import styled from 'styled-components';
 import { Button } from '@/ui/components';
 
 export const Card = styled.div`
-  margin: 12px 0;
-  border-radius: 6px;
+  margin: ${props => props.theme.space.x12} 0;
+  border-radius: ${props => props.theme.space.x6};
   max-width: 300px;
 
-  background: #efefef;
+  background: ${props => props.theme.colors.zinc.x200};
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.24);
 `;
 
 export const Content = styled.div`
-  gap: 12px;
-  padding: 8px;
+  gap: ${props => props.theme.space.x12};
+  padding: ${props => props.theme.space.x8};
 `;
 
 export const Name = styled.p`
   font-weight: bold;
-  font-size: 18px;
+  font-size: ${props => props.theme.font.size.m};
 `;
 
 export const Available = styled.p``;
@@ -25,13 +25,13 @@ export const Available = styled.p``;
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  gap: ${props => props.theme.space.x6};
 
-  color: #444444;
-  margin-top: 6px;
+  color: ${props => props.theme.colors.gray.x800};
+  margin-top: ${props => props.theme.space.x6};
 `;
 
 export const BuyButton = styled(Button)`
   border-radius: 0 0 6px 6px;
-  margin-top: 8px;
+  margin-top: ${props => props.theme.space.x8};
 `;

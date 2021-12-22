@@ -2,6 +2,7 @@ import * as RTH from '@testing-library/react-hooks';
 import { render } from '@testing-library/react';
 import React from 'react';
 import { ReactQueryProvider } from '@/app/providers/ReactQuery';
+import { Providers } from '@/app/providers';
 
 // Hooks
 type Hook<T> = (input?: T) => any;
@@ -28,8 +29,8 @@ export function renderWithProviders<T = {}>(
   props: Props<T>,
 ) {
   return render(
-    <ReactQueryProvider>
+    <Providers>
       <Component {...props} />
-    </ReactQueryProvider>,
+    </Providers>,
   );
 }
