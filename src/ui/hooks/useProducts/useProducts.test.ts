@@ -42,7 +42,7 @@ describe(useProducts, () => {
     const { hook } = renderUseProducts();
 
     await hook.waitForNextUpdate();
-    expect(hook.result.current.hasUnexpectedErrorHappened).toEqual(true);
+    expect(hook.result.current.status.isUnexpectedError).toEqual(true);
   });
 
   it('returns loading status', async () => {

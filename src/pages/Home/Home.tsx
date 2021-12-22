@@ -3,11 +3,11 @@ import { useProducts } from '@/ui/hooks/useProducts';
 import { Texts } from '@/ui/craft/texts';
 
 export const Home: React.FC = () => {
-  const { products, hasUnexpectedErrorHappened, status } = useProducts();
+  const { products, status } = useProducts();
 
   if (status.isLoading) return <div>{Texts.global.loading.text}</div>;
 
-  if (hasUnexpectedErrorHappened)
+  if (status.isUnexpectedError)
     return <div>{Texts.global.error.unexpected}</div>;
 
   return (
