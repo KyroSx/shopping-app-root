@@ -3,6 +3,9 @@ export const Texts = {
     error: {
       unexpected: 'Unexpected Error!',
     },
+    loading: {
+      text: 'Loading...',
+    },
   },
 
   home: {

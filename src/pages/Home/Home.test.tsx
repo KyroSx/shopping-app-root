@@ -7,6 +7,7 @@ import {
 } from '@/utils/testing/mocks/services/getProducts';
 import { makeProducts } from '@/utils/testing/factories/products';
 import { Texts } from '@/ui/craft/texts';
+import { formatMoney } from '@/utils/formatting';
 
 jest.mock('@/services/products/getProducts');
 
@@ -16,6 +17,10 @@ describe(Home, () => {
 
     return { home };
   };
+
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
 
   it('renders product list', async () => {
     const products = makeProducts();
@@ -32,13 +37,13 @@ describe(Home, () => {
 
         const priceElement = getByText(
           productContainer,
-          `price:${product.price}`,
+          formatMoney(product.price),
         );
         expect(priceElement).toBeInTheDocument();
 
         const availableElement = getByText(
           productContainer,
-          `available:${product.available}`,
+          `${product.available} left`,
         );
         expect(availableElement).toBeInTheDocument();
       });
@@ -53,6 +58,19 @@ describe(Home, () => {
       expect(
         screen.getByText(Texts.global.error.unexpected),
       ).toBeInTheDocument();
+    });
+  });
+
+  it('renders loading text', async () => {
+    mockGetProductsService(makeProducts());
+    renderHome();
+
+    const loadingText = screen.getByText(Texts.global.loading.text);
+    expect(loadingText).toBeInTheDocument();
+
+    await waitFor(() => {
+      const loading = screen.queryByText(Texts.global.loading.text);
+      expect(loading).not.toBeInTheDocument();
     });
   });
 });
