@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: #F0F2F5 ;
+    background: #F9FAFB;
     -webkit-font-smoothing: antialiased
   }
 
