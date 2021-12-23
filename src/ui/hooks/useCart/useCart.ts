@@ -13,21 +13,21 @@ export type ProductInCart = Product & {
 export type ProductsInCart = ProductInCart[];
 
 type Output = {
-  productsInCart: ProductsInCart;
+  products: ProductsInCart;
   addProductToCart: (product: ProductInCart) => void;
 };
 
-export function useCart(products: Products = []): Output {
-  const [productsInCart, setProductsInCart] = useState<ProductsInCart>(
-    mapProductsToProductsInCart(products),
+export function useCart(initialProducts: Products = []): Output {
+  const [products, setProducts] = useState<ProductsInCart>(
+    mapProductsToProductsInCart(initialProducts),
   );
 
   const addProductInCart = (product: ProductInCart) => {
-    setProductsInCart(addProductToCart(productsInCart, product));
+    setProducts(addProductToCart(products, product));
   };
 
   return {
-    productsInCart,
+    products,
     addProductToCart: addProductInCart,
   };
 }
