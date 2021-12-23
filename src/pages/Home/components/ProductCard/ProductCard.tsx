@@ -30,7 +30,7 @@ export function ProductCard({ children: product, onClick }: ProductCardProps) {
       </Styles.Content>
 
       <Styles.BuyButton onClick={onClickThis}>
-        {Texts.productCard.button.text}
+        {Texts.productCard.button.text()}
       </Styles.BuyButton>
     </Styles.Card>
   );

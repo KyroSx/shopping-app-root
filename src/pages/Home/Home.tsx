@@ -11,7 +11,7 @@ export const Home: React.FC = () => {
   const { products, addProductToCart } = useCart(initialProducts);
 
   if (status.isUnexpectedError)
-    return <div>{Texts.global.error.unexpected}</div>;
+    return <div>{Texts.global.error.unexpected()}</div>;
 
   return (
     <Styles.Container>
