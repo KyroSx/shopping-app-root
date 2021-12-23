@@ -7,8 +7,8 @@ import { ProductList } from '@/pages/Home/components';
 import { useCart } from '@/ui/hooks/useCart';
 
 export const Home: React.FC = () => {
-  const { products, dispatchProducts, addProductToCart } = useCart();
-  const { status } = useProducts(dispatchProducts);
+  const { status, products: initialProducts } = useProducts();
+  const { products, addProductToCart } = useCart(initialProducts);
 
   if (status.isUnexpectedError)
     return <div>{Texts.global.error.unexpected}</div>;

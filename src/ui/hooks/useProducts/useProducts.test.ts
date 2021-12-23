@@ -9,11 +9,9 @@ import {
 
 jest.mock('@/services/products/getProducts');
 
-const mockListener = jest.fn();
-
 describe(useProducts, () => {
   const renderUseProducts = () => {
-    const hook = renderReactQueryHook<any>(useProducts, mockListener as any);
+    const hook = renderReactQueryHook(useProducts);
 
     return { hook };
   };
@@ -36,8 +34,6 @@ describe(useProducts, () => {
     expect(hook.result.current.products).toEqual([]);
     await hook.waitForNextUpdate();
     expect(hook.result.current.products).toEqual(products);
-
-    expect(mockListener).toHaveBeenCalledWith(products);
   });
 
   it('returns hasUnexpectedErrorHappened if getProducts throws', async () => {

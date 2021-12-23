@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Product, Products } from '@/services/products';
 import {
   addProductToCart,
@@ -19,13 +19,14 @@ type Output = {
   products: ProductsInCart;
   addProductToCart: AddProductToCart;
   removeProductFromCart: (product: ProductInCart) => void;
-  dispatchProducts: (products: ProductsInCart) => void;
 };
 
 export function useCart(initialProducts: Products = []): Output {
-  const [products, setProducts] = React.useState<ProductsInCart>(
-    mapProductsToProductsInCart(initialProducts),
-  );
+  const [products, setProducts] = React.useState<ProductsInCart>([]);
+
+  useEffect(() => {
+    setProducts(mapProductsToProductsInCart(initialProducts));
+  }, [initialProducts]);
 
   const addProductInCart = (product: ProductInCart) => {
     setProducts(addProductToCart(products, product));
@@ -39,6 +40,5 @@ export function useCart(initialProducts: Products = []): Output {
     products,
     addProductToCart: addProductInCart,
     removeProductFromCart: removeProductInCart,
-    dispatchProducts: setProducts,
   };
 }
