@@ -58,7 +58,7 @@ describe(Home, () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText(Texts.global.error.unexpected),
+        screen.getByText(Texts.global.error.unexpected()),
       ).toBeInTheDocument();
     });
   });
@@ -67,11 +67,11 @@ describe(Home, () => {
     mockGetProductsService(makeProducts());
     renderHome();
 
-    const loadingText = await screen.findByText(Texts.global.loading.text);
+    const loadingText = await screen.findByText(Texts.global.loading.text());
     expect(loadingText).toBeInTheDocument();
 
     await waitFor(() => {
-      const loading = screen.queryByText(Texts.global.loading.text);
+      const loading = screen.queryByText(Texts.global.loading.text());
       expect(loading).not.toBeInTheDocument();
     });
   });
@@ -88,7 +88,7 @@ describe(Home, () => {
 
         const buyButton = getByText(
           productContainer,
-          Texts.productCard.button.text,
+          Texts.productCard.button.text(),
         );
         userEvent.click(buyButton);
 

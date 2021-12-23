@@ -13,7 +13,7 @@ export function Loading() {
     <Styles.Container data-testid="loading">
       <LoadingSpinner />
 
-      <Styles.Text>{Texts.global.loading.text}</Styles.Text>
+      <Styles.Text>{Texts.global.loading.text()}</Styles.Text>
     </Styles.Container>
   );
 }

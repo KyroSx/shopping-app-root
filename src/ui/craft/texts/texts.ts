@@ -1,22 +1,24 @@
+const asFn = (string: string) => () => string;
+
 export const Texts = {
   global: {
     error: {
-      unexpected: 'Unexpected Error!',
+      unexpected: asFn('Unexpected Error!'),
     },
     loading: {
-      text: 'Loading...',
+      text: asFn('Loading...'),
     },
   },
 
   home: {
-    description: 'Home',
+    description: asFn('Home'),
   },
 
   productCard: {
     available: (available: number) => `${available} left`,
 
     button: {
-      text: 'Buy',
+      text: asFn('Buy'),
     },
   },
 };
