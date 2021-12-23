@@ -54,4 +54,20 @@ describe(useCart, () => {
       expect(productInCart.available).toBe(0);
     });
   });
+
+  describe('remove product', () => {
+    it('removes product from cart', async () => {
+      const hook = renderUseCart(makeProducts());
+
+      hook.result.current.addProductToCart(hook.result.current.products[0]);
+      hook.result.current.removeProductFromCart(
+        hook.result.current.products[0],
+      );
+
+      const [productInCart] = hook.result.current.products;
+      expect(productInCart.isInCart).toBe(false);
+      expect(productInCart.quantity).toBe(0);
+      expect(productInCart.available).toBe(10);
+    });
+  });
 });

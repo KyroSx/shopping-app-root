@@ -1,7 +1,6 @@
 import { ProductInCart } from '@/ui/hooks/useCart';
+import { decrement, increment } from '@/utils/math';
 
-const increment = (number: number) => number + 1;
-const decrement = (number: number) => number - 1;
 const isNotAvailable = (product: ProductInCart) => product.available === 0;
 
 export function addProduct(product: ProductInCart): ProductInCart {
