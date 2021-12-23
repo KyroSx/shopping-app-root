@@ -1,7 +1,10 @@
 import { ProductInCart, useCart } from '@/ui/hooks/useCart/useCart';
 import { renderReactQueryHook } from '@/utils/testing';
 import { Products } from '@/services/products';
-import { makeProducts } from '@/utils/testing/factories/products';
+import {
+  makeProducts,
+  makeProductsUnavailable,
+} from '@/utils/testing/factories/products';
 
 describe(useCart, () => {
   const renderUseCart = (products: Products = []) =>
@@ -39,5 +42,16 @@ describe(useCart, () => {
     expect(productInCart.isInCart).toBe(true);
     expect(productInCart.quantity).toBe(2);
     expect(productInCart.available).toBe(8);
+  });
+
+  it('doest not add product in cart if it is unavailable', async () => {
+    const hook = renderUseCart(makeProductsUnavailable());
+
+    hook.result.current.addProductToCart(hook.result.current.productsInCart[0]);
+
+    const [productInCart] = hook.result.current.productsInCart;
+    expect(productInCart.isInCart).toBe(false);
+    expect(productInCart.quantity).toBe(0);
+    expect(productInCart.available).toBe(0);
   });
 });
