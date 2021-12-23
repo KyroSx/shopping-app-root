@@ -1,14 +1,17 @@
 import React from 'react';
-import { Product } from '@/services/products';
 
 import * as Styles from './ProductCard.styles';
 import { Money } from '@/ui/components';
+import { ProductInCart } from '@/ui/hooks/useCart';
 
 interface ProductCardProps {
-  children: Product;
+  children: ProductInCart;
+  onClick: (product: ProductInCart) => void;
 }
 
-export function ProductCard({ children: product }: ProductCardProps) {
+export function ProductCard({ children: product, onClick }: ProductCardProps) {
+  const onClickThis = () => onClick(product);
+
   return (
     <Styles.Card>
       <Styles.Content>
@@ -23,7 +26,7 @@ export function ProductCard({ children: product }: ProductCardProps) {
         </Styles.Row>
       </Styles.Content>
 
-      <Styles.BuyButton>Buy</Styles.BuyButton>
+      <Styles.BuyButton onClick={onClickThis}>Buy</Styles.BuyButton>
     </Styles.Card>
   );
 }

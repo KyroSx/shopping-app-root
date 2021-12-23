@@ -11,7 +11,7 @@ jest.mock('@/services/products/getProducts');
 
 describe(useProducts, () => {
   const renderUseProducts = () => {
-    const hook = renderReactQueryHook(useProducts);
+    const hook = renderReactQueryHook<any>(useProducts, jest.fn as any);
 
     return { hook };
   };

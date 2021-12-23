@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { Product, Products } from '@/services/products';
 import {
   addProductToCart,
@@ -13,14 +13,17 @@ export type ProductInCart = Product & {
 
 export type ProductsInCart = ProductInCart[];
 
+export type AddProductToCart = (product: ProductInCart) => void;
+
 type Output = {
   products: ProductsInCart;
-  addProductToCart: (product: ProductInCart) => void;
+  addProductToCart: AddProductToCart;
   removeProductFromCart: (product: ProductInCart) => void;
+  dispatchProducts: (products: ProductsInCart) => void;
 };
 
 export function useCart(initialProducts: Products = []): Output {
-  const [products, setProducts] = useState<ProductsInCart>(
+  const [products, setProducts] = React.useState<ProductsInCart>(
     mapProductsToProductsInCart(initialProducts),
   );
 
@@ -36,5 +39,6 @@ export function useCart(initialProducts: Products = []): Output {
     products,
     addProductToCart: addProductInCart,
     removeProductFromCart: removeProductInCart,
+    dispatchProducts: setProducts,
   };
 }

@@ -1,17 +1,21 @@
 import React from 'react';
-import { Products } from '@/services/products';
 import { ProductCard } from '@/pages/Home/components';
+import { AddProductToCart, ProductsInCart } from '@/ui/hooks/useCart';
 
 interface ProductListProps {
-  children: Products;
+  children: ProductsInCart;
+  addProductToCart: AddProductToCart;
 }
 
-export function ProductList({ children: products }: ProductListProps) {
+export function ProductList({
+  children: products,
+  addProductToCart,
+}: ProductListProps) {
   return (
     <>
       {products.map(product => (
         <div key={product.id} data-testid={product.id}>
-          <ProductCard>{product}</ProductCard>
+          <ProductCard onClick={addProductToCart}>{product}</ProductCard>
 
           <br />
         </div>
