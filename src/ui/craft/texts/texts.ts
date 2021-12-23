@@ -10,5 +10,6 @@ export const Texts = {
 
   home: {
     description: 'Home',
+    buy: 'Buy',
   },
 };

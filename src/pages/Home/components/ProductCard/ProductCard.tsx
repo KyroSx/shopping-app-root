@@ -3,6 +3,7 @@ import React from 'react';
 import * as Styles from './ProductCard.styles';
 import { Money } from '@/ui/components';
 import { ProductInCart } from '@/ui/hooks/useCart';
+import { Texts } from '@/ui/craft/texts';
 
 interface ProductCardProps {
   children: ProductInCart;
@@ -26,7 +27,9 @@ export function ProductCard({ children: product, onClick }: ProductCardProps) {
         </Styles.Row>
       </Styles.Content>
 
-      <Styles.BuyButton onClick={onClickThis}>Buy</Styles.BuyButton>
+      <Styles.BuyButton onClick={onClickThis}>
+        {Texts.home.buy}
+      </Styles.BuyButton>
     </Styles.Card>
   );
 }
