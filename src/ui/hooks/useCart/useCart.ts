@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Product, Products } from '@/services/products';
 import {
-  addProduct,
+  addProductToCart,
   mapProductsToProductsInCart,
 } from '@/ui/hooks/useCart/functions';
 
@@ -14,7 +14,7 @@ export type ProductsInCart = ProductInCart[];
 
 type Output = {
   productsInCart: ProductsInCart;
-  incrementProductQuantity: (product: ProductInCart) => void;
+  addProductToCart: (product: ProductInCart) => void;
 };
 
 export function useCart(products: Products = []): Output {
@@ -22,18 +22,12 @@ export function useCart(products: Products = []): Output {
     mapProductsToProductsInCart(products),
   );
 
-  const incrementProductQuantity = (product: ProductInCart) => {
-    setProductsInCart(
-      productsInCart.map(productInCart => {
-        return productInCart.id === product.id
-          ? addProduct(product)
-          : productInCart;
-      }),
-    );
+  const addProductInCart = (product: ProductInCart) => {
+    setProductsInCart(addProductToCart(productsInCart, product));
   };
 
   return {
     productsInCart,
-    incrementProductQuantity,
+    addProductToCart: addProductInCart,
   };
 }
