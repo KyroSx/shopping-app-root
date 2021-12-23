@@ -24,7 +24,7 @@ export function useCart(products: Products = []): Output {
       ...product,
       isInCart: true,
       available: product.available - 1,
-      quantity: 1,
+      quantity: product.quantity + 1,
     };
   };
 
