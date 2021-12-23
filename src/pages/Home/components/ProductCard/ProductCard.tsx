@@ -1,14 +1,18 @@
 import React from 'react';
-import { Product } from '@/services/products';
 
 import * as Styles from './ProductCard.styles';
 import { Money } from '@/ui/components';
+import { ProductInCart } from '@/ui/hooks/useCart';
+import { Texts } from '@/ui/craft/texts';
 
 interface ProductCardProps {
-  children: Product;
+  children: ProductInCart;
+  onClick: (product: ProductInCart) => void;
 }
 
-export function ProductCard({ children: product }: ProductCardProps) {
+export function ProductCard({ children: product, onClick }: ProductCardProps) {
+  const onClickThis = () => onClick(product);
+
   return (
     <Styles.Card>
       <Styles.Content>
@@ -19,11 +23,15 @@ export function ProductCard({ children: product }: ProductCardProps) {
 
           <p>--</p>
 
-          <Styles.Available>{product.available} left</Styles.Available>
+          <Styles.Available>
+            {Texts.productCard.available(product.available)}
+          </Styles.Available>
         </Styles.Row>
       </Styles.Content>
 
-      <Styles.BuyButton>Buy</Styles.BuyButton>
+      <Styles.BuyButton onClick={onClickThis}>
+        {Texts.productCard.button.text}
+      </Styles.BuyButton>
     </Styles.Card>
   );
 }

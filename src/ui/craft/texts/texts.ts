@@ -11,4 +11,12 @@ export const Texts = {
   home: {
     description: 'Home',
   },
+
+  productCard: {
+    available: (available: number) => `${available} left`,
+
+    button: {
+      text: 'Buy',
+    },
+  },
 };

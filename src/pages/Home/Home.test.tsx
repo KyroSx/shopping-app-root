@@ -1,4 +1,5 @@
 import { getByText, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Home } from '@/pages/Home/Home';
 import { renderWithProviders } from '@/utils/testing';
 import {
@@ -8,6 +9,7 @@ import {
 import { makeProducts } from '@/utils/testing/factories/products';
 import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
+import { decrement } from '@/utils/math';
 
 jest.mock('@/services/products/getProducts');
 
@@ -43,7 +45,7 @@ describe(Home, () => {
 
         const availableElement = getByText(
           productContainer,
-          `${product.available} left`,
+          Texts.productCard.available(product.available),
         );
         expect(availableElement).toBeInTheDocument();
       });
@@ -71,6 +73,31 @@ describe(Home, () => {
     await waitFor(() => {
       const loading = screen.queryByText(Texts.global.loading.text);
       expect(loading).not.toBeInTheDocument();
+    });
+  });
+
+  describe('add product to cart', () => {
+    it('reduces available when add product to cart', async () => {
+      const products = makeProducts();
+      const [product] = products;
+      mockGetProductsService(products);
+      renderHome();
+
+      await waitFor(() => {
+        const productContainer = screen.getByTestId(product.id);
+
+        const buyButton = getByText(
+          productContainer,
+          Texts.productCard.button.text,
+        );
+        userEvent.click(buyButton);
+
+        const availableElement = getByText(
+          productContainer,
+          Texts.productCard.available(decrement(product.available)),
+        );
+        expect(availableElement).toBeInTheDocument();
+      });
     });
   });
 });
