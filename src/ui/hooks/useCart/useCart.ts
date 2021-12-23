@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Product, Products } from '@/services/products';
+import { mapProductsToProductsInCart } from '@/ui/hooks/useCart/functions';
 
 export type ProductInCart = Product & {
   isInCart: boolean;
@@ -15,13 +16,7 @@ type Output = {
 
 export function useCart(products: Products = []): Output {
   const [productsInCart, setProductsInCart] = useState<ProductsInCart>(
-    products.map(product => {
-      return {
-        ...product,
-        isInCart: false,
-        quantity: 0,
-      };
-    }),
+    mapProductsToProductsInCart(products),
   );
 
   const addProduct = (product: ProductInCart): ProductInCart => {
