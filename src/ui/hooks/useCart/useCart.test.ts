@@ -17,4 +17,18 @@ describe(useCart, () => {
       },
     );
   });
+
+  it('adds product to cart', async () => {
+    const hook = renderUseCart(makeProducts());
+
+    hook.result.current.incrementProductQuantity(
+      hook.result.current.productsInCart[0],
+    );
+
+    const [productInCart] = hook.result.current.productsInCart;
+
+    expect(productInCart.isInCart).toBe(true);
+    expect(productInCart.quantity).toBe(1);
+    expect(productInCart.available).toBe(9);
+  });
 });
