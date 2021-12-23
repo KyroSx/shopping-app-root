@@ -84,5 +84,18 @@ describe(useCart, () => {
       expect(productInCart.quantity).toBe(1);
       expect(productInCart.available).toBe(9);
     });
+
+    it('doest not add remove from cart if it has no quantity', async () => {
+      const hook = renderUseCart(makeProductsUnavailable());
+
+      hook.result.current.removeProductFromCart(
+        hook.result.current.products[0],
+      );
+
+      const [productInCart] = hook.result.current.products;
+      expect(productInCart.isInCart).toBe(false);
+      expect(productInCart.quantity).toBe(0);
+      expect(productInCart.available).toBe(0);
+    });
   });
 });
