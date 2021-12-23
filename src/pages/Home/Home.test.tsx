@@ -9,6 +9,7 @@ import {
 import { makeProducts } from '@/utils/testing/factories/products';
 import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
+import { decrement } from '@/utils/math';
 
 jest.mock('@/services/products/getProducts');
 
@@ -44,7 +45,7 @@ describe(Home, () => {
 
         const availableElement = getByText(
           productContainer,
-          `${product.available} left`,
+          Texts.productCard.available(product.available),
         );
         expect(availableElement).toBeInTheDocument();
       });
@@ -85,12 +86,15 @@ describe(Home, () => {
       await waitFor(() => {
         const productContainer = screen.getByTestId(product.id);
 
-        const buyButton = getByText(productContainer, Texts.home.buy);
+        const buyButton = getByText(
+          productContainer,
+          Texts.productCard.button.text,
+        );
         userEvent.click(buyButton);
 
         const availableElement = getByText(
           productContainer,
-          `${product.available - 1} left`,
+          Texts.productCard.available(decrement(product.available)),
         );
         expect(availableElement).toBeInTheDocument();
       });

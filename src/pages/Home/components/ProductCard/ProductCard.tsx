@@ -23,12 +23,14 @@ export function ProductCard({ children: product, onClick }: ProductCardProps) {
 
           <p>--</p>
 
-          <Styles.Available>{product.available} left</Styles.Available>
+          <Styles.Available>
+            {Texts.productCard.available(product.available)}
+          </Styles.Available>
         </Styles.Row>
       </Styles.Content>
 
       <Styles.BuyButton onClick={onClickThis}>
-        {Texts.home.buy}
+        {Texts.productCard.button.text}
       </Styles.BuyButton>
     </Styles.Card>
   );
