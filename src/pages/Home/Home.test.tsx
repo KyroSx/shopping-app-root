@@ -14,7 +14,7 @@ import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
 import { decrement } from '@/utils/math';
 import { ProductInCart } from '@/ui/hooks/useCart';
-import { Product } from '@/services/products';
+import { Product, Products } from '@/services/products';
 
 jest.mock('@/services/products/getProducts');
 
@@ -23,6 +23,16 @@ describe(Home, () => {
     const home = renderWithProviders(Home, {});
 
     return { home };
+  };
+
+  const renderHomeAndMockService = (initialProducts?: Products) => {
+    const products = initialProducts || makeProducts();
+    mockGetProductsService(products);
+    renderHome();
+
+    return {
+      products,
+    };
   };
 
   const getProductContainer = (id: number) =>
@@ -57,9 +67,7 @@ describe(Home, () => {
 
   describe('product list', () => {
     it('renders product list', async () => {
-      const products = makeProducts();
-      mockGetProductsService(products);
-      renderHome();
+      const { products } = renderHomeAndMockService();
 
       await waitFor(() => {
         products.forEach(product => {
@@ -95,8 +103,7 @@ describe(Home, () => {
     });
 
     it('renders loading text', async () => {
-      mockGetProductsService(makeProducts());
-      renderHome();
+      renderHomeAndMockService();
 
       const loadingText = await screen.findByText(Texts.global.loading.text());
       expect(loadingText).toBeInTheDocument();
@@ -109,10 +116,8 @@ describe(Home, () => {
 
     describe('add product to cart', () => {
       it('reduces available when add product to cart', async () => {
-        const products = makeProducts();
+        const { products } = renderHomeAndMockService();
         const [product] = products;
-        mockGetProductsService(products);
-        renderHome();
 
         await waitFor(() => {
           const { productContainer } = buyProduct(product);
@@ -125,10 +130,10 @@ describe(Home, () => {
       });
 
       it('does not reduces available when product is unavailable', async () => {
-        const products = makeProductsUnavailable();
+        const { products } = renderHomeAndMockService(
+          makeProductsUnavailable(),
+        );
         const [product] = products;
-        mockGetProductsService(products);
-        renderHome();
 
         await waitFor(() => {
           const { productContainer } = buyProduct(product);
@@ -146,10 +151,8 @@ describe(Home, () => {
 
   describe('cart', () => {
     it('render product when it was bought', async () => {
-      const products = makeProducts();
+      const { products } = renderHomeAndMockService();
       const [productToBeBought] = products;
-      mockGetProductsService(products);
-      renderHome();
 
       await waitFor(() => {
         buyProduct(productToBeBought);
@@ -162,10 +165,8 @@ describe(Home, () => {
     });
 
     it('does not render product when it was not bought', async () => {
-      const products = makeProducts();
+      const { products } = renderHomeAndMockService();
       const [productToBeBought, productNotBought] = products;
-      mockGetProductsService(products);
-      renderHome();
 
       await waitFor(() => {
         buyProduct(productToBeBought);
@@ -178,10 +179,8 @@ describe(Home, () => {
     });
 
     it('renders info from bought products', async () => {
-      const products = makeProducts();
+      const { products } = renderHomeAndMockService();
       const boughtProducts = [products[0], products[1]];
-      mockGetProductsService(products);
-      renderHome();
 
       await waitFor(() => {
         boughtProducts.forEach(product => {
