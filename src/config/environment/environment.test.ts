@@ -28,4 +28,16 @@ describe('Env', () => {
       expect(Env.isDevelopment()).toBe(false);
     });
   });
+
+  describe('isProduction', () => {
+    it('returns true if NODE_ENV is "development"', () => {
+      // @ts-ignore
+      process.env.NODE_ENV = 'production';
+      expect(Env.isProduction()).toBe(true);
+    });
+
+    it('returns true if NODE_ENV is "development"', () => {
+      expect(Env.isProduction()).toBe(false);
+    });
+  });
 });
