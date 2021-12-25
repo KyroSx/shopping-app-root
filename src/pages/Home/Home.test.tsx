@@ -28,6 +28,12 @@ describe(Home, () => {
   const getProductContainer = (id: number) =>
     screen.getByTestId(Texts.productCard.testId(id));
 
+  const getProductInCartContainer = (id: number) =>
+    screen.getByTestId(Texts.cart.product.testId(id));
+
+  const queryProductInCartContainer = (id: number) =>
+    screen.queryByTestId(Texts.cart.product.testId(id));
+
   const getAvailableElement =
     (productContainer: HTMLElement) => (available: number) =>
       getByText(productContainer, Texts.productCard.available(available));
@@ -134,6 +140,29 @@ describe(Home, () => {
           );
           expect(availableElement).toBeInTheDocument();
         });
+      });
+    });
+  });
+
+  describe('cart', () => {
+    it('render product when it was bought', async () => {
+      const products = makeProducts();
+      const [productToBeBought, productNotBought] = products;
+      mockGetProductsService(products);
+      renderHome();
+
+      await waitFor(() => {
+        buyProduct(productToBeBought);
+
+        const productToBeBoughtElement = getProductInCartContainer(
+          productToBeBought.id,
+        );
+        expect(productToBeBoughtElement).toBeInTheDocument();
+
+        const productNotBoughtElement = queryProductInCartContainer(
+          productNotBought.id,
+        );
+        expect(productNotBoughtElement).not.toBeInTheDocument();
       });
     });
   });

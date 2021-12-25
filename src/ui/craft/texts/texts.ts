@@ -22,4 +22,10 @@ export const Texts = {
       text: asFn('Buy'),
     },
   },
+
+  cart: {
+    product: {
+      testId: (id: number) => `product-in-cart@${id}`,
+    },
+  },
 };
