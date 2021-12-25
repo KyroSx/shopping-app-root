@@ -176,5 +176,30 @@ describe(Home, () => {
         expect(productNotBoughtElement).not.toBeInTheDocument();
       });
     });
+
+    it('renders info from bought products', async () => {
+      const products = makeProducts();
+      const boughtProducts = [products[0], products[1]];
+      mockGetProductsService(products);
+      renderHome();
+
+      await waitFor(() => {
+        boughtProducts.forEach(product => {
+          const quantity = 1;
+          buyProduct(product);
+
+          const productContainer = getProductInCartContainer(product.id);
+
+          const quantityElement = getByText(productContainer, quantity);
+          expect(quantityElement).toBeInTheDocument();
+
+          const selfSubtotalElement = getByText(
+            productContainer,
+            formatMoney(product.price * quantity),
+          );
+          expect(selfSubtotalElement).toBeInTheDocument();
+        });
+      });
+    });
   });
 });
