@@ -9,13 +9,16 @@ import { ButtonVariants } from '@/ui/components';
 interface ProductInCartCardProps {
   children: ProductInCart;
   incrementProduct: (product: ProductInCart) => void;
+  decrementProduct: (product: ProductInCart) => void;
 }
 
 export function ProductInCartCard({
   children: product,
   incrementProduct,
+  decrementProduct,
 }: ProductInCartCardProps) {
   const incrementThisProduct = () => incrementProduct(product);
+  const decrementThisProduct = () => decrementProduct(product);
 
   return (
     <Styles.Card data-testid={Texts.cart.product.testId(product.id)}>
@@ -38,8 +41,11 @@ export function ProductInCartCard({
           {Texts.cart.product.button.add()}
         </Styles.AddButton>
 
-        <Styles.RemoveButton variant={ButtonVariants.secondary}>
-          -
+        <Styles.RemoveButton
+          onClick={decrementThisProduct}
+          variant={ButtonVariants.secondary}
+        >
+          {Texts.cart.product.button.remove()}
         </Styles.RemoveButton>
       </Styles.ButtonContainer>
     </Styles.Card>

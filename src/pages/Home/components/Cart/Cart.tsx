@@ -7,9 +7,14 @@ import * as Styles from './Cart.styles';
 interface CartProps {
   children: ProductsInCart;
   incrementProduct: (product: ProductInCart) => void;
+  decrementProduct: (product: ProductInCart) => void;
 }
 
-export function Cart({ children: products, incrementProduct }: CartProps) {
+export function Cart({
+  children: products,
+  incrementProduct,
+  decrementProduct,
+}: CartProps) {
   return (
     <Styles.Container>
       {products.map(
@@ -18,6 +23,7 @@ export function Cart({ children: products, incrementProduct }: CartProps) {
             <ProductInCartCard
               key={product.id}
               incrementProduct={incrementProduct}
+              decrementProduct={decrementProduct}
             >
               {product}
             </ProductInCartCard>

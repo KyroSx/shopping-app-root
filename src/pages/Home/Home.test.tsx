@@ -82,6 +82,21 @@ describe(Home, () => {
     };
   }
 
+  function removeProductByCart(product: ProductInCart | Product) {
+    const productContainer = getProductInCartContainer(product.id);
+
+    const removeButton = getByText(
+      productContainer,
+      Texts.cart.product.button.remove(),
+    );
+    userEvent.click(removeButton);
+
+    return {
+      productContainer,
+      removeButton,
+    };
+  }
+
   beforeEach(jest.resetAllMocks);
 
   describe('product list', () => {
@@ -250,6 +265,20 @@ describe(Home, () => {
 
         const quantityElement = getQuantityElement(productContainer)(quantity);
         expect(quantityElement).toBeInTheDocument();
+      });
+    });
+
+    it('removes product if it has no quantity', async () => {
+      const {
+        products: [product],
+      } = renderHomeAndMockService();
+
+      await waitFor(() => {
+        buyProduct(product);
+        removeProductByCart(product);
+
+        const productInCartElement = queryProductInCartContainer(product.id);
+        expect(productInCartElement).not.toBeInTheDocument();
       });
     });
   });

@@ -9,7 +9,8 @@ import { Cart } from '@/pages/Home/components/Cart';
 
 export const Home: React.FC = () => {
   const { status, products: initialProducts } = useProducts();
-  const { products, addProductToCart } = useCart(initialProducts);
+  const { products, addProductToCart, removeProductFromCart } =
+    useCart(initialProducts);
 
   if (status.isUnexpectedError)
     return <div>{Texts.global.error.unexpected()}</div>;
@@ -17,7 +18,13 @@ export const Home: React.FC = () => {
   return (
     <Styles.Container>
       <ProductList addProductToCart={addProductToCart}>{products}</ProductList>
-      <Cart incrementProduct={addProductToCart}>{products}</Cart>
+
+      <Cart
+        incrementProduct={addProductToCart}
+        decrementProduct={removeProductFromCart}
+      >
+        {products}
+      </Cart>
     </Styles.Container>
   );
 };

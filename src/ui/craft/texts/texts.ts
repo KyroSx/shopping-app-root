@@ -30,6 +30,7 @@ export const Texts = {
 
       button: {
         add: asFn('+'),
+        remove: asFn('-'),
       },
     },
   },
