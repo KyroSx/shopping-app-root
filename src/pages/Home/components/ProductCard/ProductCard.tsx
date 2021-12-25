@@ -14,7 +14,7 @@ export function ProductCard({ children: product, onClick }: ProductCardProps) {
   const onClickThis = () => onClick(product);
 
   return (
-    <Styles.Card>
+    <Styles.Card data-testid={Texts.productCard.testId(product.id)}>
       <Styles.Content>
         <Styles.Name>{product.name}</Styles.Name>
 
