@@ -15,10 +15,18 @@ export const Texts = {
   },
 
   productCard: {
+    testId: (id: number) => `product-card@${id}`,
     available: (available: number) => `${available} left`,
 
     button: {
       text: asFn('Buy'),
+    },
+  },
+
+  cart: {
+    product: {
+      testId: (id: number) => `product-in-cart@${id}`,
+      quantity: (quantity: number) => `Quantity: ${quantity}`,
     },
   },
 };

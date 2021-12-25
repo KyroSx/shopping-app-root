@@ -4,7 +4,7 @@ import { Button } from '@/ui/components';
 export const Card = styled.div`
   margin: ${props => props.theme.space.x12} 0;
   border-radius: ${props => props.theme.space.x6};
-  max-width: 300px;
+  max-width: 500px;
 
   background: ${props => props.theme.colors.zinc.x200};
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.24);

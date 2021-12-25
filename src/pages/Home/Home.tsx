@@ -5,6 +5,7 @@ import { Texts } from '@/ui/craft/texts';
 import * as Styles from './Home.styles';
 import { ProductList } from '@/pages/Home/components';
 import { useCart } from '@/ui/hooks/useCart';
+import { Cart } from '@/pages/Home/components/Cart';
 
 export const Home: React.FC = () => {
   const { status, products: initialProducts } = useProducts();
@@ -16,6 +17,7 @@ export const Home: React.FC = () => {
   return (
     <Styles.Container>
       <ProductList addProductToCart={addProductToCart}>{products}</ProductList>
+      <Cart>{products}</Cart>
     </Styles.Container>
   );
 };

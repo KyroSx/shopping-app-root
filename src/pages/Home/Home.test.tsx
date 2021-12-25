@@ -6,10 +6,15 @@ import {
   mockGetProductsService,
   mockGetProductsServiceToThrow,
 } from '@/utils/testing/mocks/services/getProducts';
-import { makeProducts } from '@/utils/testing/factories/products';
+import {
+  makeProducts,
+  makeProductsUnavailable,
+} from '@/utils/testing/factories/products';
 import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
 import { decrement } from '@/utils/math';
+import { ProductInCart } from '@/ui/hooks/useCart';
+import { Product, Products } from '@/services/products';
 
 jest.mock('@/services/products/getProducts');
 
@@ -20,83 +25,182 @@ describe(Home, () => {
     return { home };
   };
 
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
-
-  it('renders product list', async () => {
-    const products = makeProducts();
+  const renderHomeAndMockService = (initialProducts?: Products) => {
+    const products = initialProducts || makeProducts();
     mockGetProductsService(products);
     renderHome();
 
-    await waitFor(() => {
-      products.forEach(product => {
-        const productContainer = screen.getByTestId(product.id);
-        expect(productContainer).toBeInTheDocument();
+    return {
+      products,
+    };
+  };
 
-        const nameElement = getByText(productContainer, product.name);
-        expect(nameElement).toBeInTheDocument();
+  const getProductContainer = (id: number) =>
+    screen.getByTestId(Texts.productCard.testId(id));
 
-        const priceElement = getByText(
-          productContainer,
-          formatMoney(product.price),
+  const getProductInCartContainer = (id: number) =>
+    screen.getByTestId(Texts.cart.product.testId(id));
+
+  const queryProductInCartContainer = (id: number) =>
+    screen.queryByTestId(Texts.cart.product.testId(id));
+
+  const getAvailableElement =
+    (productContainer: HTMLElement) => (available: number) =>
+      getByText(productContainer, Texts.productCard.available(available));
+
+  function buyProduct(product: ProductInCart | Product) {
+    const productContainer = getProductContainer(product.id);
+
+    const buyButton = getByText(
+      productContainer,
+      Texts.productCard.button.text(),
+    );
+    userEvent.click(buyButton);
+
+    return {
+      productContainer,
+      buyButton,
+    };
+  }
+
+  beforeEach(jest.resetAllMocks);
+
+  describe('product list', () => {
+    it('renders product list', async () => {
+      const { products } = renderHomeAndMockService();
+
+      await waitFor(() => {
+        products.forEach(product => {
+          const productContainer = getProductContainer(product.id);
+          expect(productContainer).toBeInTheDocument();
+
+          const nameElement = getByText(productContainer, product.name);
+          expect(nameElement).toBeInTheDocument();
+
+          const priceElement = getByText(
+            productContainer,
+            formatMoney(product.price),
+          );
+          expect(priceElement).toBeInTheDocument();
+
+          const availableElement = getAvailableElement(productContainer)(
+            product.available,
+          );
+          expect(availableElement).toBeInTheDocument();
+        });
+      });
+    });
+
+    it('renders error descriptions if error happens', async () => {
+      mockGetProductsServiceToThrow();
+      renderHome();
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(Texts.global.error.unexpected()),
+        ).toBeInTheDocument();
+      });
+    });
+
+    it('renders loading text', async () => {
+      renderHomeAndMockService();
+
+      const loadingText = await screen.findByText(Texts.global.loading.text());
+      expect(loadingText).toBeInTheDocument();
+
+      await waitFor(() => {
+        const loading = screen.queryByText(Texts.global.loading.text());
+        expect(loading).not.toBeInTheDocument();
+      });
+    });
+
+    describe('add product to cart', () => {
+      it('reduces available when add product to cart', async () => {
+        const { products } = renderHomeAndMockService();
+        const [product] = products;
+
+        await waitFor(() => {
+          const { productContainer } = buyProduct(product);
+
+          const availableElement = getAvailableElement(productContainer)(
+            decrement(product.available),
+          );
+          expect(availableElement).toBeInTheDocument();
+        });
+      });
+
+      it('does not reduces available when product is unavailable', async () => {
+        const { products } = renderHomeAndMockService(
+          makeProductsUnavailable(),
         );
-        expect(priceElement).toBeInTheDocument();
+        const [product] = products;
 
-        const availableElement = getByText(
-          productContainer,
-          Texts.productCard.available(product.available),
-        );
-        expect(availableElement).toBeInTheDocument();
+        await waitFor(() => {
+          const { productContainer } = buyProduct(product);
+          buyProduct(product);
+          buyProduct(product);
+
+          const availableElement = getAvailableElement(productContainer)(
+            product.available,
+          );
+          expect(availableElement).toBeInTheDocument();
+        });
       });
     });
   });
 
-  it('renders error descriptions if error happens', async () => {
-    mockGetProductsServiceToThrow();
-    renderHome();
-
-    await waitFor(() => {
-      expect(
-        screen.getByText(Texts.global.error.unexpected()),
-      ).toBeInTheDocument();
-    });
-  });
-
-  it('renders loading text', async () => {
-    mockGetProductsService(makeProducts());
-    renderHome();
-
-    const loadingText = await screen.findByText(Texts.global.loading.text());
-    expect(loadingText).toBeInTheDocument();
-
-    await waitFor(() => {
-      const loading = screen.queryByText(Texts.global.loading.text());
-      expect(loading).not.toBeInTheDocument();
-    });
-  });
-
-  describe('add product to cart', () => {
-    it('reduces available when add product to cart', async () => {
-      const products = makeProducts();
-      const [product] = products;
-      mockGetProductsService(products);
-      renderHome();
+  describe('cart', () => {
+    it('render product when it was bought', async () => {
+      const { products } = renderHomeAndMockService();
+      const [productToBeBought] = products;
 
       await waitFor(() => {
-        const productContainer = screen.getByTestId(product.id);
+        buyProduct(productToBeBought);
 
-        const buyButton = getByText(
-          productContainer,
-          Texts.productCard.button.text(),
+        const productToBeBoughtElement = getProductInCartContainer(
+          productToBeBought.id,
         );
-        userEvent.click(buyButton);
+        expect(productToBeBoughtElement).toBeInTheDocument();
+      });
+    });
 
-        const availableElement = getByText(
-          productContainer,
-          Texts.productCard.available(decrement(product.available)),
+    it('does not render product when it was not bought', async () => {
+      const { products } = renderHomeAndMockService();
+      const [productToBeBought, productNotBought] = products;
+
+      await waitFor(() => {
+        buyProduct(productToBeBought);
+
+        const productNotBoughtElement = queryProductInCartContainer(
+          productNotBought.id,
         );
-        expect(availableElement).toBeInTheDocument();
+        expect(productNotBoughtElement).not.toBeInTheDocument();
+      });
+    });
+
+    it('renders info from bought products', async () => {
+      const { products } = renderHomeAndMockService();
+      const boughtProducts = [products[0], products[1]];
+
+      await waitFor(() => {
+        boughtProducts.forEach(product => {
+          const quantity = 1;
+          buyProduct(product);
+
+          const productContainer = getProductInCartContainer(product.id);
+
+          const quantityElement = getByText(
+            productContainer,
+            Texts.cart.product.quantity(quantity),
+          );
+          expect(quantityElement).toBeInTheDocument();
+
+          const selfSubtotalElement = getByText(
+            productContainer,
+            formatMoney(product.price * quantity),
+          );
+          expect(selfSubtotalElement).toBeInTheDocument();
+        });
       });
     });
   });
