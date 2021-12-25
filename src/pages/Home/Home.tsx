@@ -17,7 +17,7 @@ export const Home: React.FC = () => {
   return (
     <Styles.Container>
       <ProductList addProductToCart={addProductToCart}>{products}</ProductList>
-      <Cart>{products}</Cart>
+      <Cart incrementProduct={addProductToCart}>{products}</Cart>
     </Styles.Container>
   );
 };

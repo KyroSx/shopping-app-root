@@ -63,6 +63,21 @@ describe(Home, () => {
     };
   }
 
+  function buyProductByCart(product: ProductInCart | Product) {
+    const productContainer = getProductInCartContainer(product.id);
+
+    const buyButton = getByText(
+      productContainer,
+      Texts.cart.product.button.add(),
+    );
+    userEvent.click(buyButton);
+
+    return {
+      productContainer,
+      buyButton,
+    };
+  }
+
   beforeEach(jest.resetAllMocks);
 
   describe('product list', () => {
@@ -201,6 +216,23 @@ describe(Home, () => {
           );
           expect(selfSubtotalElement).toBeInTheDocument();
         });
+      });
+    });
+
+    it('increments product quantity if it is in the cart', async () => {
+      const { products } = renderHomeAndMockService();
+      const [productToBeBought] = products;
+
+      await waitFor(() => {
+        const quantity = 2;
+        buyProduct(productToBeBought);
+        const { productContainer } = buyProductByCart(productToBeBought);
+
+        const quantityElement = getByText(
+          productContainer,
+          Texts.cart.product.quantity(quantity),
+        );
+        expect(quantityElement).toBeInTheDocument();
       });
     });
   });
