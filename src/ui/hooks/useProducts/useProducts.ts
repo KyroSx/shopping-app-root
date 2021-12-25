@@ -7,7 +7,6 @@ export function useProducts() {
   const [products, setProducts] = React.useState<Products>([]);
 
   const query = useQuery(['products'], getProducts, {
-    retry: false,
     onSettled: queryProducts => setProducts(queryProducts ?? []),
   });
 
