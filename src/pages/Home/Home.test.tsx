@@ -48,6 +48,10 @@ describe(Home, () => {
     (productContainer: HTMLElement) => (available: number) =>
       getByText(productContainer, Texts.productCard.available(available));
 
+  const getQuantityElement =
+    (productContainer: HTMLElement) => (quantity: number) =>
+      getByText(productContainer, Texts.cart.product.quantity(quantity));
+
   function buyProduct(product: ProductInCart | Product) {
     const productContainer = getProductContainer(product.id);
 
@@ -220,18 +224,31 @@ describe(Home, () => {
     });
 
     it('increments product quantity if it is in the cart', async () => {
-      const { products } = renderHomeAndMockService();
-      const [productToBeBought] = products;
+      const {
+        products: [productToBeBought],
+      } = renderHomeAndMockService();
 
       await waitFor(() => {
         const quantity = 2;
         buyProduct(productToBeBought);
         const { productContainer } = buyProductByCart(productToBeBought);
 
-        const quantityElement = getByText(
-          productContainer,
-          Texts.cart.product.quantity(quantity),
-        );
+        const quantityElement = getQuantityElement(productContainer)(quantity);
+        expect(quantityElement).toBeInTheDocument();
+      });
+    });
+
+    it('does not increment product quantity if it is unavailable', async () => {
+      const {
+        products: [, productToBeBought],
+      } = renderHomeAndMockService(makeProductsUnavailable());
+
+      await waitFor(() => {
+        const quantity = 1;
+        buyProduct(productToBeBought);
+        const { productContainer } = buyProductByCart(productToBeBought);
+
+        const quantityElement = getQuantityElement(productContainer)(quantity);
         expect(quantityElement).toBeInTheDocument();
       });
     });
