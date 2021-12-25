@@ -3,22 +3,20 @@ export enum NodeEnvs {
   production = 'production',
 }
 
-class Environment {
-  apiUrl() {
+export class Environment {
+  static apiUrl() {
     return process.env.REACT_APP_BASE_API_URL;
   }
 
-  isDevelopment() {
-    return this.isNodeEnv(NodeEnvs.development);
+  static isDevelopment() {
+    return Environment.isNodeEnv(NodeEnvs.development);
   }
 
-  isProduction() {
-    return this.isNodeEnv(NodeEnvs.production);
+  static isProduction() {
+    return Environment.isNodeEnv(NodeEnvs.production);
   }
 
-  private isNodeEnv(env: NodeEnvs) {
+  private static isNodeEnv(env: NodeEnvs) {
     return process.env.NODE_ENV === env;
   }
 }
-
-export const Env = new Environment();
