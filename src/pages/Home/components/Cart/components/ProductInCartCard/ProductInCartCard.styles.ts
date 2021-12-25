@@ -4,7 +4,25 @@ export const Card = styled.div`
   border: grey 1px dotted;
   border-radius: ${props => props.theme.space.x4};
 
-  padding: ${props => props.theme.space.x6};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: ${props => props.theme.space.x6};
+`;
+
+export const Content = styled.div`
+  padding: ${props => props.theme.space.x4};
+  width: 100%;
+`;
+
+export const Image = styled.div`
+  height: 72px;
+  width: 72px;
+
+  background: ${props => props.theme.colors.neutral.x300};
+
+  border-radius: ${props =>
+    `${props.theme.space.x4} 0 0 ${props.theme.space.x4}`};
 `;
 
 export const Name = styled.p`

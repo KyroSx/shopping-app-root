@@ -12,12 +12,16 @@ interface ProductCardProps {
 export function ProductInCartCard({ children: product }: ProductCardProps) {
   return (
     <Styles.Card data-testid={Texts.cart.product.testId(product.id)}>
-      <Styles.Name>{product.name}</Styles.Name>
+      <Styles.Image />
 
-      <Styles.Row>
-        <p>{Texts.cart.product.quantity(product.quantity)}</p>
-        <p>{formatMoney(product.quantity * product.price)}</p>
-      </Styles.Row>
+      <Styles.Content>
+        <Styles.Name>{product.name}</Styles.Name>
+
+        <Styles.Row>
+          <p>{Texts.cart.product.quantity(product.quantity)}</p>
+          <p>{formatMoney(product.quantity * product.price)}</p>
+        </Styles.Row>
+      </Styles.Content>
     </Styles.Card>
   );
 }

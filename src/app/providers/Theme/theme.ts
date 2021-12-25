@@ -21,6 +21,11 @@ export const theme = {
       x1000: 'black',
     },
 
+    neutral: {
+      x200: '#E5E5E5',
+      x300: '#D4D4D4',
+    },
+
     gray: {
       x50: '#F9FAFB',
       x200: '#E5E7EB',
