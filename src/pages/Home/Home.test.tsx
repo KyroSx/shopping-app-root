@@ -147,7 +147,7 @@ describe(Home, () => {
   describe('cart', () => {
     it('render product when it was bought', async () => {
       const products = makeProducts();
-      const [productToBeBought, productNotBought] = products;
+      const [productToBeBought] = products;
       mockGetProductsService(products);
       renderHome();
 
@@ -158,6 +158,17 @@ describe(Home, () => {
           productToBeBought.id,
         );
         expect(productToBeBoughtElement).toBeInTheDocument();
+      });
+    });
+
+    it('does not render product when it was not bought', async () => {
+      const products = makeProducts();
+      const [productToBeBought, productNotBought] = products;
+      mockGetProductsService(products);
+      renderHome();
+
+      await waitFor(() => {
+        buyProduct(productToBeBought);
 
         const productNotBoughtElement = queryProductInCartContainer(
           productNotBought.id,
