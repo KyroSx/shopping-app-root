@@ -6,11 +6,13 @@ import { formatMoney } from '@/utils/formatting';
 import * as Styles from './ProductInCartCard.styles';
 import { ButtonVariants } from '@/ui/components';
 
-interface ProductCardProps {
+interface ProductInCartCardProps {
   children: ProductInCart;
 }
 
-export function ProductInCartCard({ children: product }: ProductCardProps) {
+export function ProductInCartCard({
+  children: product,
+}: ProductInCartCardProps) {
   return (
     <Styles.Card data-testid={Texts.cart.product.testId(product.id)}>
       <Styles.Image />
