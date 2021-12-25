@@ -1,14 +1,23 @@
+export enum NodeEnvs {
+  development = 'development',
+  production = 'production',
+}
+
 class Environment {
   apiUrl() {
     return process.env.REACT_APP_BASE_API_URL;
   }
 
   isDevelopment() {
-    return process.env.NODE_ENV === 'development';
+    return this.isNodeEnv(NodeEnvs.development);
   }
 
   isProduction() {
-    return process.env.NODE_ENV === 'production';
+    return this.isNodeEnv(NodeEnvs.production);
+  }
+
+  private isNodeEnv(env: NodeEnvs) {
+    return process.env.NODE_ENV === env;
   }
 }
 

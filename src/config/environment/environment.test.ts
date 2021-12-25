@@ -1,4 +1,4 @@
-import { Env } from '@/config/environment';
+import { Env, NodeEnvs } from '@/config/environment';
 
 describe('Env', () => {
   const OLD_ENV = process.env;
@@ -20,7 +20,7 @@ describe('Env', () => {
   describe('isDevelopment', () => {
     it('returns true if NODE_ENV is "development"', () => {
       // @ts-ignore
-      process.env.NODE_ENV = 'development';
+      process.env.NODE_ENV = NodeEnvs.development;
       expect(Env.isDevelopment()).toBe(true);
     });
 
@@ -30,9 +30,9 @@ describe('Env', () => {
   });
 
   describe('isProduction', () => {
-    it('returns true if NODE_ENV is "development"', () => {
+    it('returns true if NODE_ENV is "production"', () => {
       // @ts-ignore
-      process.env.NODE_ENV = 'production';
+      process.env.NODE_ENV = NodeEnvs.production;
       expect(Env.isProduction()).toBe(true);
     });
 
