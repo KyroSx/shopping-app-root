@@ -25,10 +25,15 @@ describe(Home, () => {
     return { home };
   };
 
+  const getProductContainer = (id: number) =>
+    screen.getByTestId(Texts.productCard.testId(id));
+
+  const getAvailableElement =
+    (productContainer: HTMLElement) => (available: number) =>
+      getByText(productContainer, Texts.productCard.available(available));
+
   function buyProduct(product: ProductInCart | Product) {
-    const productContainer = screen.getByTestId(
-      Texts.productCard.testId(product.id),
-    );
+    const productContainer = getProductContainer(product.id);
 
     const buyButton = getByText(
       productContainer,
@@ -52,9 +57,7 @@ describe(Home, () => {
 
       await waitFor(() => {
         products.forEach(product => {
-          const productContainer = screen.getByTestId(
-            Texts.productCard.testId(product.id),
-          );
+          const productContainer = getProductContainer(product.id);
           expect(productContainer).toBeInTheDocument();
 
           const nameElement = getByText(productContainer, product.name);
@@ -66,9 +69,8 @@ describe(Home, () => {
           );
           expect(priceElement).toBeInTheDocument();
 
-          const availableElement = getByText(
-            productContainer,
-            Texts.productCard.available(product.available),
+          const availableElement = getAvailableElement(productContainer)(
+            product.available,
           );
           expect(availableElement).toBeInTheDocument();
         });
@@ -109,9 +111,8 @@ describe(Home, () => {
         await waitFor(() => {
           const { productContainer } = buyProduct(product);
 
-          const availableElement = getByText(
-            productContainer,
-            Texts.productCard.available(decrement(product.available)),
+          const availableElement = getAvailableElement(productContainer)(
+            decrement(product.available),
           );
           expect(availableElement).toBeInTheDocument();
         });
@@ -128,9 +129,8 @@ describe(Home, () => {
           buyProduct(product);
           buyProduct(product);
 
-          const availableElement = getByText(
-            productContainer,
-            Texts.productCard.available(product.available),
+          const availableElement = getAvailableElement(productContainer)(
+            product.available,
           );
           expect(availableElement).toBeInTheDocument();
         });
