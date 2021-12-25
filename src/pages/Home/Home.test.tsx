@@ -190,7 +190,10 @@ describe(Home, () => {
 
           const productContainer = getProductInCartContainer(product.id);
 
-          const quantityElement = getByText(productContainer, quantity);
+          const quantityElement = getByText(
+            productContainer,
+            Texts.cart.product.quantity(quantity),
+          );
           expect(quantityElement).toBeInTheDocument();
 
           const selfSubtotalElement = getByText(

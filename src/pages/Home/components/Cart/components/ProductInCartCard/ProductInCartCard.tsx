@@ -15,7 +15,7 @@ export function ProductInCartCard({ children: product }: ProductCardProps) {
       <Styles.Name>{product.name}</Styles.Name>
 
       <Styles.Row>
-        <p>{product.quantity}</p>
+        <p>{Texts.cart.product.quantity(product.quantity)}</p>
         <p>{formatMoney(product.quantity * product.price)}</p>
       </Styles.Row>
     </Styles.Card>

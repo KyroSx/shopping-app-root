@@ -26,6 +26,7 @@ export const Texts = {
   cart: {
     product: {
       testId: (id: number) => `product-in-cart@${id}`,
+      quantity: (quantity: number) => `Quantity: ${quantity}`,
     },
   },
 };
