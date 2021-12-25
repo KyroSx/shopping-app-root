@@ -24,7 +24,7 @@ describe('Env', () => {
       expect(Env.isDevelopment()).toBe(true);
     });
 
-    it('returns true if NODE_ENV is "development"', () => {
+    it('returns false if NODE_ENV is not "development"', () => {
       expect(Env.isDevelopment()).toBe(false);
     });
   });
@@ -36,7 +36,7 @@ describe('Env', () => {
       expect(Env.isProduction()).toBe(true);
     });
 
-    it('returns true if NODE_ENV is "development"', () => {
+    it('returns false if NODE_ENV is not "production"', () => {
       expect(Env.isProduction()).toBe(false);
     });
   });
