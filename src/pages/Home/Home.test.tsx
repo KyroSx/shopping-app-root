@@ -6,10 +6,15 @@ import {
   mockGetProductsService,
   mockGetProductsServiceToThrow,
 } from '@/utils/testing/mocks/services/getProducts';
-import { makeProducts } from '@/utils/testing/factories/products';
+import {
+  makeProducts,
+  makeProductsUnavailable,
+} from '@/utils/testing/factories/products';
 import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
 import { decrement } from '@/utils/math';
+import { ProductInCart } from '@/ui/hooks/useCart';
+import { Product } from '@/services/products';
 
 jest.mock('@/services/products/getProducts');
 
@@ -20,9 +25,24 @@ describe(Home, () => {
     return { home };
   };
 
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
+  function buyProduct(product: ProductInCart | Product) {
+    const productContainer = screen.getByTestId(
+      Texts.productCard.testId(product.id),
+    );
+
+    const buyButton = getByText(
+      productContainer,
+      Texts.productCard.button.text(),
+    );
+    userEvent.click(buyButton);
+
+    return {
+      productContainer,
+      buyButton,
+    };
+  }
+
+  beforeEach(jest.resetAllMocks);
 
   describe('product list', () => {
     it('renders product list', async () => {
@@ -87,19 +107,30 @@ describe(Home, () => {
         renderHome();
 
         await waitFor(() => {
-          const productContainer = screen.getByTestId(
-            Texts.productCard.testId(product.id),
-          );
-
-          const buyButton = getByText(
-            productContainer,
-            Texts.productCard.button.text(),
-          );
-          userEvent.click(buyButton);
+          const { productContainer } = buyProduct(product);
 
           const availableElement = getByText(
             productContainer,
             Texts.productCard.available(decrement(product.available)),
+          );
+          expect(availableElement).toBeInTheDocument();
+        });
+      });
+
+      it('does not reduces available when product is unavailable', async () => {
+        const products = makeProductsUnavailable();
+        const [product] = products;
+        mockGetProductsService(products);
+        renderHome();
+
+        await waitFor(() => {
+          const { productContainer } = buyProduct(product);
+          buyProduct(product);
+          buyProduct(product);
+
+          const availableElement = getByText(
+            productContainer,
+            Texts.productCard.available(product.available),
           );
           expect(availableElement).toBeInTheDocument();
         });
