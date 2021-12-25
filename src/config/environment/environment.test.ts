@@ -12,45 +12,54 @@ describe('Env', () => {
     process.env = OLD_ENV;
   });
 
+  function mockNodeEnv(env: NodeEnvs) {
+    // @ts-ignore
+    process.env.NODE_ENV = env;
+  }
+
+  function mockBaseUrl(url: string) {
+    process.env.REACT_APP_BASE_API_URL = url;
+  }
+
   it('returns main-api-url', () => {
-    process.env.REACT_APP_BASE_API_URL = 'http://main-api-url.com';
-    expect(Environment.apiUrl()).toBe('http://main-api-url.com');
+    const url = 'http://main-api-url.com';
+    mockBaseUrl(url);
+
+    expect(Environment.apiUrl()).toBe(url);
   });
 
   describe('isDevelopment', () => {
     it('returns true if NODE_ENV is "development"', () => {
-      // @ts-ignore
-      process.env.NODE_ENV = NodeEnvs.development;
+      mockNodeEnv(NodeEnvs.development);
       expect(Environment.isDevelopment()).toBe(true);
     });
 
     it('returns false if NODE_ENV is not "development"', () => {
+      mockNodeEnv(NodeEnvs.production);
       expect(Environment.isDevelopment()).toBe(false);
     });
   });
 
   describe('isProduction', () => {
     it('returns true if NODE_ENV is "production"', () => {
-      // @ts-ignore
-      process.env.NODE_ENV = NodeEnvs.production;
+      mockNodeEnv(NodeEnvs.production);
       expect(Environment.isProduction()).toBe(true);
     });
 
     it('returns false if NODE_ENV is not "production"', () => {
+      mockNodeEnv(NodeEnvs.testing);
       expect(Environment.isProduction()).toBe(false);
     });
   });
 
   describe('isTesting', () => {
     it('returns true if NODE_ENV is "test"', () => {
-      // @ts-ignore
-      process.env.NODE_ENV = NodeEnvs.testing;
+      mockNodeEnv(NodeEnvs.testing);
       expect(Environment.isTesting()).toBe(true);
     });
 
     it('returns false if NODE_ENV is not "test"', () => {
-      // @ts-ignore
-      process.env.NODE_ENV = NodeEnvs.production;
+      mockNodeEnv(NodeEnvs.production);
       expect(Environment.isTesting()).toBe(false);
     });
   });
