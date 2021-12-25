@@ -15,6 +15,7 @@ export const Texts = {
   },
 
   productCard: {
+    testId: (id: number) => `product-card@${id}`,
     available: (available: number) => `${available} left`,
 
     button: {

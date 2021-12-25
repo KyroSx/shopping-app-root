@@ -3,6 +3,7 @@ import { ProductCard } from '@/pages/Home/components';
 import { AddProductToCart, ProductsInCart } from '@/ui/hooks/useCart';
 
 import * as Styles from './ProductList.styles';
+import { Texts } from '@/ui/craft/texts';
 
 interface ProductListProps {
   children: ProductsInCart;
@@ -16,7 +17,10 @@ export function ProductList({
   return (
     <Styles.Container>
       {products.map(product => (
-        <div key={product.id} data-testid={product.id}>
+        <div
+          key={product.id}
+          data-testid={Texts.productCard.testId(product.id)}
+        >
           <ProductCard onClick={addProductToCart}>{product}</ProductCard>
         </div>
       ))}

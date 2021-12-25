@@ -31,7 +31,9 @@ describe(Home, () => {
 
     await waitFor(() => {
       products.forEach(product => {
-        const productContainer = screen.getByTestId(product.id);
+        const productContainer = screen.getByTestId(
+          Texts.productCard.testId(product.id),
+        );
         expect(productContainer).toBeInTheDocument();
 
         const nameElement = getByText(productContainer, product.name);
@@ -84,7 +86,9 @@ describe(Home, () => {
       renderHome();
 
       await waitFor(() => {
-        const productContainer = screen.getByTestId(product.id);
+        const productContainer = screen.getByTestId(
+          Texts.productCard.testId(product.id),
+        );
 
         const buyButton = getByText(
           productContainer,
