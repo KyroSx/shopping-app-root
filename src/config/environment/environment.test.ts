@@ -40,4 +40,18 @@ describe('Env', () => {
       expect(Environment.isProduction()).toBe(false);
     });
   });
+
+  describe('isTesting', () => {
+    it('returns true if NODE_ENV is "test"', () => {
+      // @ts-ignore
+      process.env.NODE_ENV = NodeEnvs.testing;
+      expect(Environment.isTesting()).toBe(true);
+    });
+
+    it('returns false if NODE_ENV is not "test"', () => {
+      // @ts-ignore
+      process.env.NODE_ENV = NodeEnvs.production;
+      expect(Environment.isTesting()).toBe(false);
+    });
+  });
 });

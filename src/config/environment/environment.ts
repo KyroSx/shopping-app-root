@@ -1,6 +1,7 @@
 export enum NodeEnvs {
   development = 'development',
   production = 'production',
+  testing = 'test',
 }
 
 export class Environment {
@@ -14,6 +15,10 @@ export class Environment {
 
   static isProduction() {
     return Environment.isNodeEnv(NodeEnvs.production);
+  }
+
+  static isTesting() {
+    return Environment.isNodeEnv(NodeEnvs.testing);
   }
 
   private static isNodeEnv(env: NodeEnvs) {
