@@ -1,6 +1,12 @@
 import styled from 'styled-components';
+import { ButtonVariants } from '@/ui/components';
+import { Secondary } from '@/ui/components/Button/Vairant.styles';
 
-export const Button = styled.button`
+type ButtonStylesProps = {
+  variant: ButtonVariants;
+};
+
+export const Button = styled.button<ButtonStylesProps>`
   color: ${props => props.theme.colors.gray.x50};
   background: ${props => props.theme.colors.gray.x900};
 
@@ -12,4 +18,6 @@ export const Button = styled.button`
   &:hover {
     background-color: ${props => props.theme.colors.gray.x800};
   }
+
+  ${props => props.variant === ButtonVariants.secondary && Secondary}
 `;

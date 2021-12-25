@@ -4,6 +4,7 @@ import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
 
 import * as Styles from './ProductInCartCard.styles';
+import { ButtonVariants } from '@/ui/components';
 
 interface ProductCardProps {
   children: ProductInCart;
@@ -22,6 +23,16 @@ export function ProductInCartCard({ children: product }: ProductCardProps) {
           <p>{formatMoney(product.quantity * product.price)}</p>
         </Styles.Row>
       </Styles.Content>
+
+      <Styles.ButtonContainer>
+        <Styles.AddButton variant={ButtonVariants.secondary}>
+          +
+        </Styles.AddButton>
+
+        <Styles.RemoveButton variant={ButtonVariants.secondary}>
+          -
+        </Styles.RemoveButton>
+      </Styles.ButtonContainer>
     </Styles.Card>
   );
 }
