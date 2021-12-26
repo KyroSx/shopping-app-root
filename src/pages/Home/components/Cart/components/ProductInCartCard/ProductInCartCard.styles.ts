@@ -1,14 +1,12 @@
 import styled, { css } from 'styled-components';
-import { Button } from '@/ui/components';
+import { Button, Flex } from '@/ui/components';
 
 const Border = css`
   border: ${props => props.theme.colors.neutral.x300} 1px solid;
   border-radius: ${props => props.theme.space.x4};
 `;
 
-export const Card = styled.div`
-  display: flex;
-  flex-direction: row;
+export const Card = styled(Flex.Row)`
   align-items: center;
   gap: ${props => props.theme.space.x6};
 
@@ -30,20 +28,15 @@ export const Image = styled.div`
     `${props.theme.space.x4} 0 0 ${props.theme.space.x4}`};
 `;
 
-export const Row = styled.div`
-  display: flex;
-  flex-direction: row;
+export const Row = styled(Flex.Row)`
+  justify-content: space-between;
+  margin-top: ${props => props.theme.space.x6};
   gap: ${props => props.theme.space.x6};
 
   color: ${props => props.theme.colors.gray.x800};
-  margin-top: ${props => props.theme.space.x6};
-
-  justify-content: space-between;
 `;
 
-export const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+export const ButtonContainer = styled(Flex.Column)`
   justify-content: flex-end;
 `;
 

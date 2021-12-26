@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Button } from '@/ui/components';
+import { Button, Flex } from '@/ui/components';
 
 type CardProps = {
   reduceOpacity?: boolean;
@@ -25,9 +25,7 @@ export const Content = styled.div`
   padding: ${props => props.theme.space.x8};
 `;
 
-export const Row = styled.div`
-  display: flex;
-  flex-direction: row;
+export const Row = styled(Flex.Row)`
   gap: ${props => props.theme.space.x6};
 
   color: ${props => props.theme.colors.gray.x800};
@@ -35,6 +33,7 @@ export const Row = styled.div`
 `;
 
 export const BuyButton = styled(Button)`
-  border-radius: 0 0 6px 6px;
+  border-radius: ${props =>
+    `0 0 ${props.theme.space.x6} ${props.theme.space.x6}`};
   margin-top: ${props => props.theme.space.x8};
 `;
