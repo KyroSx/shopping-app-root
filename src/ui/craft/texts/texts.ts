@@ -32,6 +32,10 @@ export const Texts = {
   cart: {
     title: asFn('Shopping Cart'),
 
+    empty: {
+      description: asFn('The cart is empty'),
+    },
+
     product: {
       testId: (id: number) => `product-in-cart@${id}`,
       quantity: (quantity: number) => `Quantity: ${quantity}`,
