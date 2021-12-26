@@ -4,6 +4,7 @@ import {
   ProductInCartCard,
   EmptyState,
 } from '@/pages/Home/components/Cart/components';
+import { isListEmpty } from '@/utils/list/isEmpty';
 
 import * as Styles from '@/pages/Home/components/Cart/Cart.styles';
 
@@ -19,7 +20,7 @@ export function ProductsInCartList({
   decrementProduct,
 }: CartProps) {
   const productsInCart = products.filter(product => product.isInCart);
-  const isEmpty = productsInCart.length <= 0;
+  const isEmpty = isListEmpty(productsInCart);
 
   return (
     <Styles.Container>
