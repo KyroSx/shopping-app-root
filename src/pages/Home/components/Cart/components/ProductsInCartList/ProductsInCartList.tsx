@@ -26,18 +26,15 @@ export function ProductsInCartList({
     <Styles.Container>
       {isEmpty && <EmptyState />}
 
-      {products.map(
-        product =>
-          product.isInCart && (
-            <ProductInCartCard
-              key={product.id}
-              incrementProduct={incrementProduct}
-              decrementProduct={decrementProduct}
-            >
-              {product}
-            </ProductInCartCard>
-          ),
-      )}
+      {productsInCart.map(product => (
+        <ProductInCartCard
+          key={product.id}
+          incrementProduct={incrementProduct}
+          decrementProduct={decrementProduct}
+        >
+          {product}
+        </ProductInCartCard>
+      ))}
     </Styles.Container>
   );
 }
