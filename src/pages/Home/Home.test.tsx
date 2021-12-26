@@ -74,12 +74,8 @@ describe(Home, () => {
       productContainer,
       Texts.cart.product.button.add(),
     );
-    userEvent.click(buyButton);
 
-    return {
-      productContainer,
-      buyButton,
-    };
+    userEvent.click(buyButton);
   }
 
   function removeProductByCart(product: ProductInCart | Product) {
@@ -89,12 +85,8 @@ describe(Home, () => {
       productContainer,
       Texts.cart.product.button.remove(),
     );
-    userEvent.click(removeButton);
 
-    return {
-      productContainer,
-      removeButton,
-    };
+    userEvent.click(removeButton);
   }
 
   beforeEach(jest.resetAllMocks);
@@ -154,8 +146,9 @@ describe(Home, () => {
         const [product] = products;
 
         await waitFor(() => {
-          const { productContainer } = buyProduct(product);
+          buyProduct(product);
 
+          const productContainer = getProductContainer(product.id);
           const availableElement = getAvailableElement(productContainer)(
             decrement(product.available),
           );
@@ -170,10 +163,11 @@ describe(Home, () => {
         const [product] = products;
 
         await waitFor(() => {
-          const { productContainer } = buyProduct(product);
+          buyProduct(product);
           buyProduct(product);
           buyProduct(product);
 
+          const productContainer = getProductContainer(product.id);
           const availableElement = getAvailableElement(productContainer)(
             product.available,
           );
@@ -186,47 +180,43 @@ describe(Home, () => {
   describe('cart', () => {
     it('render product when it was bought', async () => {
       const { products } = renderHomeAndMockService();
-      const [productToBeBought] = products;
+      const [product] = products;
 
       await waitFor(() => {
-        buyProduct(productToBeBought);
+        buyProduct(product);
 
-        const productToBeBoughtElement = getProductInCartContainer(
-          productToBeBought.id,
-        );
-        expect(productToBeBoughtElement).toBeInTheDocument();
+        const productElement = getProductInCartContainer(product.id);
+        expect(productElement).toBeInTheDocument();
       });
     });
 
     it('does not render product when it was not bought', async () => {
       const { products } = renderHomeAndMockService();
-      const [productToBeBought, productNotBought] = products;
+      const [product, productToNotBeBought] = products;
 
       await waitFor(() => {
-        buyProduct(productToBeBought);
+        buyProduct(product);
 
-        const productNotBoughtElement = queryProductInCartContainer(
-          productNotBought.id,
+        const productToNotBeBoughtElement = queryProductInCartContainer(
+          productToNotBeBought.id,
         );
-        expect(productNotBoughtElement).not.toBeInTheDocument();
+        expect(productToNotBeBoughtElement).not.toBeInTheDocument();
       });
     });
 
     it('renders info from bought products', async () => {
       const { products } = renderHomeAndMockService();
       const boughtProducts = [products[0], products[1]];
+      const quantity = 1;
 
       await waitFor(() => {
         boughtProducts.forEach(product => {
-          const quantity = 1;
           buyProduct(product);
 
           const productContainer = getProductInCartContainer(product.id);
 
-          const quantityElement = getByText(
-            productContainer,
-            Texts.cart.product.quantity(quantity),
-          );
+          const quantityElement =
+            getQuantityElement(productContainer)(quantity);
           expect(quantityElement).toBeInTheDocument();
 
           const selfSubtotalElement = getByText(
@@ -240,14 +230,15 @@ describe(Home, () => {
 
     it('increments product quantity if it is in the cart', async () => {
       const {
-        products: [productToBeBought],
+        products: [product],
       } = renderHomeAndMockService();
+      const quantity = 2;
 
       await waitFor(() => {
-        const quantity = 2;
-        buyProduct(productToBeBought);
-        const { productContainer } = buyProductByCart(productToBeBought);
+        buyProduct(product);
+        buyProductByCart(product);
 
+        const productContainer = getProductInCartContainer(product.id);
         const quantityElement = getQuantityElement(productContainer)(quantity);
         expect(quantityElement).toBeInTheDocument();
       });
@@ -257,12 +248,15 @@ describe(Home, () => {
       const {
         products: [, productToBeBought],
       } = renderHomeAndMockService(makeProductsUnavailable());
+      const quantity = 1;
 
       await waitFor(() => {
-        const quantity = 1;
         buyProduct(productToBeBought);
-        const { productContainer } = buyProductByCart(productToBeBought);
+        buyProductByCart(productToBeBought);
 
+        const productContainer = getProductInCartContainer(
+          productToBeBought.id,
+        );
         const quantityElement = getQuantityElement(productContainer)(quantity);
         expect(quantityElement).toBeInTheDocument();
       });
