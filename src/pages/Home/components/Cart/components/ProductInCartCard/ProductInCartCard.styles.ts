@@ -24,7 +24,7 @@ export const Image = styled.div`
   height: 72px;
   width: 72px;
 
-  background: ${props => props.theme.colors.neutral.x300};
+  background: ${props => props.theme.colors.neutral.x400};
 
   border-radius: ${props =>
     `${props.theme.space.x4} 0 0 ${props.theme.space.x4}`};

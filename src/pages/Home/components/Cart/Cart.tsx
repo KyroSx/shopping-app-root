@@ -1,8 +1,10 @@
 import React from 'react';
 import { ProductInCart, ProductsInCart } from '@/ui/hooks/useCart';
+import { Title } from '@/ui/components';
+import { Texts } from '@/ui/craft/texts';
+import { ProductsInCartList } from '@/pages/Home/components/Cart/components';
 
 import * as Styles from './Cart.styles';
-import { ProductsInCartList } from '@/pages/Home/components/Cart/components';
 
 interface CartProps {
   children: ProductsInCart;
@@ -17,12 +19,18 @@ export function Cart({
 }: CartProps) {
   return (
     <Styles.Container>
-      <ProductsInCartList
-        incrementProduct={incrementProduct}
-        decrementProduct={decrementProduct}
-      >
-        {products}
-      </ProductsInCartList>
+      <Styles.Header>
+        <Title>{Texts.cart.title()}</Title>
+      </Styles.Header>
+
+      <Styles.List>
+        <ProductsInCartList
+          incrementProduct={incrementProduct}
+          decrementProduct={decrementProduct}
+        >
+          {products}
+        </ProductsInCartList>
+      </Styles.List>
     </Styles.Container>
   );
 }
