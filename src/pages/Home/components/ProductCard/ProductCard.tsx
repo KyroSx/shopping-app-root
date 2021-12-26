@@ -17,25 +17,27 @@ export function ProductCard({ children: product, onClick }: ProductCardProps) {
   const isProductNotAvailable = isNotAvailable(product);
 
   return (
-    <Styles.Card
-      reduceOpacity={isProductNotAvailable}
-      data-testid={Texts.productCard.testId(product.id)}
-    >
-      <Styles.Content>
-        <Title>{product.name}</Title>
+    <Styles.Container data-testid={Texts.productCard.testId(product.id)}>
+      <Styles.Card reduceOpacity={isProductNotAvailable}>
+        <Styles.Content>
+          <Title>{product.name}</Title>
 
-        <Styles.Row>
-          <Money>{product.price}</Money>
+          <Styles.Row>
+            <Money>{product.price}</Money>
 
-          <Text>--</Text>
+            <Text>--</Text>
 
-          <Text>{Texts.productCard.available(product.available)}</Text>
-        </Styles.Row>
-      </Styles.Content>
+            <Text>{Texts.productCard.available(product.available)}</Text>
+          </Styles.Row>
+        </Styles.Content>
 
-      <Styles.BuyButton onClick={onClickThis} disabled={isProductNotAvailable}>
-        {Texts.productCard.button.text()}
-      </Styles.BuyButton>
-    </Styles.Card>
+        <Styles.BuyButton
+          onClick={onClickThis}
+          disabled={isProductNotAvailable}
+        >
+          {Texts.productCard.button.text()}
+        </Styles.BuyButton>
+      </Styles.Card>
+    </Styles.Container>
   );
 }

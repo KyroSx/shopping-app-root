@@ -6,6 +6,8 @@ const Border = css`
   border-radius: ${props => props.theme.space.x4};
 `;
 
+export const Container = styled.div``;
+
 export const Card = styled(Flex.Row)`
   align-items: center;
   gap: ${props => props.theme.space.x6};

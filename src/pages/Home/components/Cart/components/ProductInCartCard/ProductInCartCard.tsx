@@ -23,34 +23,36 @@ export function ProductInCartCard({
   const thisProductIsNotAvailable = isNotAvailable(product);
 
   return (
-    <Styles.Card data-testid={Texts.cart.product.testId(product.id)}>
-      <Styles.Image />
+    <Styles.Container data-testid={Texts.cart.product.testId(product.id)}>
+      <Styles.Card>
+        <Styles.Image />
 
-      <Styles.Content>
-        <Title>{product.name}</Title>
+        <Styles.Content>
+          <Title>{product.name}</Title>
 
-        <Styles.Row>
-          <Text>{Texts.cart.product.quantity(product.quantity)}</Text>
-          <Money>{product.quantity * product.price}</Money>
-        </Styles.Row>
-      </Styles.Content>
+          <Styles.Row>
+            <Text>{Texts.cart.product.quantity(product.quantity)}</Text>
+            <Money>{product.quantity * product.price}</Money>
+          </Styles.Row>
+        </Styles.Content>
 
-      <Styles.ButtonContainer>
-        <Styles.AddButton
-          onClick={incrementThisProduct}
-          variant={ButtonVariants.secondary}
-          disabled={thisProductIsNotAvailable}
-        >
-          {Texts.cart.product.button.add()}
-        </Styles.AddButton>
+        <Styles.ButtonContainer>
+          <Styles.AddButton
+            onClick={incrementThisProduct}
+            variant={ButtonVariants.secondary}
+            disabled={thisProductIsNotAvailable}
+          >
+            {Texts.cart.product.button.add()}
+          </Styles.AddButton>
 
-        <Styles.RemoveButton
-          onClick={decrementThisProduct}
-          variant={ButtonVariants.secondary}
-        >
-          {Texts.cart.product.button.remove()}
-        </Styles.RemoveButton>
-      </Styles.ButtonContainer>
-    </Styles.Card>
+          <Styles.RemoveButton
+            onClick={decrementThisProduct}
+            variant={ButtonVariants.secondary}
+          >
+            {Texts.cart.product.button.remove()}
+          </Styles.RemoveButton>
+        </Styles.ButtonContainer>
+      </Styles.Card>
+    </Styles.Container>
   );
 }

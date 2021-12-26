@@ -5,6 +5,8 @@ type CardProps = {
   reduceOpacity?: boolean;
 };
 
+export const Container = styled.div``;
+
 export const Card = styled.div<CardProps>`
   margin: ${props => props.theme.space.x12} 0;
   border-radius: ${props => props.theme.space.x6};
