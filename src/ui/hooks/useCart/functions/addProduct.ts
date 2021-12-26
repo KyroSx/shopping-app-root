@@ -1,7 +1,6 @@
 import { ProductInCart } from '@/ui/hooks/useCart';
 import { decrement, increment } from '@/utils/math';
-
-const isNotAvailable = (product: ProductInCart) => product.available === 0;
+import { isNotAvailable } from '@/lib/product';
 
 export function addProduct(product: ProductInCart): ProductInCart {
   if (isNotAvailable(product)) return product;

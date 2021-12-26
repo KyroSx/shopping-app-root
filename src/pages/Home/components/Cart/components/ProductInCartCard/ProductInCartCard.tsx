@@ -4,6 +4,7 @@ import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
 
 import * as Styles from './ProductInCartCard.styles';
+import { isNotAvailable } from '@/lib/product';
 import { ButtonVariants } from '@/ui/components';
 
 interface ProductInCartCardProps {
@@ -19,6 +20,8 @@ export function ProductInCartCard({
 }: ProductInCartCardProps) {
   const incrementThisProduct = () => incrementProduct(product);
   const decrementThisProduct = () => decrementProduct(product);
+
+  const thisProductIsNotAvailable = isNotAvailable(product);
 
   return (
     <Styles.Card data-testid={Texts.cart.product.testId(product.id)}>
@@ -37,6 +40,7 @@ export function ProductInCartCard({
         <Styles.AddButton
           onClick={incrementThisProduct}
           variant={ButtonVariants.secondary}
+          disabled={thisProductIsNotAvailable}
         >
           {Texts.cart.product.button.add()}
         </Styles.AddButton>

@@ -4,6 +4,7 @@ import * as Styles from './ProductCard.styles';
 import { Money } from '@/ui/components';
 import { ProductInCart } from '@/ui/hooks/useCart';
 import { Texts } from '@/ui/craft/texts';
+import { isNotAvailable } from '@/lib/product';
 
 interface ProductCardProps {
   children: ProductInCart;
@@ -13,8 +14,13 @@ interface ProductCardProps {
 export function ProductCard({ children: product, onClick }: ProductCardProps) {
   const onClickThis = () => onClick(product);
 
+  const isProductNotAvailable = isNotAvailable(product);
+
   return (
-    <Styles.Card data-testid={Texts.productCard.testId(product.id)}>
+    <Styles.Card
+      reduceOpacity={isProductNotAvailable}
+      data-testid={Texts.productCard.testId(product.id)}
+    >
       <Styles.Content>
         <Styles.Name>{product.name}</Styles.Name>
 
@@ -29,7 +35,7 @@ export function ProductCard({ children: product, onClick }: ProductCardProps) {
         </Styles.Row>
       </Styles.Content>
 
-      <Styles.BuyButton onClick={onClickThis}>
+      <Styles.BuyButton onClick={onClickThis} disabled={isProductNotAvailable}>
         {Texts.productCard.button.text()}
       </Styles.BuyButton>
     </Styles.Card>
