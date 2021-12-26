@@ -25,13 +25,6 @@ export const Content = styled.div`
   padding: ${props => props.theme.space.x8};
 `;
 
-export const Name = styled.p`
-  font-weight: bold;
-  font-size: ${props => props.theme.font.size.m};
-`;
-
-export const Available = styled.p``;
-
 export const Row = styled.div`
   display: flex;
   flex-direction: row;

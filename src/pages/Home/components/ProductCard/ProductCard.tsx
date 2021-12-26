@@ -1,7 +1,7 @@
 import React from 'react';
 
 import * as Styles from './ProductCard.styles';
-import { Money } from '@/ui/components';
+import { Money, Title, Text } from '@/ui/components';
 import { ProductInCart } from '@/ui/hooks/useCart';
 import { Texts } from '@/ui/craft/texts';
 import { isNotAvailable } from '@/lib/product';
@@ -22,16 +22,14 @@ export function ProductCard({ children: product, onClick }: ProductCardProps) {
       data-testid={Texts.productCard.testId(product.id)}
     >
       <Styles.Content>
-        <Styles.Name>{product.name}</Styles.Name>
+        <Title>{product.name}</Title>
 
         <Styles.Row>
           <Money>{product.price}</Money>
 
-          <p>--</p>
+          <Text>--</Text>
 
-          <Styles.Available>
-            {Texts.productCard.available(product.available)}
-          </Styles.Available>
+          <Text>{Texts.productCard.available(product.available)}</Text>
         </Styles.Row>
       </Styles.Content>
 

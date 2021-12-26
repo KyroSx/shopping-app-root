@@ -1,11 +1,10 @@
 import React from 'react';
 import { ProductInCart } from '@/ui/hooks/useCart';
 import { Texts } from '@/ui/craft/texts';
-import { formatMoney } from '@/utils/formatting';
 
 import * as Styles from './ProductInCartCard.styles';
 import { isNotAvailable } from '@/lib/product';
-import { ButtonVariants } from '@/ui/components';
+import { ButtonVariants, Money, Text, Title } from '@/ui/components';
 
 interface ProductInCartCardProps {
   children: ProductInCart;
@@ -28,11 +27,11 @@ export function ProductInCartCard({
       <Styles.Image />
 
       <Styles.Content>
-        <Styles.Name>{product.name}</Styles.Name>
+        <Title>{product.name}</Title>
 
         <Styles.Row>
-          <p>{Texts.cart.product.quantity(product.quantity)}</p>
-          <p>{formatMoney(product.quantity * product.price)}</p>
+          <Text>{Texts.cart.product.quantity(product.quantity)}</Text>
+          <Money>{product.quantity * product.price}</Money>
         </Styles.Row>
       </Styles.Content>
 

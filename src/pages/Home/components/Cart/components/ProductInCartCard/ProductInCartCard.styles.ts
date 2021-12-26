@@ -30,11 +30,6 @@ export const Image = styled.div`
     `${props.theme.space.x4} 0 0 ${props.theme.space.x4}`};
 `;
 
-export const Name = styled.p`
-  font-weight: bold;
-  font-size: ${props => props.theme.font.size.m};
-`;
-
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
