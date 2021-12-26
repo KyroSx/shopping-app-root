@@ -83,6 +83,17 @@ describe(Home, () => {
 
   beforeEach(jest.resetAllMocks);
 
+  describe('Layout', () => {
+    it('renders header text', async () => {
+      renderHomeAndMockService();
+
+      await waitFor(() => {
+        const header = screen.getByText(Texts.global.layout.header.text());
+        expect(header).toBeInTheDocument();
+      });
+    });
+  });
+
   describe('product list', () => {
     it('renders product list', async () => {
       const { products } = renderHomeAndMockService();

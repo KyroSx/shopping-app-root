@@ -8,6 +8,11 @@ export const Texts = {
     loading: {
       text: asFn('Loading...'),
     },
+    layout: {
+      header: {
+        text: asFn('Shopping'),
+      },
+    },
   },
 
   home: {
