@@ -52,29 +52,21 @@ describe(Home, () => {
     (productContainer: HTMLElement) => (quantity: number) =>
       getByText(productContainer, Texts.cart.product.quantity(quantity));
 
+  const getBuyButton = (productContainer: HTMLElement) =>
+    getByText(productContainer, Texts.productCard.button.text());
+
+  const getBuyByCartButton = (productContainer: HTMLElement) =>
+    getByText(productContainer, Texts.cart.product.button.add());
+
   function buyProduct(product: ProductInCart | Product) {
     const productContainer = getProductContainer(product.id);
-
-    const buyButton = getByText(
-      productContainer,
-      Texts.productCard.button.text(),
-    );
+    const buyButton = getBuyButton(productContainer);
     userEvent.click(buyButton);
-
-    return {
-      productContainer,
-      buyButton,
-    };
   }
 
   function buyProductByCart(product: ProductInCart | Product) {
     const productContainer = getProductInCartContainer(product.id);
-
-    const buyButton = getByText(
-      productContainer,
-      Texts.cart.product.button.add(),
-    );
-
+    const buyButton = getBuyByCartButton(productContainer);
     userEvent.click(buyButton);
   }
 
@@ -172,6 +164,9 @@ describe(Home, () => {
             product.available,
           );
           expect(availableElement).toBeInTheDocument();
+
+          const buyButton = getBuyButton(productContainer);
+          expect(buyButton).toBeDisabled();
         });
       });
     });
@@ -259,6 +254,9 @@ describe(Home, () => {
         );
         const quantityElement = getQuantityElement(productContainer)(quantity);
         expect(quantityElement).toBeInTheDocument();
+
+        const buyButton = getBuyByCartButton(productContainer);
+        expect(buyButton).toBeDisabled();
       });
     });
 
