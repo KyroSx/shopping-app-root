@@ -7,7 +7,7 @@ module.exports = {
 };
 
 function setupWebpack(config) {
-  const setup = override(setupPathAlias())
+  const setup = override(setupPathAlias(), setupExportAsPlugin())
 
   return setup(config)
 }
@@ -22,6 +22,11 @@ function setupPathAlias() {
   ])
 }
 
+function setupExportAsPlugin() {
+  return addBabelPlugin(['@babel/plugin-proposal-export-namespace-from'])
+}
+
+
 function setupJest(config) {
   return {
     ...config,
@@ -32,6 +37,6 @@ function setupJest(config) {
       '^~/(.*)$': '<rootDir>/$1',
       '^__fixtures__(.*)$': '<rootDir>/__fixtures__$1',
       '^__test__(.*)$': '<rootDir>/__test__$1',
-    }
+    },
   };
 }

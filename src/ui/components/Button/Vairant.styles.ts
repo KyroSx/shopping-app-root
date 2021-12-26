@@ -13,11 +13,12 @@ export const Secondary = css`
 
 export const SecondaryDisabled = css`
   cursor: not-allowed;
-  background-color: ${props => props.theme.colors.gray.x200};
-  opacity: 90%;
+  color: ${props => props.theme.colors.gray.x600};
+  background-color: ${props => props.theme.colors.neutral.x400};
+  opacity: 70%;
 
   &:hover {
-    background: ${props => props.theme.colors.gray.x200};
+    background: ${props => props.theme.colors.neutral.x400};
   }
 `;
 

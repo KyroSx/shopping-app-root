@@ -19,8 +19,8 @@ export const Button = styled.button<ButtonStylesProps>`
   background: ${props => props.theme.colors.gray.x900};
 
   width: 100%;
-  border: 0;
-  padding: 4px;
+  border: ${props => props.theme.space.none};
+  padding: ${props => props.theme.space.x4};
 
   transition: background-color 0.2s;
   &:hover {

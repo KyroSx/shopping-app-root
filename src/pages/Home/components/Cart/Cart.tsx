@@ -1,6 +1,8 @@
 import React from 'react';
 import { ProductInCart, ProductsInCart } from '@/ui/hooks/useCart';
-import { ProductInCartCard } from '@/pages/Home/components/Cart/components';
+import { Title } from '@/ui/components';
+import { Texts } from '@/ui/craft/texts';
+import { ProductsInCartList } from '@/pages/Home/components/Cart/components';
 
 import * as Styles from './Cart.styles';
 
@@ -17,18 +19,18 @@ export function Cart({
 }: CartProps) {
   return (
     <Styles.Container>
-      {products.map(
-        product =>
-          product.isInCart && (
-            <ProductInCartCard
-              key={product.id}
-              incrementProduct={incrementProduct}
-              decrementProduct={decrementProduct}
-            >
-              {product}
-            </ProductInCartCard>
-          ),
-      )}
+      <Styles.Header>
+        <Title>{Texts.cart.title()}</Title>
+      </Styles.Header>
+
+      <Styles.List>
+        <ProductsInCartList
+          incrementProduct={incrementProduct}
+          decrementProduct={decrementProduct}
+        >
+          {products}
+        </ProductsInCartList>
+      </Styles.List>
     </Styles.Container>
   );
 }

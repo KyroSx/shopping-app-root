@@ -1,18 +1,30 @@
 import styled, { css } from 'styled-components';
-import { Button } from '@/ui/components';
+import { Button, Flex } from '@/ui/components';
 
 type CardProps = {
   reduceOpacity?: boolean;
 };
 
+export const Container = styled.div``;
+
+export const Image = styled.div`
+  width: 100%;
+  height: 90px;
+
+  background: ${props => props.theme.colors.neutral.x500};
+
+  border-radius: ${props =>
+    `${props.theme.space.x4} ${props.theme.space.x4} 0 0`};
+`;
+
 export const Card = styled.div<CardProps>`
   margin: ${props => props.theme.space.x12} 0;
   border-radius: ${props => props.theme.space.x6};
-  max-width: 500px;
+  max-width: 300px;
 
   background: ${props => props.theme.colors.zinc.x200};
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.24);
 
+  transition: opacity 0.4s;
   ${props =>
     props.reduceOpacity &&
     css`
@@ -22,19 +34,10 @@ export const Card = styled.div<CardProps>`
 
 export const Content = styled.div`
   gap: ${props => props.theme.space.x12};
-  padding: ${props => props.theme.space.x8};
+  padding: ${props => props.theme.space.x12};
 `;
 
-export const Name = styled.p`
-  font-weight: bold;
-  font-size: ${props => props.theme.font.size.m};
-`;
-
-export const Available = styled.p``;
-
-export const Row = styled.div`
-  display: flex;
-  flex-direction: row;
+export const Row = styled(Flex.Row)`
   gap: ${props => props.theme.space.x6};
 
   color: ${props => props.theme.colors.gray.x800};
@@ -42,6 +45,7 @@ export const Row = styled.div`
 `;
 
 export const BuyButton = styled(Button)`
-  border-radius: 0 0 6px 6px;
+  border-radius: ${props =>
+    `0 0 ${props.theme.space.x6} ${props.theme.space.x6}`};
   margin-top: ${props => props.theme.space.x8};
 `;
