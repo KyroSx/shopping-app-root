@@ -92,6 +92,15 @@ describe(Home, () => {
         expect(header).toBeInTheDocument();
       });
     });
+
+    it('renders user text', async () => {
+      renderHomeAndMockService();
+
+      await waitFor(() => {
+        const header = screen.getByText(Texts.global.layout.header.user());
+        expect(header).toBeInTheDocument();
+      });
+    });
   });
 
   describe('product list', () => {

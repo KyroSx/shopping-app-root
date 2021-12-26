@@ -11,6 +11,7 @@ export const Texts = {
     layout: {
       header: {
         text: asFn('Shopping'),
+        user: asFn('User'),
       },
     },
   },
