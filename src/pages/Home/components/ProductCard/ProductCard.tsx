@@ -19,6 +19,8 @@ export function ProductCard({ children: product, onClick }: ProductCardProps) {
   return (
     <Styles.Container data-testid={Texts.productCard.testId(product.id)}>
       <Styles.Card reduceOpacity={isProductNotAvailable}>
+        <Styles.Image />
+
         <Styles.Content>
           <Title>{product.name}</Title>
 

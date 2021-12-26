@@ -7,14 +7,24 @@ type CardProps = {
 
 export const Container = styled.div``;
 
+export const Image = styled.div`
+  width: 100%;
+  height: 90px;
+
+  background: ${props => props.theme.colors.neutral.x500};
+
+  border-radius: ${props =>
+    `${props.theme.space.x4} ${props.theme.space.x4} 0 0`};
+`;
+
 export const Card = styled.div<CardProps>`
   margin: ${props => props.theme.space.x12} 0;
   border-radius: ${props => props.theme.space.x6};
-  max-width: 500px;
+  max-width: 300px;
 
   background: ${props => props.theme.colors.zinc.x200};
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.24);
 
+  transition: opacity 0.4s;
   ${props =>
     props.reduceOpacity &&
     css`
@@ -24,7 +34,7 @@ export const Card = styled.div<CardProps>`
 
 export const Content = styled.div`
   gap: ${props => props.theme.space.x12};
-  padding: ${props => props.theme.space.x8};
+  padding: ${props => props.theme.space.x12};
 `;
 
 export const Row = styled(Flex.Row)`
