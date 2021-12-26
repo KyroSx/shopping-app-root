@@ -4,15 +4,25 @@ import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
 
 import * as Styles from './ProductInCartCard.styles';
+import { isNotAvailable } from '@/lib/product';
 import { ButtonVariants } from '@/ui/components';
 
 interface ProductInCartCardProps {
   children: ProductInCart;
+  incrementProduct: (product: ProductInCart) => void;
+  decrementProduct: (product: ProductInCart) => void;
 }
 
 export function ProductInCartCard({
   children: product,
+  incrementProduct,
+  decrementProduct,
 }: ProductInCartCardProps) {
+  const incrementThisProduct = () => incrementProduct(product);
+  const decrementThisProduct = () => decrementProduct(product);
+
+  const thisProductIsNotAvailable = isNotAvailable(product);
+
   return (
     <Styles.Card data-testid={Texts.cart.product.testId(product.id)}>
       <Styles.Image />
@@ -27,12 +37,19 @@ export function ProductInCartCard({
       </Styles.Content>
 
       <Styles.ButtonContainer>
-        <Styles.AddButton variant={ButtonVariants.secondary}>
-          +
+        <Styles.AddButton
+          onClick={incrementThisProduct}
+          variant={ButtonVariants.secondary}
+          disabled={thisProductIsNotAvailable}
+        >
+          {Texts.cart.product.button.add()}
         </Styles.AddButton>
 
-        <Styles.RemoveButton variant={ButtonVariants.secondary}>
-          -
+        <Styles.RemoveButton
+          onClick={decrementThisProduct}
+          variant={ButtonVariants.secondary}
+        >
+          {Texts.cart.product.button.remove()}
         </Styles.RemoveButton>
       </Styles.ButtonContainer>
     </Styles.Card>

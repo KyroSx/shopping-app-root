@@ -1,13 +1,9 @@
 import React from 'react';
 
 import * as Styles from './Button.styles';
+import { ButtonVariants } from '@/ui/components';
 
 type HtmlButton = React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-export enum ButtonVariants {
-  primary = 'primary',
-  secondary = 'secondary',
-}
 
 export interface ButtonProps extends HtmlButton {
   children: string;

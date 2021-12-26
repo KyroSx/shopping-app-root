@@ -48,19 +48,37 @@ describe(Home, () => {
     (productContainer: HTMLElement) => (available: number) =>
       getByText(productContainer, Texts.productCard.available(available));
 
+  const getQuantityElement =
+    (productContainer: HTMLElement) => (quantity: number) =>
+      getByText(productContainer, Texts.cart.product.quantity(quantity));
+
+  const getBuyButton = (productContainer: HTMLElement) =>
+    getByText(productContainer, Texts.productCard.button.text());
+
+  const getBuyByCartButton = (productContainer: HTMLElement) =>
+    getByText(productContainer, Texts.cart.product.button.add());
+
   function buyProduct(product: ProductInCart | Product) {
     const productContainer = getProductContainer(product.id);
-
-    const buyButton = getByText(
-      productContainer,
-      Texts.productCard.button.text(),
-    );
+    const buyButton = getBuyButton(productContainer);
     userEvent.click(buyButton);
+  }
 
-    return {
+  function buyProductByCart(product: ProductInCart | Product) {
+    const productContainer = getProductInCartContainer(product.id);
+    const buyButton = getBuyByCartButton(productContainer);
+    userEvent.click(buyButton);
+  }
+
+  function removeProductByCart(product: ProductInCart | Product) {
+    const productContainer = getProductInCartContainer(product.id);
+
+    const removeButton = getByText(
       productContainer,
-      buyButton,
-    };
+      Texts.cart.product.button.remove(),
+    );
+
+    userEvent.click(removeButton);
   }
 
   beforeEach(jest.resetAllMocks);
@@ -120,8 +138,9 @@ describe(Home, () => {
         const [product] = products;
 
         await waitFor(() => {
-          const { productContainer } = buyProduct(product);
+          buyProduct(product);
 
+          const productContainer = getProductContainer(product.id);
           const availableElement = getAvailableElement(productContainer)(
             decrement(product.available),
           );
@@ -136,14 +155,18 @@ describe(Home, () => {
         const [product] = products;
 
         await waitFor(() => {
-          const { productContainer } = buyProduct(product);
+          buyProduct(product);
           buyProduct(product);
           buyProduct(product);
 
+          const productContainer = getProductContainer(product.id);
           const availableElement = getAvailableElement(productContainer)(
             product.available,
           );
           expect(availableElement).toBeInTheDocument();
+
+          const buyButton = getBuyButton(productContainer);
+          expect(buyButton).toBeDisabled();
         });
       });
     });
@@ -152,47 +175,43 @@ describe(Home, () => {
   describe('cart', () => {
     it('render product when it was bought', async () => {
       const { products } = renderHomeAndMockService();
-      const [productToBeBought] = products;
+      const [product] = products;
 
       await waitFor(() => {
-        buyProduct(productToBeBought);
+        buyProduct(product);
 
-        const productToBeBoughtElement = getProductInCartContainer(
-          productToBeBought.id,
-        );
-        expect(productToBeBoughtElement).toBeInTheDocument();
+        const productElement = getProductInCartContainer(product.id);
+        expect(productElement).toBeInTheDocument();
       });
     });
 
     it('does not render product when it was not bought', async () => {
       const { products } = renderHomeAndMockService();
-      const [productToBeBought, productNotBought] = products;
+      const [product, productToNotBeBought] = products;
 
       await waitFor(() => {
-        buyProduct(productToBeBought);
+        buyProduct(product);
 
-        const productNotBoughtElement = queryProductInCartContainer(
-          productNotBought.id,
+        const productToNotBeBoughtElement = queryProductInCartContainer(
+          productToNotBeBought.id,
         );
-        expect(productNotBoughtElement).not.toBeInTheDocument();
+        expect(productToNotBeBoughtElement).not.toBeInTheDocument();
       });
     });
 
     it('renders info from bought products', async () => {
       const { products } = renderHomeAndMockService();
       const boughtProducts = [products[0], products[1]];
+      const quantity = 1;
 
       await waitFor(() => {
         boughtProducts.forEach(product => {
-          const quantity = 1;
           buyProduct(product);
 
           const productContainer = getProductInCartContainer(product.id);
 
-          const quantityElement = getByText(
-            productContainer,
-            Texts.cart.product.quantity(quantity),
-          );
+          const quantityElement =
+            getQuantityElement(productContainer)(quantity);
           expect(quantityElement).toBeInTheDocument();
 
           const selfSubtotalElement = getByText(
@@ -201,6 +220,57 @@ describe(Home, () => {
           );
           expect(selfSubtotalElement).toBeInTheDocument();
         });
+      });
+    });
+
+    it('increments product quantity if it is in the cart', async () => {
+      const {
+        products: [product],
+      } = renderHomeAndMockService();
+      const quantity = 2;
+
+      await waitFor(() => {
+        buyProduct(product);
+        buyProductByCart(product);
+
+        const productContainer = getProductInCartContainer(product.id);
+        const quantityElement = getQuantityElement(productContainer)(quantity);
+        expect(quantityElement).toBeInTheDocument();
+      });
+    });
+
+    it('does not increment product quantity if it is unavailable', async () => {
+      const {
+        products: [, productToBeBought],
+      } = renderHomeAndMockService(makeProductsUnavailable());
+      const quantity = 1;
+
+      await waitFor(() => {
+        buyProduct(productToBeBought);
+        buyProductByCart(productToBeBought);
+
+        const productContainer = getProductInCartContainer(
+          productToBeBought.id,
+        );
+        const quantityElement = getQuantityElement(productContainer)(quantity);
+        expect(quantityElement).toBeInTheDocument();
+
+        const buyButton = getBuyByCartButton(productContainer);
+        expect(buyButton).toBeDisabled();
+      });
+    });
+
+    it('removes product if it has no quantity', async () => {
+      const {
+        products: [product],
+      } = renderHomeAndMockService();
+
+      await waitFor(() => {
+        buyProduct(product);
+        removeProductByCart(product);
+
+        const productInCartElement = queryProductInCartContainer(product.id);
+        expect(productInCartElement).not.toBeInTheDocument();
       });
     });
   });

@@ -27,6 +27,11 @@ export const Texts = {
     product: {
       testId: (id: number) => `product-in-cart@${id}`,
       quantity: (quantity: number) => `Quantity: ${quantity}`,
+
+      button: {
+        add: asFn('+'),
+        remove: asFn('-'),
+      },
     },
   },
 };
