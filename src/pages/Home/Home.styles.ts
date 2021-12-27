@@ -12,7 +12,7 @@ export const Container = styled.div`
 `;
 
 export const CartContainer = styled(Flex.Column)`
-  gap: ${props => props.theme.space.x6};
+  gap: 0 ${props => props.theme.space.x6};
 `;
 
 export const CheckoutButton = styled(Button)`

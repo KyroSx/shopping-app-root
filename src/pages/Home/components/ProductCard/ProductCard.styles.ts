@@ -18,7 +18,6 @@ export const Image = styled.div`
 `;
 
 export const Card = styled.div<CardProps>`
-  margin: ${props => props.theme.space.x12} 0;
   border-radius: ${props => props.theme.space.x6};
   max-width: 300px;
 
