@@ -9,15 +9,17 @@ export const Container = styled.div`
   border-radius: ${props => props.theme.space.x4};
 `;
 
-export const Header = styled.div`
+export const Header = styled(Flex.Center)`
   background: ${props => props.theme.colors.neutral.x500};
-  text-align: center;
-  font-size: ${props => props.theme.font.size.l};
-  height: 40px;
+  height: 48px;
 
   padding: ${props => props.theme.space.x6};
   border-radius: ${props =>
     `${props.theme.space.x4} ${props.theme.space.x4} 0 0`};
+
+  p {
+    font-size: ${props => props.theme.font.size.l};
+  }
 `;
 
 export const List = styled(Flex.Column)`
