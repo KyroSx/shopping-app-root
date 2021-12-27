@@ -40,6 +40,10 @@ export const Texts = {
       total: {
         text: asFn('Total'),
       },
+
+      subtotal: {
+        text: asFn('Subtotal'),
+      },
     },
 
     product: {

@@ -11,15 +11,25 @@ interface FinancialProps {
 }
 
 export function Financial({ products }: FinancialProps) {
-  const { total } = useFinancial(products);
+  const { total, subtotal } = useFinancial(products);
 
   return (
-    <Styles.Financial>
-      <Styles.Total>
+    <Styles.Container>
+      <Styles.Line />
+
+      <Styles.FinancialInfo data-testid="financial@subtotal">
+        <Text>{Texts.cart.financial.subtotal.text()}</Text>
+
+        <Money>{subtotal}</Money>
+      </Styles.FinancialInfo>
+
+      <Styles.Line />
+
+      <Styles.Total data-testid="financial@total">
         <Text>{Texts.cart.financial.total.text()}</Text>
 
         <Money>{total}</Money>
       </Styles.Total>
-    </Styles.Financial>
+    </Styles.Container>
   );
 }
