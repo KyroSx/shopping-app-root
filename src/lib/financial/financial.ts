@@ -1,8 +1,8 @@
 import { ProductsInCart, ProductInCart } from '@/types';
-import { calculateSelfSubtotal } from '@/lib/product';
+import { calculateTotalPrice } from '@/lib/product';
 
 const toSubtotal = (subtotal: number, product: ProductInCart) =>
-  subtotal + calculateSelfSubtotal(product);
+  subtotal + calculateTotalPrice(product);
 
 export function calculateSubtotal(products: ProductsInCart) {
   return products.reduce(toSubtotal, 0);
