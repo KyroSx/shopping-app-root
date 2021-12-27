@@ -1,6 +1,10 @@
 import React from 'react';
 import { ProductInCart, ProductsInCart } from '@/ui/hooks/useCart';
-import { ProductInCartCard } from '@/pages/Home/components/Cart/components';
+import {
+  ProductInCartCard,
+  EmptyState,
+} from '@/pages/Home/components/Cart/components';
+import { isListEmpty } from '@/utils/list/isEmpty';
 
 import * as Styles from '@/pages/Home/components/Cart/Cart.styles';
 
@@ -15,20 +19,22 @@ export function ProductsInCartList({
   incrementProduct,
   decrementProduct,
 }: CartProps) {
+  const productsInCart = products.filter(product => product.isInCart);
+  const isEmpty = isListEmpty(productsInCart);
+
   return (
     <Styles.Container>
-      {products.map(
-        product =>
-          product.isInCart && (
-            <ProductInCartCard
-              key={product.id}
-              incrementProduct={incrementProduct}
-              decrementProduct={decrementProduct}
-            >
-              {product}
-            </ProductInCartCard>
-          ),
-      )}
+      {isEmpty && <EmptyState />}
+
+      {productsInCart.map(product => (
+        <ProductInCartCard
+          key={product.id}
+          incrementProduct={incrementProduct}
+          decrementProduct={decrementProduct}
+        >
+          {product}
+        </ProductInCartCard>
+      ))}
     </Styles.Container>
   );
 }

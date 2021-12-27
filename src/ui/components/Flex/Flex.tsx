@@ -9,3 +9,9 @@ export const Column = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const Center = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

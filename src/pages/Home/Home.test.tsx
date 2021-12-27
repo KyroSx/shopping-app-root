@@ -193,6 +193,30 @@ describe(Home, () => {
   });
 
   describe('cart', () => {
+    it('renders empty state if no product was bought', async () => {
+      renderHomeAndMockService();
+
+      await waitFor(() => {
+        const emptyState = screen.getByText(Texts.cart.empty.description());
+        expect(emptyState).toBeInTheDocument();
+      });
+    });
+
+    it('does not renders empty state if has products in cart', async () => {
+      const { products } = renderHomeAndMockService();
+      const [product] = products;
+
+      await waitFor(() => {
+        buyProduct(product);
+
+        const emptyState = screen.queryByText(Texts.cart.empty.description());
+        expect(emptyState).not.toBeInTheDocument();
+
+        const productContainer = getProductInCartContainer(product.id);
+        expect(productContainer).toBeInTheDocument();
+      });
+    });
+
     it('render product when it was bought', async () => {
       const { products } = renderHomeAndMockService();
       const [product] = products;
