@@ -1,5 +1,5 @@
 import React from 'react';
-import { Money, Title, Text } from '@/ui/components';
+import { Money, Title, Text, Dot } from '@/ui/components';
 import { Texts } from '@/ui/craft/texts';
 import { isNotAvailable } from '@/lib/product';
 import { ProductInCart } from '@/types';
@@ -27,7 +27,7 @@ export function ProductCard({ children: product, onClick }: ProductCardProps) {
           <Styles.Row>
             <Money>{product.price}</Money>
 
-            <Text>--</Text>
+            <Dot />
 
             <Text>{Texts.productCard.available(product.available)}</Text>
           </Styles.Row>
