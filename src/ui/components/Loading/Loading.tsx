@@ -2,10 +2,10 @@ import React from 'react';
 import * as Styles from './Loading.styles';
 import { Texts } from '@/ui/craft/texts';
 import { LoadingSpinner } from '@/ui/components/Loading/LoadingSpinner';
-import { useReactQueryIsFetching } from '@/hooks/useReactQueryIsFetching';
+import { useIsAppLoading } from '@/hooks/useIsAppLoading';
 
 export function Loading() {
-  const { isLoading } = useReactQueryIsFetching();
+  const { isLoading } = useIsAppLoading();
 
   if (!isLoading) return null;
 

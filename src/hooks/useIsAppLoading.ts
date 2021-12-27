@@ -1,6 +1,6 @@
 import { useIsFetching } from 'react-query';
 
-export function useReactQueryIsFetching() {
+export function useIsAppLoading() {
   const isFetching = useIsFetching();
 
   return {
