@@ -2,7 +2,7 @@ import React from 'react';
 import { ProductInCart, ProductsInCart } from '@/types';
 import { Title } from '@/ui/components';
 import { Texts } from '@/ui/craft/texts';
-import { ProductsInCartList } from '@/pages/Home/components/Cart/components';
+import { ProductsInCartList } from '@/pages/Home/components';
 
 import * as Styles from './Cart.styles';
 

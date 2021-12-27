@@ -3,6 +3,7 @@ import { ProductInCart } from '@/types';
 import { Texts } from '@/ui/craft/texts';
 import { isNotAvailable } from '@/lib/product';
 import { ButtonVariants, Money, Text, Title } from '@/ui/components';
+
 import * as Styles from './ProductInCartCard.styles';
 
 interface ProductInCartCardProps {
