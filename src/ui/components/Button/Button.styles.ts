@@ -21,6 +21,7 @@ export const Button = styled.button<ButtonStylesProps>`
 
   width: 100%;
   border: ${props => props.theme.space.none};
+  border-radius: ${props => props.theme.space.x6};
   padding: ${props => props.theme.space.x4};
 
   transition: background-color 0.2s;

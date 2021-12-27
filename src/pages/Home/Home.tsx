@@ -19,12 +19,16 @@ export const Home: React.FC = () => {
     <Styles.Container>
       <ProductList addProductToCart={addProductToCart}>{products}</ProductList>
 
-      <Cart
-        incrementProduct={addProductToCart}
-        decrementProduct={removeProductFromCart}
-      >
-        {products}
-      </Cart>
+      <Styles.CartContainer>
+        <Cart
+          incrementProduct={addProductToCart}
+          decrementProduct={removeProductFromCart}
+        >
+          {products}
+        </Cart>
+
+        <Styles.CheckoutButton>Checkout</Styles.CheckoutButton>
+      </Styles.CartContainer>
     </Styles.Container>
   );
 };
