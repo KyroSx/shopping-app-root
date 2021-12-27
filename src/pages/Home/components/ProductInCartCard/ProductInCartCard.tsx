@@ -1,7 +1,7 @@
 import React from 'react';
 import { ProductInCart } from '@/types';
 import { Texts } from '@/ui/craft/texts';
-import { isNotAvailable } from '@/lib/product';
+import { calculateTotalPrice, isNotAvailable } from '@/lib/product';
 import { ButtonVariants, Money, Text, Title } from '@/ui/components';
 
 import * as Styles from './ProductInCartCard.styles';
@@ -32,7 +32,7 @@ export function ProductInCartCard({
 
           <Styles.Row>
             <Text>{Texts.cart.product.quantity(product.quantity)}</Text>
-            <Money>{product.quantity * product.price}</Money>
+            <Money>{calculateTotalPrice(product)}</Money>
           </Styles.Row>
         </Styles.Content>
 

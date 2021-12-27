@@ -57,6 +57,18 @@ describe(Home, () => {
   const getBuyByCartButton = (productContainer: HTMLElement) =>
     getByText(productContainer, Texts.cart.product.button.add());
 
+  const getTotalElement = (total: number) => {
+    const container = screen.getByTestId('financial@total');
+
+    return getByText(container, formatMoney(total));
+  };
+
+  const getSubtotalElement = (subtotal: number) => {
+    const container = screen.getByTestId('financial@subtotal');
+
+    return getByText(container, formatMoney(subtotal));
+  };
+
   function buyProduct(product: ProductInCart | Product) {
     const productContainer = getProductContainer(product.id);
     const buyButton = getBuyButton(productContainer);
@@ -314,6 +326,38 @@ describe(Home, () => {
 
         const productInCartElement = queryProductInCartContainer(product.id);
         expect(productInCartElement).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('financial', () => {
+    it('renders total', async () => {
+      const { products } = renderHomeAndMockService();
+      const [product1, product2] = products;
+
+      await waitFor(() => {
+        buyProduct(product1);
+        buyProduct(product2);
+      });
+
+      await waitFor(() => {
+        const total = getTotalElement(product1.price + product2.price);
+        expect(total).toBeInTheDocument();
+      });
+    });
+
+    it('renders subtotal', async () => {
+      const { products } = renderHomeAndMockService();
+      const [product1, product2] = products;
+
+      await waitFor(() => {
+        buyProduct(product1);
+        buyProduct(product2);
+      });
+
+      await waitFor(() => {
+        const subtotal = getSubtotalElement(product1.price + product2.price);
+        expect(subtotal).toBeInTheDocument();
       });
     });
   });

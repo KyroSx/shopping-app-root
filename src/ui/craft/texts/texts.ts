@@ -36,6 +36,16 @@ export const Texts = {
       description: asFn('The cart is empty'),
     },
 
+    financial: {
+      total: {
+        text: asFn('Total'),
+      },
+
+      subtotal: {
+        text: asFn('Subtotal'),
+      },
+    },
+
     product: {
       testId: (id: number) => `product-in-cart@${id}`,
       quantity: (quantity: number) => `Quantity: ${quantity}`,
