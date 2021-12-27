@@ -18,4 +18,6 @@ export const CartContainer = styled(Flex.Column)`
 export const CheckoutButton = styled(Button)`
   padding: ${props => props.theme.space.x12};
   font-size: ${props => props.theme.font.size.ml};
+
+  margin-top: ${props => props.theme.space.x14};
 `;
