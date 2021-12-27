@@ -1,6 +1,7 @@
 import React from 'react';
 import { SyncLoader } from 'react-spinners';
 import { theme } from '@/app/providers/Theme';
+
 import * as Styles from './Loading.styles';
 
 export function LoadingSpinner() {
