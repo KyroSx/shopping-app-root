@@ -1,7 +1,8 @@
 import { useQuery } from 'react-query';
 import React from 'react';
-import { getProducts, Products } from '@/services/products';
+import { getProducts } from '@/services/products';
 import { UnexpectedError } from '@/errors/UnexpectedError';
+import { Products } from '@/types';
 
 export function useProducts() {
   const [products, setProducts] = React.useState<Products>([]);

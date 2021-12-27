@@ -1,6 +1,7 @@
-import { getProducts, Products } from '@/services/products';
+import { getProducts } from '@/services/products';
 import { delay } from '@/utils/time';
 import { UnexpectedError } from '@/errors/UnexpectedError';
+import { Products } from '@/types';
 
 export const mockGetProductsService = (products: Products) => {
   return (getProducts as jest.Mock).mockImplementationOnce(async () => {
