@@ -7,7 +7,7 @@ export const Header = styled.header`
   justify-content: space-between;
   align-items: center;
 
-  background: ${props => props.theme.colors.zinc.x200};
+  background: ${props => props.theme.colors.zinc.x250};
 
   padding: ${props => props.theme.space.x12};
 `;

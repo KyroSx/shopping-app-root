@@ -40,7 +40,7 @@ export const Content = styled.div`
 export const Row = styled(Flex.Row)`
   gap: ${props => props.theme.space.x6};
 
-  color: ${props => props.theme.colors.gray.x800};
+  color: ${props => props.theme.colors.secondary.brand};
   margin-top: ${props => props.theme.space.x6};
 `;
 

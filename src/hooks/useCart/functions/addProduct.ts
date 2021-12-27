@@ -1,4 +1,4 @@
-import { ProductInCart } from '@/hooks/useCart';
+import { ProductInCart } from '@/types';
 import { decrement, increment } from '@/utils/math';
 import { isNotAvailable } from '@/lib/product';
 

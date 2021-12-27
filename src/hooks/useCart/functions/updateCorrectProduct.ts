@@ -1,4 +1,4 @@
-import { ProductInCart, ProductsInCart } from '@/hooks/useCart';
+import { ProductInCart, ProductsInCart } from '@/types';
 
 type UpdateFunction = (product: ProductInCart) => ProductInCart;
 

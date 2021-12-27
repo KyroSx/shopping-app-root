@@ -5,12 +5,12 @@ export const Container = styled.div`
   display: grid;
   grid-gap: ${props => props.theme.space.x6};
 
-  background: ${props => props.theme.colors.zinc.x200};
+  background: ${props => props.theme.colors.zinc.x250};
   border-radius: ${props => props.theme.space.x4};
 `;
 
 export const Header = styled.div`
-  background: ${props => props.theme.colors.zinc.x400};
+  background: ${props => props.theme.colors.neutral.x500};
   text-align: center;
   font-size: ${props => props.theme.font.size.l};
   height: 40px;

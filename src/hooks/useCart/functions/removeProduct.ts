@@ -1,5 +1,5 @@
-import { ProductInCart } from '@/hooks/useCart';
 import { decrement, increment } from '@/utils/math';
+import { ProductInCart } from '@/types';
 
 const hasQuantity = (product: ProductInCart) => product.quantity !== 0;
 const hasNoQuantity = (product: ProductInCart) => !hasQuantity(product);
