@@ -35,7 +35,7 @@ export const Row = styled(Flex.Row)`
   margin-top: ${props => props.theme.space.x6};
   gap: ${props => props.theme.space.x6};
 
-  color: ${props => props.theme.colors.gray.x800};
+  color: ${props => props.theme.colors.secondary.brand};
 `;
 
 export const ButtonContainer = styled(Flex.Column)`

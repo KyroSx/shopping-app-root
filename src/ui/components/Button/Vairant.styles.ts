@@ -3,7 +3,7 @@ import { Colors } from '@/ui/colors';
 
 export const Secondary = css`
   background-color: transparent;
-  color: black;
+  color: ${props => props.theme.colors.primary.brand};
 
   border-radius: ${props => props.theme.space.x4};
 

@@ -7,7 +7,7 @@ import * as Styles from './Loading.styles';
 export function LoadingSpinner() {
   return (
     <Styles.PositionCenter>
-      <SyncLoader color={theme.colors.black.x1000} loading />
+      <SyncLoader color={theme.colors.primary.brand} loading />
     </Styles.PositionCenter>
   );
 }
