@@ -2,7 +2,7 @@ import { request } from '@/http/request';
 import { HttpMethods, HttpStatusCodes } from '@/http/codes';
 import { Endpoints } from '@/services/endpoints';
 import { UnexpectedError } from '@/errors/UnexpectedError';
-import { Products } from '@/services/products';
+import { Products } from '@/types';
 
 type RequestOutput = {
   products: Products;

@@ -1,12 +1,12 @@
 import React from 'react';
 import { ProductCard } from '@/pages/Home/components';
-import { AddProductToCart, ProductsInCart } from '@/ui/hooks/useCart';
+import { ProductInCart, ProductsInCart } from '@/types';
 
 import * as Styles from './ProductList.styles';
 
 interface ProductListProps {
   children: ProductsInCart;
-  addProductToCart: AddProductToCart;
+  addProductToCart: (product: ProductInCart) => void;
 }
 
 export function ProductList({

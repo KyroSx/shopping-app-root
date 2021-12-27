@@ -1,9 +1,9 @@
 import { screen, waitFor } from '@testing-library/react';
 import { Loading } from '@/ui/components/Loading/Loading';
 import { renderWithProviders } from '@/utils/testing';
-import { useReactQueryIsFetching } from '@/ui/hooks/useReactQueryIsFetching';
+import { useReactQueryIsFetching } from '@/hooks/useReactQueryIsFetching';
 
-jest.mock('@/ui/hooks/useReactQueryIsFetching');
+jest.mock('@/hooks/useReactQueryIsFetching');
 
 describe(Loading, () => {
   const renderLoading = () => {

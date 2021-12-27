@@ -1,5 +1,4 @@
-import { Products } from '@/services/products';
-import { ProductsInCart } from '@/ui/hooks/useCart';
+import { Products, ProductsInCart } from '@/types';
 
 export function mapProductsToProductsInCart(
   products: Products,

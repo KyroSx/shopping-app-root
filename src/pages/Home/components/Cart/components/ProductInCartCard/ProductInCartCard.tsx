@@ -1,10 +1,9 @@
 import React from 'react';
-import { ProductInCart } from '@/ui/hooks/useCart';
+import { ProductInCart } from '@/types';
 import { Texts } from '@/ui/craft/texts';
-
-import * as Styles from './ProductInCartCard.styles';
 import { isNotAvailable } from '@/lib/product';
 import { ButtonVariants, Money, Text, Title } from '@/ui/components';
+import * as Styles from './ProductInCartCard.styles';
 
 interface ProductInCartCardProps {
   children: ProductInCart;

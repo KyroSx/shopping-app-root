@@ -1,4 +1,4 @@
-import { useProducts } from '@/ui/hooks/useProducts';
+import { useProducts } from '@/hooks/useProducts';
 import { renderReactQueryHook } from '@/utils/testing';
 import { getProducts } from '@/services/products';
 import { makeProducts } from '@/utils/testing/factories/products';
