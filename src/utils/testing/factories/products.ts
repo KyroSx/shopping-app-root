@@ -1,4 +1,4 @@
-import { Products } from '@/services/products';
+import { Products } from '@/types';
 
 export function makeProducts(): Products {
   return [

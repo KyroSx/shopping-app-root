@@ -1,17 +1,10 @@
 import React, { useEffect } from 'react';
-import { Product, Products } from '@/services/products';
 import {
   addProductToCart,
   removeProductFromCart,
   mapProductsToProductsInCart,
-} from '@/ui/hooks/useCart/functions';
-
-export type ProductInCart = Product & {
-  isInCart: boolean;
-  quantity: number;
-};
-
-export type ProductsInCart = ProductInCart[];
+} from '@/hooks/useCart/functions';
+import { ProductInCart, Products, ProductsInCart } from '@/types';
 
 export type AddProductToCart = (product: ProductInCart) => void;
 

@@ -1,6 +1,6 @@
-import { ProductInCart, useCart } from '@/ui/hooks/useCart/useCart';
+import { useCart } from '@/hooks/useCart';
+import { ProductInCart, Products } from '@/types';
 import { renderReactQueryHook } from '@/utils/testing';
-import { Products } from '@/services/products';
 import {
   makeProducts,
   makeProductsUnavailable,

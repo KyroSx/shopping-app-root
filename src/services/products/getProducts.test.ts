@@ -1,4 +1,4 @@
-import { getProducts, Products } from '@/services/products';
+import { getProducts } from '@/services/products';
 import { request } from '@/http/request';
 import { HttpMethods, HttpStatusCodes } from '@/http/codes';
 import { Endpoints } from '@/services/endpoints';
@@ -6,6 +6,7 @@ import { makeHttpResponse } from '@/utils/testing';
 import { UnexpectedError } from '@/errors/UnexpectedError';
 import { makeProducts } from '@/utils/testing/factories/products';
 import { delay } from '@/utils/time';
+import { Products } from '@/types';
 
 jest.mock('@/http/request/request');
 

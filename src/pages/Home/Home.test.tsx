@@ -13,8 +13,7 @@ import {
 import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
 import { decrement } from '@/utils/math';
-import { ProductInCart } from '@/ui/hooks/useCart';
-import { Product, Products } from '@/services/products';
+import { Product, ProductInCart, Products } from '@/types';
 
 jest.mock('@/services/products/getProducts');
 
@@ -26,7 +25,7 @@ describe(Home, () => {
   };
 
   const renderHomeAndMockService = (initialProducts?: Products) => {
-    const products = initialProducts || makeProducts();
+    const products: Products = initialProducts || makeProducts();
     mockGetProductsService(products);
     renderHome();
 

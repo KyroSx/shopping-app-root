@@ -1,7 +1,7 @@
 import React from 'react';
+import { ButtonVariants } from '@/ui/components';
 
 import * as Styles from './Button.styles';
-import { ButtonVariants } from '@/ui/components';
 
 type HtmlButton = React.ButtonHTMLAttributes<HTMLButtonElement>;
 

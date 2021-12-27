@@ -1,9 +1,6 @@
 import React from 'react';
-import { ProductInCart, ProductsInCart } from '@/ui/hooks/useCart';
-import {
-  ProductInCartCard,
-  EmptyState,
-} from '@/pages/Home/components/Cart/components';
+import { ProductInCart, ProductsInCart } from '@/types';
+import { ProductInCartCard, EmptyState } from '@/pages/Home/components';
 import { isListEmpty } from '@/utils/list/isEmpty';
 
 import * as Styles from '@/pages/Home/components/Cart/Cart.styles';

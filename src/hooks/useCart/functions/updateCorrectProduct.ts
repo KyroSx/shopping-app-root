@@ -1,4 +1,4 @@
-import { ProductInCart, ProductsInCart } from '@/ui/hooks/useCart';
+import { ProductInCart, ProductsInCart } from '@/hooks/useCart';
 
 type UpdateFunction = (product: ProductInCart) => ProductInCart;
 
