@@ -15,7 +15,7 @@ export const Image = styled.div`
   height: 32px;
   width: 32px;
 
-  background: ${props => props.theme.colors.neutral.x500};
+  background: ${props => props.theme.colors.primary.light};
 `;
 
 export const Text = styled(DefaultText)`

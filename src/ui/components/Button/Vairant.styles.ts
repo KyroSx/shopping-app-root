@@ -1,4 +1,5 @@
 import { css } from 'styled-components';
+import { Colors } from '@/ui/colors';
 
 export const Secondary = css`
   background-color: transparent;
@@ -7,7 +8,8 @@ export const Secondary = css`
   border-radius: ${props => props.theme.space.x4};
 
   &:hover {
-    background-color: ${props => props.theme.colors.gray.x200};
+    background-color: ${props =>
+      Colors.addShade(props.theme.colors.zinc.x250, 0.2)};
   }
 `;
 
@@ -26,6 +28,6 @@ export const Disabled = css`
   cursor: not-allowed;
 
   &:hover {
-    background: ${props => props.theme.colors.gray.x900};
+    background: ${props => props.theme.colors.primary.brand};
   }
 `;

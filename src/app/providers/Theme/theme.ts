@@ -1,5 +1,14 @@
 export const theme = {
   colors: {
+    primary: {
+      brand: '#333333',
+      light: '#787878',
+    },
+
+    secondary: {
+      brand: '#4e4e4e',
+    },
+
     slate: {
       x500: '#64748B',
       x600: '#475569',
@@ -14,9 +23,10 @@ export const theme = {
 
     zinc: {
       x100: '#F4F4F5',
-      x200: '#E4E4E7',
-      x400: '#A1A1AA',
+      x200: '#efefef',
+      x250: '#d8d8d8',
       x300: '#D4D4D8',
+      x400: '#A1A1AA',
       x500: '#71717A',
     },
 
@@ -26,9 +36,9 @@ export const theme = {
 
     neutral: {
       x200: '#E5E5E5',
-      x300: '#D4D4D4',
-      x400: '#A3A3A3',
-      x500: '#737373',
+      x300: '#c3c3c3',
+      x400: '#bbbbbb',
+      x500: '#999999',
       x600: '#525252',
     },
 

@@ -9,6 +9,7 @@ import {
   isPrimary,
   isSecondary,
 } from '@/ui/components/Button/variant';
+import { Colors } from '@/ui/colors';
 
 type ButtonStylesProps = {
   variant: ButtonVariants;
@@ -16,7 +17,7 @@ type ButtonStylesProps = {
 
 export const Button = styled.button<ButtonStylesProps>`
   color: ${props => props.theme.colors.gray.x50};
-  background: ${props => props.theme.colors.gray.x900};
+  background: ${props => props.theme.colors.primary.brand};
 
   width: 100%;
   border: ${props => props.theme.space.none};
@@ -24,7 +25,8 @@ export const Button = styled.button<ButtonStylesProps>`
 
   transition: background-color 0.2s;
   &:hover {
-    background-color: ${props => props.theme.colors.gray.x800};
+    background-color: ${props =>
+      Colors.addShade(props.theme.colors.primary.brand, 0.2)};
   }
 
   ${props => isPrimary(props.variant) && props.disabled && Disabled}
