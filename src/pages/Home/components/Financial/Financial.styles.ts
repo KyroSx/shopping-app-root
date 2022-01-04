@@ -7,7 +7,7 @@ export const Container = styled(Flex.Column)`
 `;
 
 export const Line = styled.hr`
-  margin: 12px 0;
+  margin: ${props => `${props.theme.space.x12} -${props.theme.space.x12}`};
   border: ${props => props.theme.colors.neutral.x300} 1px solid;
   border-radius: ${props => props.theme.space.x4};
 `;

@@ -10,6 +10,8 @@ export const Header = styled.header`
   background: ${props => props.theme.colors.zinc.x250};
 
   padding: ${props => props.theme.space.x12};
+
+  margin-bottom: ${props => props.theme.space.x30};
 `;
 
 export const Title = styled(DefaultTitle)`

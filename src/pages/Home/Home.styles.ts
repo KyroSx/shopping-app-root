@@ -12,10 +12,12 @@ export const Container = styled.div`
 `;
 
 export const CartContainer = styled(Flex.Column)`
-  gap: ${props => props.theme.space.x6};
+  gap: 0 ${props => props.theme.space.x6};
 `;
 
 export const CheckoutButton = styled(Button)`
   padding: ${props => props.theme.space.x12};
   font-size: ${props => props.theme.font.size.ml};
+
+  margin-top: ${props => props.theme.space.x14};
 `;
