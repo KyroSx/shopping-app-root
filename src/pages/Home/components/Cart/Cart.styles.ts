@@ -22,6 +22,14 @@ export const Header = styled(Flex.Center)`
   }
 `;
 
+export const Voucher = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-gap: ${props => props.theme.space.x10};
+
+  padding: ${props => `${props.theme.space.x6} ${props.theme.space.x12}`};
+`;
+
 export const List = styled(Flex.Column)`
   padding: ${props => `${props.theme.space.x8} ${props.theme.space.x14}`};
 `;
