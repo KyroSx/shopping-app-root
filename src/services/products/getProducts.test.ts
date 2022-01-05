@@ -2,31 +2,16 @@ import { getProducts } from '@/services/products';
 import { request } from '@/http/request';
 import { HttpMethods, HttpStatusCodes } from '@/http/codes';
 import { Endpoints } from '@/services/endpoints';
-import { makeHttpResponse } from '@/utils/testing';
 import { UnexpectedError } from '@/errors/UnexpectedError';
 import { makeProducts } from '@/utils/testing/factories/products';
-import { delay } from '@/utils/time';
-import { Products } from '@/types';
+import { mockRequestToSucceed } from '@/utils/testing/mocks/http/request';
 
 jest.mock('@/http/request/request');
 
 describe(getProducts, () => {
-  const mockRequestToSucceed = (
-    products: Products,
-    statusCode = HttpStatusCodes.ok,
-  ) =>
-    (request as jest.Mock).mockImplementationOnce(async () => {
-      await delay(0.5);
-
-      return makeHttpResponse({
-        body: { products },
-        statusCode,
-      });
-    });
-
   beforeEach(() => {
     jest.resetAllMocks();
-    mockRequestToSucceed(makeProducts(), HttpStatusCodes.ok);
+    mockRequestToSucceed({ products: makeProducts() }, HttpStatusCodes.ok);
   });
 
   it('calls request with correct params', async () => {
@@ -40,7 +25,7 @@ describe(getProducts, () => {
 
   it('returns product list if request succeeds', async () => {
     const products = makeProducts();
-    mockRequestToSucceed(products, HttpStatusCodes.ok);
+    mockRequestToSucceed({ products }, HttpStatusCodes.ok);
 
     const productsOutput = await getProducts();
 

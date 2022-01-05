@@ -32,6 +32,7 @@ function setupJest(config) {
     ...config,
     preset : jestConfig.preset,
     reporters : jestConfig.reporters,
+    moduleFileExtensions: ['web.js', 'js', 'web.ts', 'ts', 'd.ts', 'web.tsx', 'tsx', 'json', 'web.jsx', 'jsx', 'node'],
     moduleNameMapper: {
       '^@/(.*)$': '<rootDir>/src/$1',
       '^~/(.*)$': '<rootDir>/$1',
