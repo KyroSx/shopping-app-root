@@ -2,6 +2,7 @@
 import { ProductsInCart } from '@/types';
 import { calculateSubtotal } from '@/lib/financial';
 import { Shipping } from '@/constants';
+import { sum } from '@/utils/math';
 
 type Math = (n: number) => number;
 type Bool = (n: number) => boolean;
@@ -18,7 +19,7 @@ export function calculateShipping(products: ProductsInCart) {
 }
 
 const calculateWeight = (products: ProductsInCart) =>
-  products.reduce((total, item) => total + item.quantity, 0);
+  products.reduce((total, item) => sum(total, item.quantity), 0);
 
 const isAboveLimit: Bool = subtotal => subtotal > Shipping.freeLimit;
 const isBelowLimit: Bool = weight => weight <= Shipping.minWeightLimit;

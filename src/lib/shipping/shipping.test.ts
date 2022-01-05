@@ -27,7 +27,7 @@ describe(calculateShipping, () => {
     const shipping = calculateShipping(
       makeProductsInCartForShipping({ quantity: 10, price: 41 }),
     );
-    expect(shipping).toBe(Shipping.freeLimit);
+    expect(shipping).toBe(Shipping.free);
   });
 
   it(`is ${Shipping.minWeightPrice} if total weight is below or equal ${Shipping.minWeightLimit}`, () => {
