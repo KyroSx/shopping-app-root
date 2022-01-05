@@ -27,7 +27,9 @@ export const Home: React.FC = () => {
           {products}
         </Cart>
 
-        <Styles.CheckoutButton>Checkout</Styles.CheckoutButton>
+        <Styles.CheckoutButton>
+          {Texts.cart.checkout.button()}
+        </Styles.CheckoutButton>
       </Styles.CartContainer>
     </Styles.Container>
   );
