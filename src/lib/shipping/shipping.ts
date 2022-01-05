@@ -18,6 +18,7 @@ export function calculateShipping(products: ProductsInCart) {
   const weight = calculateWeight(products);
   const subtotal = calculateSubtotal(products);
 
+  if (isEmpty(weight)) return 0;
   if (isAboveLimit(subtotal)) return FREE_SHIPPING_VALUE;
   if (isBelowLimit(weight)) return MIN_WEIGHT_SHIPPING_VALUE;
 
@@ -29,6 +30,7 @@ const calculateWeight = (products: ProductsInCart) =>
 
 const isAboveLimit: Bool = subtotal => subtotal > LIMIT_FOR_FREE_SHIPPING;
 const isBelowLimit: Bool = weight => weight <= LIMIT_FOR_MIN_WEIGHT_SHIPPING;
+const isEmpty: Bool = weight => weight === 0;
 
 const calculateOverWeightLimit: Math = weight => {
   if (isDivisibleByFive(weight)) return fx(weight);

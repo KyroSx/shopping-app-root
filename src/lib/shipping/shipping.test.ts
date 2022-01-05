@@ -23,6 +23,13 @@ const makeProductsInCartForShipping = ({
 };
 
 describe(calculateShipping, () => {
+  it('is 0 if cart is empty', () => {
+    const shipping = calculateShipping(
+      makeProductsInCartForShipping({ quantity: 0, price: 41 }),
+    );
+    expect(shipping).toBe(0);
+  });
+
   it(`is ${FREE_SHIPPING_VALUE} of total price is over ${LIMIT_FOR_FREE_SHIPPING}`, () => {
     const shipping = calculateShipping(
       makeProductsInCartForShipping({ quantity: 10, price: 41 }),
