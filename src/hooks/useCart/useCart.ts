@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   addProductToCart,
   removeProductFromCart,
@@ -17,7 +17,7 @@ type Output = {
 export function useCart(initialProducts: Products = []): Output {
   const [products, setProducts] = React.useState<ProductsInCart>([]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setProducts(mapProductsToProductsInCart(initialProducts));
   }, [initialProducts]);
 
