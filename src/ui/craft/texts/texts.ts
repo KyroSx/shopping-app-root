@@ -44,6 +44,10 @@ export const Texts = {
       subtotal: {
         text: asFn('Subtotal'),
       },
+
+      shipping: {
+        text: asFn('Shipping'),
+      },
     },
 
     product: {

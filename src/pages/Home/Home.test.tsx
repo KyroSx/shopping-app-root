@@ -69,6 +69,12 @@ describe(Home, () => {
     return getByText(container, formatMoney(subtotal));
   };
 
+  const getShippingElement = (shipping: number) => {
+    const container = screen.getByTestId('financial@shipping');
+
+    return getByText(container, formatMoney(shipping));
+  };
+
   function buyProduct(product: ProductInCart | Product) {
     const productContainer = getProductContainer(product.id);
     const buyButton = getBuyButton(productContainer);
@@ -358,6 +364,17 @@ describe(Home, () => {
       await waitFor(() => {
         const subtotal = getSubtotalElement(product1.price + product2.price);
         expect(subtotal).toBeInTheDocument();
+      });
+    });
+
+    describe('shipping', () => {
+      it('renders 0 if has no products in cart', async () => {
+        renderHomeAndMockService();
+
+        await waitFor(() => {
+          const subtotal = getShippingElement(0);
+          expect(subtotal).toBeInTheDocument();
+        });
       });
     });
   });
