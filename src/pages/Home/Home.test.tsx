@@ -82,6 +82,15 @@ describe(Home, () => {
     userEvent.click(buyButton);
   }
 
+  function buyProductTimes(product: ProductInCart | Product) {
+    const productContainer = getProductContainer(product.id);
+    const buyButton = getBuyButton(productContainer);
+
+    return (times: number) => {
+      Array.from({ length: times }).forEach(() => userEvent.click(buyButton));
+    };
+  }
+
   function buyProductByCart(product: ProductInCart | Product) {
     const productContainer = getProductInCartContainer(product.id);
     const buyButton = getBuyByCartButton(productContainer);
@@ -389,6 +398,22 @@ describe(Home, () => {
 
         await waitFor(() => {
           const subtotal = getShippingElement(Shipping.minWeightPrice);
+          expect(subtotal).toBeInTheDocument();
+        });
+      });
+
+      it(`renders ${Shipping.free} if it has enough products over ${Shipping.freeLimit}`, async () => {
+        const { products } = renderHomeAndMockService();
+        const [product1, product2, product3] = products;
+
+        await waitFor(() => {
+          buyProductTimes(product1)(product1.available);
+          buyProductTimes(product2)(product2.available);
+          buyProductTimes(product3)(product3.available);
+        });
+
+        await waitFor(() => {
+          const subtotal = getShippingElement(Shipping.free);
           expect(subtotal).toBeInTheDocument();
         });
       });
