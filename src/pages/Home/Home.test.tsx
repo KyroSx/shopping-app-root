@@ -12,7 +12,7 @@ import {
 } from '@/utils/testing/factories/products';
 import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
-import { decrement } from '@/utils/math';
+import { decrement, sum } from '@/utils/math';
 import { Product, ProductInCart, Products } from '@/types';
 import { Shipping } from '@/constants';
 
@@ -357,7 +357,10 @@ describe(Home, () => {
       });
 
       await waitFor(() => {
-        const total = getTotalElement(product1.price + product2.price);
+        const shipping = Shipping.minWeightPrice;
+        const total = getTotalElement(
+          sum(product1.price, product2.price, shipping),
+        );
         expect(total).toBeInTheDocument();
       });
     });
@@ -372,7 +375,9 @@ describe(Home, () => {
       });
 
       await waitFor(() => {
-        const subtotal = getSubtotalElement(product1.price + product2.price);
+        const subtotal = getSubtotalElement(
+          sum(product1.price, product2.price),
+        );
         expect(subtotal).toBeInTheDocument();
       });
     });

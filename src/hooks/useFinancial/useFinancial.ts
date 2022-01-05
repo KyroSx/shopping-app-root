@@ -2,6 +2,7 @@ import React from 'react';
 import { ProductsInCart } from '@/types';
 import { calculateSubtotal } from '@/lib/financial';
 import { calculateShipping } from '@/lib/shipping';
+import { sum } from '@/utils/math';
 
 export function useFinancial(products: ProductsInCart) {
   const [total, setTotal] = React.useState(0);
@@ -14,7 +15,7 @@ export function useFinancial(products: ProductsInCart) {
 
     setSubtotal(subtotalCalculated);
     setShipping(shippingCalculated);
-    setTotal(subtotalCalculated);
+    setTotal(sum(subtotalCalculated, shippingCalculated));
   }, [products]);
 
   return {

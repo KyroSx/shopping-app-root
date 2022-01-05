@@ -36,6 +36,10 @@ export const Texts = {
       description: asFn('The cart is empty'),
     },
 
+    checkout: {
+      button: asFn('Checkout'),
+    },
+
     financial: {
       total: {
         text: asFn('Total'),
