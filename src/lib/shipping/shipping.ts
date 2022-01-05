@@ -1,26 +1,18 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { ProductsInCart } from '@/types';
 import { calculateSubtotal } from '@/lib/financial';
+import { Shipping } from '@/constants';
 
 type Math = (n: number) => number;
 type Bool = (n: number) => boolean;
-
-export const LIMIT_FOR_FREE_SHIPPING = 400;
-export const FREE_SHIPPING_VALUE = 0;
-
-export const LIMIT_FOR_MIN_WEIGHT_SHIPPING = 10;
-export const MIN_WEIGHT_SHIPPING_VALUE = 30;
-
-export const LIMIT_OF_WEIGHT = 5;
-export const VALUE_PER_RATE_OF_WEIGHT = 7;
 
 export function calculateShipping(products: ProductsInCart) {
   const weight = calculateWeight(products);
   const subtotal = calculateSubtotal(products);
 
   if (isEmpty(weight)) return 0;
-  if (isAboveLimit(subtotal)) return FREE_SHIPPING_VALUE;
-  if (isBelowLimit(weight)) return MIN_WEIGHT_SHIPPING_VALUE;
+  if (isAboveLimit(subtotal)) return Shipping.free;
+  if (isBelowLimit(weight)) return Shipping.minWeightPrice;
 
   return calculateOverWeightLimit(weight);
 }
@@ -28,8 +20,8 @@ export function calculateShipping(products: ProductsInCart) {
 const calculateWeight = (products: ProductsInCart) =>
   products.reduce((total, item) => total + item.quantity, 0);
 
-const isAboveLimit: Bool = subtotal => subtotal > LIMIT_FOR_FREE_SHIPPING;
-const isBelowLimit: Bool = weight => weight <= LIMIT_FOR_MIN_WEIGHT_SHIPPING;
+const isAboveLimit: Bool = subtotal => subtotal > Shipping.freeLimit;
+const isBelowLimit: Bool = weight => weight <= Shipping.minWeightLimit;
 const isEmpty: Bool = weight => weight === 0;
 
 const calculateOverWeightLimit: Math = weight => {
@@ -42,8 +34,8 @@ const isDivisibleByFive: Bool = num => num % 5 === 0;
 const predDivisibleByFive: Math = num => num - (num % 5);
 const fx: Math = x => {
   return (
-    ((x - LIMIT_FOR_MIN_WEIGHT_SHIPPING) / LIMIT_OF_WEIGHT) *
-      VALUE_PER_RATE_OF_WEIGHT +
-    MIN_WEIGHT_SHIPPING_VALUE
+    ((x - Shipping.minWeightLimit) / Shipping.weightLimit) *
+      Shipping.pricePerWeightRate +
+    Shipping.minWeightPrice
   );
 };

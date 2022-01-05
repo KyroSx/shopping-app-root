@@ -14,6 +14,7 @@ import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
 import { decrement } from '@/utils/math';
 import { Product, ProductInCart, Products } from '@/types';
+import { Shipping } from '@/constants';
 
 jest.mock('@/services/products/getProducts');
 
@@ -377,7 +378,7 @@ describe(Home, () => {
         });
       });
 
-      it('renders 30 if has no 10 or fewer products in cart', async () => {
+      it(`renders ${Shipping.minWeightPrice} if has no ${Shipping.minWeightLimit} or fewer products in cart`, async () => {
         const { products } = renderHomeAndMockService();
         const [product1, product2] = products;
 
@@ -387,7 +388,7 @@ describe(Home, () => {
         });
 
         await waitFor(() => {
-          const subtotal = getShippingElement(30);
+          const subtotal = getShippingElement(Shipping.minWeightPrice);
           expect(subtotal).toBeInTheDocument();
         });
       });

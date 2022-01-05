@@ -1,14 +1,7 @@
-import {
-  calculateShipping,
-  FREE_SHIPPING_VALUE,
-  LIMIT_FOR_FREE_SHIPPING,
-  LIMIT_FOR_MIN_WEIGHT_SHIPPING,
-  LIMIT_OF_WEIGHT,
-  MIN_WEIGHT_SHIPPING_VALUE,
-  VALUE_PER_RATE_OF_WEIGHT,
-} from '@/lib/shipping/shipping';
+import { calculateShipping } from '@/lib/shipping/shipping';
 import { makeProductInCart } from '@/utils/testing/factories/products';
 import { ProductsInCart } from '@/types';
+import { Shipping } from '@/constants';
 
 type Params = {
   quantity?: number;
@@ -30,24 +23,24 @@ describe(calculateShipping, () => {
     expect(shipping).toBe(0);
   });
 
-  it(`is ${FREE_SHIPPING_VALUE} of total price is over ${LIMIT_FOR_FREE_SHIPPING}`, () => {
+  it(`is ${Shipping.free} of total price is over ${Shipping.freeLimit}`, () => {
     const shipping = calculateShipping(
       makeProductsInCartForShipping({ quantity: 10, price: 41 }),
     );
-    expect(shipping).toBe(FREE_SHIPPING_VALUE);
+    expect(shipping).toBe(Shipping.freeLimit);
   });
 
-  it(`is ${MIN_WEIGHT_SHIPPING_VALUE} if total weight is below or equal ${LIMIT_FOR_MIN_WEIGHT_SHIPPING}`, () => {
+  it(`is ${Shipping.minWeightPrice} if total weight is below or equal ${Shipping.minWeightLimit}`, () => {
     const shipping = calculateShipping(
       makeProductsInCartForShipping({
-        quantity: LIMIT_FOR_MIN_WEIGHT_SHIPPING,
+        quantity: Shipping.minWeightLimit,
         price: 1,
       }),
     );
-    expect(shipping).toBe(MIN_WEIGHT_SHIPPING_VALUE);
+    expect(shipping).toBe(Shipping.minWeightPrice);
   });
 
-  it(`is +${VALUE_PER_RATE_OF_WEIGHT} for each ${LIMIT_OF_WEIGHT}kg above ${LIMIT_FOR_MIN_WEIGHT_SHIPPING}kg`, () => {
+  it(`is +${Shipping.pricePerWeightRate} for each ${Shipping.weightLimit}kg above ${Shipping.minWeightLimit}kg`, () => {
     let shipping = calculateShipping(
       makeProductsInCartForShipping({
         quantity: 14,
