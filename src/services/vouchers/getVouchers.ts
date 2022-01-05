@@ -1,7 +1,8 @@
 import { request } from '@/http/request';
 import { Endpoints } from '@/services/endpoints';
-import { HttpMethods } from '@/http/codes';
+import { HttpMethods, HttpStatusCodes } from '@/http/codes';
 import { Vouchers } from '@/types';
+import { UnexpectedError } from '@/errors/UnexpectedError';
 
 type RequestOutput = {
   vouchers: Vouchers;
@@ -13,5 +14,11 @@ export async function getVouchers() {
     method: HttpMethods.get,
   });
 
-  return response.body.vouchers;
+  switch (response.statusCode) {
+    case HttpStatusCodes.ok:
+      return response.body.vouchers;
+    case HttpStatusCodes.serverError:
+    default:
+      throw new UnexpectedError();
+  }
 }
