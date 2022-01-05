@@ -38,6 +38,7 @@ export const theme = {
     x4: '4px',
     x6: '6px',
     x8: '8px',
+    x10: '10px',
     x12: '12px',
     x14: '14px',
     x16: '16px',

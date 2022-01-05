@@ -5,3 +5,4 @@ export * from './EmptyState';
 export * from './ProductsInCartList';
 export * from './ProductInCartCard';
 export * from './Financial';
+export * from './Voucher';

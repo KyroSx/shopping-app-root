@@ -40,6 +40,11 @@ export const Texts = {
       button: asFn('Checkout'),
     },
 
+    voucher: {
+      input: asFn('Discount Code'),
+      button: asFn('Apply'),
+    },
+
     financial: {
       total: {
         text: asFn('Total'),

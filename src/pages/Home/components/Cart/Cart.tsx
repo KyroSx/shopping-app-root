@@ -2,7 +2,11 @@ import React from 'react';
 import { ProductInCart, ProductsInCart } from '@/types';
 import { Title } from '@/ui/components';
 import { Texts } from '@/ui/craft/texts';
-import { Financial, ProductsInCartList } from '@/pages/Home/components';
+import {
+  Financial,
+  ProductsInCartList,
+  Voucher,
+} from '@/pages/Home/components';
 
 import * as Styles from './Cart.styles';
 
@@ -31,6 +35,8 @@ export function Cart({
           {products}
         </ProductsInCartList>
       </Styles.List>
+
+      <Voucher />
 
       <Financial products={products} />
     </Styles.Container>
