@@ -1,8 +1,12 @@
 import React from 'react';
 import { ProductInCart, ProductsInCart } from '@/types';
-import { Button, Input, Title } from '@/ui/components';
+import { Title } from '@/ui/components';
 import { Texts } from '@/ui/craft/texts';
-import { Financial, ProductsInCartList } from '@/pages/Home/components';
+import {
+  Financial,
+  ProductsInCartList,
+  Voucher,
+} from '@/pages/Home/components';
 
 import * as Styles from './Cart.styles';
 
@@ -32,11 +36,7 @@ export function Cart({
         </ProductsInCartList>
       </Styles.List>
 
-      <Styles.Voucher>
-        <Input placeholder={Texts.cart.voucher.input()} />
-
-        <Button>{Texts.cart.voucher.button()}</Button>
-      </Styles.Voucher>
+      <Voucher />
 
       <Financial products={products} />
     </Styles.Container>
