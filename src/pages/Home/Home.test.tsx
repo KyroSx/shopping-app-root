@@ -14,6 +14,7 @@ import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
 import { decrement } from '@/utils/math';
 import { Product, ProductInCart, Products } from '@/types';
+import { Shipping } from '@/constants';
 
 jest.mock('@/services/products/getProducts');
 
@@ -69,10 +70,25 @@ describe(Home, () => {
     return getByText(container, formatMoney(subtotal));
   };
 
+  const getShippingElement = (shipping: number) => {
+    const container = screen.getByTestId('financial@shipping');
+
+    return getByText(container, formatMoney(shipping));
+  };
+
   function buyProduct(product: ProductInCart | Product) {
     const productContainer = getProductContainer(product.id);
     const buyButton = getBuyButton(productContainer);
     userEvent.click(buyButton);
+  }
+
+  function buyProductTimes(product: ProductInCart | Product) {
+    const productContainer = getProductContainer(product.id);
+    const buyButton = getBuyButton(productContainer);
+
+    return (times: number) => {
+      Array.from({ length: times }).forEach(() => userEvent.click(buyButton));
+    };
   }
 
   function buyProductByCart(product: ProductInCart | Product) {
@@ -358,6 +374,48 @@ describe(Home, () => {
       await waitFor(() => {
         const subtotal = getSubtotalElement(product1.price + product2.price);
         expect(subtotal).toBeInTheDocument();
+      });
+    });
+
+    describe('shipping', () => {
+      it('renders 0 if has no products in cart', async () => {
+        renderHomeAndMockService();
+
+        await waitFor(() => {
+          const subtotal = getShippingElement(0);
+          expect(subtotal).toBeInTheDocument();
+        });
+      });
+
+      it(`renders ${Shipping.minWeightPrice} if has no ${Shipping.minWeightLimit} or fewer products in cart`, async () => {
+        const { products } = renderHomeAndMockService();
+        const [product1, product2] = products;
+
+        await waitFor(() => {
+          buyProduct(product1);
+          buyProduct(product2);
+        });
+
+        await waitFor(() => {
+          const subtotal = getShippingElement(Shipping.minWeightPrice);
+          expect(subtotal).toBeInTheDocument();
+        });
+      });
+
+      it(`renders ${Shipping.free} if it has enough products over ${Shipping.freeLimit}`, async () => {
+        const { products } = renderHomeAndMockService();
+        const [product1, product2, product3] = products;
+
+        await waitFor(() => {
+          buyProductTimes(product1)(product1.available);
+          buyProductTimes(product2)(product2.available);
+          buyProductTimes(product3)(product3.available);
+        });
+
+        await waitFor(() => {
+          const subtotal = getShippingElement(Shipping.free);
+          expect(subtotal).toBeInTheDocument();
+        });
       });
     });
   });
