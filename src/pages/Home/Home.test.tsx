@@ -376,6 +376,21 @@ describe(Home, () => {
           expect(subtotal).toBeInTheDocument();
         });
       });
+
+      it('renders 30 if has no 10 or fewer products in cart', async () => {
+        const { products } = renderHomeAndMockService();
+        const [product1, product2] = products;
+
+        await waitFor(() => {
+          buyProduct(product1);
+          buyProduct(product2);
+        });
+
+        await waitFor(() => {
+          const subtotal = getShippingElement(30);
+          expect(subtotal).toBeInTheDocument();
+        });
+      });
     });
   });
 });
