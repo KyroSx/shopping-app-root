@@ -11,10 +11,17 @@ describe(useVouchers, () => {
     return { hook };
   };
 
-  it('calls getVoucher when isVoucherValid', () => {
+  it('calls getVoucher when voucher is valid', async () => {
     const { hook } = renderUseVouchers();
 
-    hook.result.current.isVoucherValid();
+    await hook.result.current.isVoucherValid();
     expect(getVouchers).toHaveBeenCalledTimes(1);
+  });
+
+  it('returns null if when voucher is invalid', async () => {
+    const { hook } = renderUseVouchers();
+
+    const noVoucher = await hook.result.current.isVoucherValid();
+    expect(noVoucher).toBeNull();
   });
 });
