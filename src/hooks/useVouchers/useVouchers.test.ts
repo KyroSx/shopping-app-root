@@ -13,25 +13,37 @@ describe(useVouchers, () => {
     return { hook };
   };
 
-  it('calls getVoucher when voucher is valid', async () => {
+  const setUpSuccess = () => {
     const { hook } = renderUseVouchers();
+
+    const vouchers = makeVouchers();
+    const [voucher] = vouchers;
+    mockGetVouchersService(vouchers);
+
+    return {
+      hook,
+
+      vouchers,
+      voucher,
+    };
+  };
+
+  it('calls getVoucher when voucher is valid', async () => {
+    const { hook } = setUpSuccess();
 
     await hook.result.current.getVoucherByCode();
     expect(getVouchers).toHaveBeenCalledTimes(1);
   });
 
   it('returns null if when voucher is invalid', async () => {
-    const { hook } = renderUseVouchers();
+    const { hook } = setUpSuccess();
 
     const noVoucher = await hook.result.current.getVoucherByCode();
     expect(noVoucher).toBeNull();
   });
 
   it('returns voucher if is valid', async () => {
-    const vouchers = makeVouchers();
-    const [voucher] = vouchers;
-    mockGetVouchersService(vouchers);
-    const { hook } = renderUseVouchers();
+    const { hook, voucher } = setUpSuccess();
 
     const voucherReturned = await hook.result.current.getVoucherByCode(
       voucher.code,
