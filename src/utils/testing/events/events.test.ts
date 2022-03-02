@@ -13,4 +13,14 @@ describe('Events', () => {
       expect(userEvent.click).toHaveBeenCalledWith(element);
     });
   });
+
+  describe('typeOn', () => {
+    const value = 'value';
+
+    it('calls userEvent.type', async () => {
+      Events.typeOn(element)(value);
+
+      expect(userEvent.type).toHaveBeenCalledWith(element, value);
+    });
+  });
 });
