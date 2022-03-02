@@ -20,22 +20,30 @@ describe(Loading, () => {
     });
   };
 
+  const setUpFetching = () => {
+    mockIsFetching(true);
+    renderLoading();
+  };
+
+  const setUpNotFetching = () => {
+    mockIsFetching(false);
+    renderLoading();
+  };
+
   beforeEach(() => {
     jest.resetAllMocks();
     mockIsFetching();
   });
 
   it('renders loading if isFetching', async () => {
-    mockIsFetching(true);
-    renderLoading();
+    setUpFetching();
 
     const loading = await screen.findByTestId('loading');
     expect(loading).toBeInTheDocument();
   });
 
   it('doest not render loading if not isFetching', async () => {
-    mockIsFetching(false);
-    renderLoading();
+    setUpNotFetching();
 
     await waitFor(() => {
       const loading = screen.queryByTestId('loading');
