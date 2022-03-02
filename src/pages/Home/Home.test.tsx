@@ -1,5 +1,4 @@
 import { getByText, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { Home } from '@/pages/Home/Home';
 import { renderWithProviders } from '@/utils/testing';
 import {
@@ -15,6 +14,7 @@ import { formatMoney } from '@/utils/formatting';
 import { decrement, sum } from '@/utils/math';
 import { Product, ProductInCart, Products } from '@/types';
 import { Shipping } from '@/constants';
+import { Events } from '@/utils/testing/events';
 
 jest.mock('@/services/products/getProducts');
 
@@ -109,7 +109,7 @@ describe(Home, () => {
   function buyProduct(product: ProductInCart | Product) {
     const productContainer = getProductContainer(product.id);
     const buyButton = getBuyButton(productContainer);
-    userEvent.click(buyButton);
+    Events.clickOn(buyButton);
   }
 
   function buyProductTimes(product: ProductInCart | Product) {
@@ -117,14 +117,14 @@ describe(Home, () => {
     const buyButton = getBuyButton(productContainer);
 
     return (times: number) => {
-      Array.from({ length: times }).forEach(() => userEvent.click(buyButton));
+      Array.from({ length: times }).forEach(() => Events.clickOn(buyButton));
     };
   }
 
   function buyProductByCart(product: ProductInCart | Product) {
     const productContainer = getProductInCartContainer(product.id);
     const buyButton = getBuyByCartButton(productContainer);
-    userEvent.click(buyButton);
+    Events.clickOn(buyButton);
   }
 
   function removeProductByCart(product: ProductInCart | Product) {
@@ -135,7 +135,7 @@ describe(Home, () => {
       Texts.cart.product.button.remove(),
     );
 
-    userEvent.click(removeButton);
+    Events.clickOn(removeButton);
   }
 
   beforeEach(jest.resetAllMocks);
