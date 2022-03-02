@@ -9,7 +9,7 @@ import { HttpStatusCodes } from '@/http/codes';
 jest.mock('@/http/axios/api');
 
 describe(request, () => {
-  const apiMock = (api as any) as jest.Mock;
+  const apiMock = api as any as jest.Mock;
 
   const mockApiSuccess = ({ body, status = HttpStatusCodes.ok }: any) =>
     apiMock.mockResolvedValue({ data: body, status });
@@ -18,19 +18,55 @@ describe(request, () => {
     body,
     status = HttpStatusCodes.serverError,
     isAxiosError = true,
-  }: any) =>
-    apiMock.mockRejectedValue({
+  }: any) => {
+    return apiMock.mockRejectedValue({
       response: { data: body, status },
       isAxiosError,
     });
+  };
 
-  const mockApiToThrow = (error = new Error('any-error')) =>
-    apiMock.mockImplementationOnce(() => {
+  const mockApiToThrow = (error = new Error('any-error')) => {
+    return apiMock.mockImplementationOnce(() => {
       throw error;
     });
+  };
+
+  const setUpSuccess = () => {
+    const httpRequest = makeHttpRequest();
+    const httpResponse = makeHttpResponse({ body: httpRequest.body });
+    mockApiSuccess(httpResponse);
+
+    return {
+      httpRequest,
+      httpResponse,
+    };
+  };
+
+  const setUpFails = () => {
+    const httpRequest = makeHttpRequest({ body: null });
+    const httpResponse = makeHttpResponse({
+      body: httpRequest.body,
+      statusCode: HttpStatusCodes.serverError,
+    });
+    mockApiFails(httpResponse);
+
+    return {
+      httpRequest,
+      httpResponse,
+    };
+  };
+
+  const setUpError = () => {
+    const httpRequest = makeHttpRequest();
+    mockApiToThrow();
+
+    return {
+      httpRequest,
+    };
+  };
 
   it('calls axios api with same params', async () => {
-    const httpRequest = makeHttpRequest();
+    const { httpRequest } = setUpSuccess();
 
     await request(httpRequest);
 
@@ -43,9 +79,7 @@ describe(request, () => {
   });
 
   it('returns axios-response as http-response if it succeeds', async () => {
-    const httpRequest = makeHttpRequest();
-    const httpResponse = makeHttpResponse({ body: httpRequest.body });
-    mockApiSuccess(httpResponse);
+    const { httpRequest, httpResponse } = setUpSuccess();
 
     const response = await request(httpRequest);
 
@@ -53,12 +87,7 @@ describe(request, () => {
   });
 
   it('returns axios-response as http-response if it fails, without throw axios-error', async () => {
-    const httpRequest = makeHttpRequest({ body: null });
-    const httpResponse = makeHttpResponse({
-      body: httpRequest.body,
-      statusCode: HttpStatusCodes.serverError,
-    });
-    mockApiFails(httpResponse);
+    const { httpRequest, httpResponse } = setUpFails();
 
     const response = await request(httpRequest);
 
@@ -67,8 +96,7 @@ describe(request, () => {
   });
 
   it('throws error if it is not an axios-error', async () => {
-    const httpRequest = makeHttpRequest();
-    mockApiToThrow();
+    const { httpRequest } = setUpError();
 
     await expect(request(httpRequest)).rejects.toThrow();
   });
