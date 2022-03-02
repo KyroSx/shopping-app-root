@@ -16,10 +16,29 @@ describe(useProducts, () => {
     return { hook };
   };
 
-  beforeEach(jest.resetAllMocks);
+  const setUpSuccess = () => {
+    const products = makeProducts();
+    mockGetProductsService(products);
+
+    const { hook } = renderUseProducts();
+
+    return {
+      hook,
+      products,
+    };
+  };
+
+  const setUpError = () => {
+    mockGetProductsServiceToThrow();
+    const { hook } = renderUseProducts();
+
+    return {
+      hook,
+    };
+  };
 
   it('calls getProducts service', async () => {
-    const { hook } = renderUseProducts();
+    const { hook } = setUpSuccess();
 
     await hook.waitForNextUpdate();
 
@@ -27,9 +46,7 @@ describe(useProducts, () => {
   });
 
   it('returns products if getProducts succeeds', async () => {
-    const products = makeProducts();
-    mockGetProductsService(products);
-    const { hook } = renderUseProducts();
+    const { hook, products } = setUpSuccess();
 
     expect(hook.result.current.products).toEqual([]);
     await hook.waitForNextUpdate();
@@ -37,8 +54,7 @@ describe(useProducts, () => {
   });
 
   it('returns hasUnexpectedErrorHappened if getProducts throws', async () => {
-    mockGetProductsServiceToThrow();
-    const { hook } = renderUseProducts();
+    const { hook } = setUpError();
 
     await hook.waitForNextUpdate();
     expect(hook.result.current.status.isUnexpectedError).toEqual(true);
