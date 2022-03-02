@@ -23,4 +23,15 @@ describe('Events', () => {
       expect(userEvent.type).toHaveBeenCalledWith(element, value);
     });
   });
+
+  describe('clearThenTypeOn', () => {
+    const value = 'value';
+
+    it('calls userEvent.clear and userEvent.type', async () => {
+      Events.clearThenTypeOn(element)(value);
+
+      expect(userEvent.type).toHaveBeenCalledWith(element, value);
+      expect(userEvent.clear).toHaveBeenCalledWith(element);
+    });
+  });
 });
