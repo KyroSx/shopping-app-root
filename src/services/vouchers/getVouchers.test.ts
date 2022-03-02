@@ -9,13 +9,22 @@ import { UnexpectedError } from '@/errors/UnexpectedError';
 jest.mock('@/http/request');
 
 describe(getVouchers, () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
+  const setUpSuccess = () => {
     const vouchers = makeVouchers();
     mockRequestToSucceed({ vouchers });
-  });
+
+    return {
+      vouchers,
+    };
+  };
+
+  const setUpError = (status: HttpStatusCodes) => {
+    mockRequestToSucceed([], status);
+  };
 
   it('calls request with correct input', async () => {
+    setUpSuccess();
+
     await getVouchers();
 
     expect(request).toHaveBeenCalledWith({
@@ -25,8 +34,8 @@ describe(getVouchers, () => {
   });
 
   it('returns vouchers', async () => {
-    const vouchers = makeVouchers();
-    mockRequestToSucceed({ vouchers });
+    const { vouchers } = setUpSuccess();
+
     const vouchersReturned = await getVouchers();
 
     expect(vouchersReturned).toEqual(vouchers);
@@ -36,7 +45,7 @@ describe(getVouchers, () => {
   it.each(statusCodes)(
     'throws UnexpectedError if statusCode is %s',
     async errorStatusCode => {
-      mockRequestToSucceed([], errorStatusCode);
+      setUpError(errorStatusCode);
 
       try {
         await getVouchers();
