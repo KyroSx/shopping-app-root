@@ -9,12 +9,22 @@ import { mockRequestToSucceed } from '@/utils/testing/mocks/http/request';
 jest.mock('@/http/request/request');
 
 describe(getProducts, () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-    mockRequestToSucceed({ products: makeProducts() }, HttpStatusCodes.ok);
-  });
+  const setUpSuccess = () => {
+    const products = makeProducts();
+    mockRequestToSucceed({ products }, HttpStatusCodes.ok);
+
+    return {
+      products,
+    };
+  };
+
+  const setUpError = (status: HttpStatusCodes) => {
+    mockRequestToSucceed([], status);
+  };
 
   it('calls request with correct params', async () => {
+    setUpSuccess();
+
     await getProducts();
 
     expect(request).toHaveBeenCalledWith({
@@ -24,8 +34,7 @@ describe(getProducts, () => {
   });
 
   it('returns product list if request succeeds', async () => {
-    const products = makeProducts();
-    mockRequestToSucceed({ products }, HttpStatusCodes.ok);
+    const { products } = setUpSuccess();
 
     const productsOutput = await getProducts();
 
@@ -36,7 +45,7 @@ describe(getProducts, () => {
   it.each(statusCodes)(
     'throws UnexpectedError if statusCode is %s',
     async errorStatusCode => {
-      mockRequestToSucceed([], errorStatusCode);
+      setUpError(errorStatusCode);
 
       try {
         await getProducts();

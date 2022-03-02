@@ -35,6 +35,36 @@ describe(Home, () => {
     };
   };
 
+  const setUpError = () => {
+    mockGetProductsServiceToThrow();
+    renderHome();
+  };
+
+  const setUpSuccess = () => {
+    const { products } = renderHomeAndMockService();
+    const [product, product2, product3] = products;
+
+    return {
+      products,
+      product,
+
+      product1: product,
+      product2,
+      product3,
+    };
+  };
+
+  const setUpSuccessUnavailable = () => {
+    const { products } = renderHomeAndMockService(makeProductsUnavailable());
+    const [product, product2] = products;
+
+    return {
+      products,
+      product,
+      product2,
+    };
+  };
+
   const getProductContainer = (id: number) =>
     screen.getByTestId(Texts.productCard.testId(id));
 
@@ -112,7 +142,7 @@ describe(Home, () => {
 
   describe('Layout', () => {
     it('renders header text', async () => {
-      renderHomeAndMockService();
+      setUpSuccess();
 
       await waitFor(() => {
         const header = screen.getByText(Texts.global.layout.header.text());
@@ -121,7 +151,7 @@ describe(Home, () => {
     });
 
     it('renders user text', async () => {
-      renderHomeAndMockService();
+      setUpSuccess();
 
       await waitFor(() => {
         const header = screen.getByText(Texts.global.layout.header.user());
@@ -132,7 +162,7 @@ describe(Home, () => {
 
   describe('product list', () => {
     it('renders product list', async () => {
-      const { products } = renderHomeAndMockService();
+      const { products } = setUpSuccess();
 
       await waitFor(() => {
         products.forEach(product => {
@@ -157,8 +187,7 @@ describe(Home, () => {
     });
 
     it('renders error descriptions if error happens', async () => {
-      mockGetProductsServiceToThrow();
-      renderHome();
+      setUpError();
 
       await waitFor(() => {
         expect(
@@ -168,7 +197,7 @@ describe(Home, () => {
     });
 
     it('renders loading text', async () => {
-      renderHomeAndMockService();
+      setUpSuccess();
 
       const loadingText = await screen.findByText(Texts.global.loading.text());
       expect(loadingText).toBeInTheDocument();
@@ -181,8 +210,7 @@ describe(Home, () => {
 
     describe('add product to cart', () => {
       it('reduces available when add product to cart', async () => {
-        const { products } = renderHomeAndMockService();
-        const [product] = products;
+        const { product } = setUpSuccess();
 
         await waitFor(() => {
           buyProduct(product);
@@ -196,10 +224,7 @@ describe(Home, () => {
       });
 
       it('does not reduces available when product is unavailable', async () => {
-        const { products } = renderHomeAndMockService(
-          makeProductsUnavailable(),
-        );
-        const [product] = products;
+        const { product } = setUpSuccessUnavailable();
 
         await waitFor(() => {
           buyProduct(product);
@@ -221,7 +246,7 @@ describe(Home, () => {
 
   describe('cart', () => {
     it('renders empty state if no product was bought', async () => {
-      renderHomeAndMockService();
+      setUpSuccess();
 
       await waitFor(() => {
         const emptyState = screen.getByText(Texts.cart.empty.description());
@@ -230,8 +255,7 @@ describe(Home, () => {
     });
 
     it('does not renders empty state if has products in cart', async () => {
-      const { products } = renderHomeAndMockService();
-      const [product] = products;
+      const { product } = setUpSuccess();
 
       await waitFor(() => {
         buyProduct(product);
@@ -245,8 +269,7 @@ describe(Home, () => {
     });
 
     it('render product when it was bought', async () => {
-      const { products } = renderHomeAndMockService();
-      const [product] = products;
+      const { product } = setUpSuccess();
 
       await waitFor(() => {
         buyProduct(product);
@@ -257,8 +280,7 @@ describe(Home, () => {
     });
 
     it('does not render product when it was not bought', async () => {
-      const { products } = renderHomeAndMockService();
-      const [product, productToNotBeBought] = products;
+      const { product, product2: productToNotBeBought } = setUpSuccess();
 
       await waitFor(() => {
         buyProduct(product);
@@ -271,8 +293,8 @@ describe(Home, () => {
     });
 
     it('renders info from bought products', async () => {
-      const { products } = renderHomeAndMockService();
-      const boughtProducts = [products[0], products[1]];
+      const { product: product1, product2 } = setUpSuccess();
+      const boughtProducts = [product1, product2];
       const quantity = 1;
 
       await waitFor(() => {
@@ -295,9 +317,7 @@ describe(Home, () => {
     });
 
     it('increments product quantity if it is in the cart', async () => {
-      const {
-        products: [product],
-      } = renderHomeAndMockService();
+      const { product } = setUpSuccess();
       const quantity = 2;
 
       await waitFor(() => {
@@ -311,9 +331,7 @@ describe(Home, () => {
     });
 
     it('does not increment product quantity if it is unavailable', async () => {
-      const {
-        products: [, productToBeBought],
-      } = renderHomeAndMockService(makeProductsUnavailable());
+      const { product2: productToBeBought } = setUpSuccessUnavailable();
       const quantity = 1;
 
       await waitFor(() => {
@@ -332,9 +350,7 @@ describe(Home, () => {
     });
 
     it('removes product if it has no quantity', async () => {
-      const {
-        products: [product],
-      } = renderHomeAndMockService();
+      const { product } = setUpSuccess();
 
       await waitFor(() => {
         buyProduct(product);
@@ -348,8 +364,7 @@ describe(Home, () => {
 
   describe('financial', () => {
     it('renders total', async () => {
-      const { products } = renderHomeAndMockService();
-      const [product1, product2] = products;
+      const { product1, product2 } = setUpSuccess();
 
       await waitFor(() => {
         buyProduct(product1);
@@ -366,8 +381,7 @@ describe(Home, () => {
     });
 
     it('renders subtotal', async () => {
-      const { products } = renderHomeAndMockService();
-      const [product1, product2] = products;
+      const { product1, product2 } = setUpSuccess();
 
       await waitFor(() => {
         buyProduct(product1);
@@ -384,7 +398,7 @@ describe(Home, () => {
 
     describe('shipping', () => {
       it('renders 0 if has no products in cart', async () => {
-        renderHomeAndMockService();
+        setUpSuccess();
 
         await waitFor(() => {
           const subtotal = getShippingElement(0);
@@ -393,8 +407,7 @@ describe(Home, () => {
       });
 
       it(`renders ${Shipping.minWeightPrice} if has no ${Shipping.minWeightLimit} or fewer products in cart`, async () => {
-        const { products } = renderHomeAndMockService();
-        const [product1, product2] = products;
+        const { product1, product2 } = setUpSuccess();
 
         await waitFor(() => {
           buyProduct(product1);
@@ -408,8 +421,7 @@ describe(Home, () => {
       });
 
       it(`renders ${Shipping.free} if it has enough products over ${Shipping.freeLimit}`, async () => {
-        const { products } = renderHomeAndMockService();
-        const [product1, product2, product3] = products;
+        const { product1, product2, product3 } = setUpSuccess();
 
         await waitFor(() => {
           buyProductTimes(product1)(product1.available);

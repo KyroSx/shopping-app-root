@@ -12,11 +12,28 @@ describe(Button, () => {
     };
   };
 
+  const setUp = () => {
+    const onClick = jest.fn();
+    renderButton({ onClick });
+
+    return {
+      onClick,
+    };
+  };
+
+  const setUpDisabled = () => {
+    const onClick = jest.fn();
+    renderButton({ onClick, disabled: true });
+
+    return {
+      onClick,
+    };
+  };
+
   const getButton = () => screen.getByText('button');
 
   it('calls onClick when click', () => {
-    const onClick = jest.fn();
-    renderButton({ onClick });
+    const { onClick } = setUp();
 
     userEvent.click(getButton());
 
@@ -24,8 +41,7 @@ describe(Button, () => {
   });
 
   it('does not call on onClick when disabled', () => {
-    const onClick = jest.fn();
-    renderButton({ onClick, disabled: true });
+    const { onClick } = setUpDisabled();
 
     userEvent.click(getButton());
 
