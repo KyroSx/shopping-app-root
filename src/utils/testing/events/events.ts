@@ -1,17 +1,18 @@
 import userEvent from '@testing-library/user-event';
+import { Handler, ValueHandler } from '@/utils/testing/events/events.type';
 
-export const typeOn = (element: HTMLElement) => (value: string) =>
+export const typeOn: ValueHandler = element => value =>
   userEvent.type(element, value);
 
-const clear = (element: HTMLElement) => {
+const clear: Handler = element => {
   userEvent.clear(element);
 };
 
-export const clearThenTypeOn = (element: HTMLElement) => (value: string) => {
+export const clearThenTypeOn: ValueHandler = element => value => {
   clear(element);
   typeOn(element)(value);
 };
 
-export const clickOn = (element: HTMLElement) => {
+export const clickOn: Handler = element => {
   userEvent.click(element);
 };
