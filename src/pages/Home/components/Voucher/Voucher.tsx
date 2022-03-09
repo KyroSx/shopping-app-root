@@ -4,25 +4,14 @@ import { Texts } from '@/ui/craft/texts';
 
 import * as Styles from './Voucher.styles';
 import { Voucher as VoucherType } from '@/types';
-import { useVouchers } from '@/hooks/useVouchers';
+import { useApplyVoucher } from '@/hooks/useApplyVoucher';
 
 interface VoucherProps {
-  applyVoucher: (code: VoucherType) => void;
+  applyVoucher: (voucher: VoucherType) => void;
 }
 
 export function Voucher({ applyVoucher }: VoucherProps) {
-  const { getVoucherByCode } = useVouchers();
-  const [code, setCode] = React.useState('');
-  const [hasApplied, setHasApplied] = React.useState(false);
-
-  const apply = async () => {
-    const voucher = await getVoucherByCode(code);
-
-    if (voucher) {
-      applyVoucher(voucher);
-      setHasApplied(true);
-    }
-  };
+  const { apply, code, setCode, hasApplied } = useApplyVoucher(applyVoucher);
 
   return (
     <Styles.Container>
