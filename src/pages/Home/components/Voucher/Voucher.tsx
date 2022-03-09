@@ -13,11 +13,15 @@ interface VoucherProps {
 export function Voucher({ applyVoucher }: VoucherProps) {
   const { getVoucherByCode } = useVouchers();
   const [code, setCode] = React.useState('');
+  const [hasApplied, setHasApplied] = React.useState(false);
 
   const apply = async () => {
     const voucher = await getVoucherByCode(code);
 
-    if (voucher) applyVoucher(voucher);
+    if (voucher) {
+      applyVoucher(voucher);
+      setHasApplied(true);
+    }
   };
 
   return (
@@ -26,9 +30,12 @@ export function Voucher({ applyVoucher }: VoucherProps) {
         placeholder={Texts.cart.voucher.input()}
         value={code}
         onChangeValue={setCode}
+        disabled={hasApplied}
       />
 
-      <Button onClick={apply}>{Texts.cart.voucher.button()}</Button>
+      <Button onClick={apply} disabled={hasApplied}>
+        {Texts.cart.voucher.button()}
+      </Button>
     </Styles.Container>
   );
 }

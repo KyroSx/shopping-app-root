@@ -466,6 +466,20 @@ describe(Home, () => {
       return getByText(container, formatMoney(discount));
     };
 
+    it('disables voucher input and button after succeed', async () => {
+      const { voucher, product } = setUpSuccess();
+
+      await waitFor(() => {
+        buyProduct(product);
+        applyVoucher(voucher.code);
+      });
+
+      await waitFor(() => {
+        expect(getVoucherInput()).toBeDisabled();
+        expect(getApplyVoucherButton()).toBeDisabled();
+      });
+    });
+
     describe('percentage', () => {
       it('reduces total when voucher is applied', async () => {
         const { voucher, product } = setUpSuccess();
