@@ -1,6 +1,5 @@
 import { getByText, screen, waitFor } from '@testing-library/react';
 import { Home } from '@/pages/Home/Home';
-import { renderWithProviders } from '@/utils/testing';
 import {
   mockGetProductsService,
   mockGetProductsServiceToThrow,
@@ -15,12 +14,13 @@ import { decrement, sum } from '@/utils/math';
 import { Product, ProductInCart, Products } from '@/types';
 import { Shipping } from '@/constants';
 import { Events } from '@/utils/testing/events';
+import { Screen } from '@/utils/testing/screen';
 
 jest.mock('@/services/products/getProducts');
 
 describe(Home, () => {
   const renderHome = () => {
-    const home = renderWithProviders(Home, {});
+    const home = Screen.renderWithProviders(Home);
 
     return { home };
   };

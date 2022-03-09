@@ -1,14 +1,14 @@
 import { screen, waitFor } from '@testing-library/react';
 import { Loading } from '@/ui/components/Loading/Loading';
-import { renderWithProviders } from '@/utils/testing';
 import { useIsAppLoading } from '@/hooks/useIsAppLoading';
+import { Screen } from '@/utils/testing/screen';
 
 jest.mock('@/hooks/useIsAppLoading');
 
 describe(Loading, () => {
   const renderLoading = () => {
     return {
-      loading: renderWithProviders(Loading, {}),
+      loading: Screen.renderWithProviders(Loading),
     };
   };
 
