@@ -1,14 +1,14 @@
 import { useCart } from '@/hooks/useCart';
 import { ProductInCart, Products } from '@/types';
-import { renderReactQueryHook } from '@/utils/testing';
 import {
   makeProducts,
   makeProductsUnavailable,
 } from '@/utils/testing/factories/products';
+import { Screen } from '@/utils/testing/screen';
 
 describe(useCart, () => {
   const renderUseCart = (products: Products = []) =>
-    renderReactQueryHook(useCart, products);
+    Screen.renderReactQueryHook(useCart, products);
 
   it('maps product to productInCart', () => {
     const hook = renderUseCart(makeProducts());

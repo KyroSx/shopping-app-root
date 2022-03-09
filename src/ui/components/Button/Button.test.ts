@@ -1,14 +1,17 @@
-import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
 import { Button, ButtonProps } from '@/ui/components';
-import { renderWithProviders } from '@/utils/testing';
+import { Events } from '@/utils/testing/events';
+import { Screen } from '@/utils/testing/screen';
 
 type Props = ButtonProps;
 
 describe(Button, () => {
   const renderButton = (props?: Partial<Props>) => {
     return {
-      button: renderWithProviders(Button, { ...props, children: 'button' }),
+      button: Screen.renderWithProviders(Button, {
+        ...props,
+        children: 'button',
+      }),
     };
   };
 
@@ -35,7 +38,7 @@ describe(Button, () => {
   it('calls onClick when click', () => {
     const { onClick } = setUp();
 
-    userEvent.click(getButton());
+    Events.clickOn(getButton());
 
     expect(onClick).toHaveBeenCalled();
   });
@@ -43,7 +46,7 @@ describe(Button, () => {
   it('does not call on onClick when disabled', () => {
     const { onClick } = setUpDisabled();
 
-    userEvent.click(getButton());
+    Events.clickOn(getButton());
 
     expect(onClick).not.toHaveBeenCalled();
   });

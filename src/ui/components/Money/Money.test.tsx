@@ -1,9 +1,9 @@
 import { Money } from '@/ui/components';
-import { renderWithProviders } from '@/utils/testing';
+import { Screen } from '@/utils/testing/screen';
 
 describe(Money, () => {
   const renderMoney = (value: number) => {
-    const money = renderWithProviders(Money, { children: value });
+    const money = Screen.renderWithProviders(Money, { children: value });
 
     return {
       money,

@@ -1,10 +1,6 @@
 import * as RTH from '@testing-library/react-hooks';
-import { render } from '@testing-library/react';
-import React from 'react';
 import { ReactQueryProvider } from '@/app/providers/ReactQuery';
-import { App } from '@/app';
 
-// Hooks
 type Hook<T> = (input?: T) => any;
 type Wrapper<T> = RTH.WrapperComponent<T>;
 
@@ -18,19 +14,4 @@ export function renderHook<T = undefined>(
 
 export function renderReactQueryHook<T = undefined>(hook: Hook<T>, input?: T) {
   return renderHook(hook, input, ReactQueryProvider);
-}
-
-// Components
-type Component<T> = React.FC<T>;
-type Props<T> = T;
-
-export function renderWithProviders<T = {}>(
-  Component: Component<T>,
-  props: Props<T>,
-) {
-  return render(
-    <App>
-      <Component {...props} />
-    </App>,
-  );
 }

@@ -1,17 +1,17 @@
 import { useProducts } from '@/hooks/useProducts';
-import { renderReactQueryHook } from '@/utils/testing';
 import { getProducts } from '@/services/products';
 import { makeProducts } from '@/utils/testing/factories/products';
 import {
   mockGetProductsService,
   mockGetProductsServiceToThrow,
 } from '@/utils/testing/mocks/services/getProducts';
+import { Screen } from '@/utils/testing/screen';
 
 jest.mock('@/services/products/getProducts');
 
 describe(useProducts, () => {
   const renderUseProducts = () => {
-    const hook = renderReactQueryHook(useProducts);
+    const hook = Screen.renderReactQueryHook(useProducts);
 
     return { hook };
   };
