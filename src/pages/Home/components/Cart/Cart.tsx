@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProductInCart, ProductsInCart } from '@/types';
+import { ProductInCart, ProductsInCart, Voucher as VoucherType } from '@/types';
 import { Title } from '@/ui/components';
 import { Texts } from '@/ui/craft/texts';
 import {
@@ -21,6 +21,8 @@ export function Cart({
   incrementProduct,
   decrementProduct,
 }: CartProps) {
+  const [voucher, setVoucher] = React.useState<VoucherType | null>(null);
+
   return (
     <Styles.Container>
       <Styles.Header>
@@ -36,9 +38,9 @@ export function Cart({
         </ProductsInCartList>
       </Styles.List>
 
-      <Voucher />
+      <Voucher applyVoucher={setVoucher} />
 
-      <Financial products={products} />
+      <Financial products={products} voucher={voucher} />
     </Styles.Container>
   );
 }

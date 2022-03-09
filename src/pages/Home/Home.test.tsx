@@ -15,8 +15,12 @@ import { Product, ProductInCart, Products } from '@/types';
 import { Shipping } from '@/constants';
 import { Events } from '@/utils/testing/events';
 import { Screen } from '@/utils/testing/screen';
+import { makeVouchers } from '@/utils/testing/factories/vouchers';
+import { mockGetVouchersService } from '@/utils/testing/mocks/services/getVouchers';
+import { decrease } from '@/utils/math/percentage';
 
 jest.mock('@/services/products/getProducts');
+jest.mock('@/services/vouchers/getVouchers');
 
 describe(Home, () => {
   const renderHome = () => {
@@ -27,11 +31,15 @@ describe(Home, () => {
 
   const renderHomeAndMockService = (initialProducts?: Products) => {
     const products: Products = initialProducts || makeProducts();
+    const vouchers = makeVouchers();
+
     mockGetProductsService(products);
+    mockGetVouchersService(vouchers);
     renderHome();
 
     return {
       products,
+      vouchers,
     };
   };
 
@@ -41,13 +49,16 @@ describe(Home, () => {
   };
 
   const setUpSuccess = () => {
-    const { products } = renderHomeAndMockService();
+    const { products, vouchers } = renderHomeAndMockService();
     const [product, product2, product3] = products;
+    const [voucher] = vouchers;
 
     return {
+      vouchers,
+      voucher,
+
       products,
       product,
-
       product1: product,
       product2,
       product3,
@@ -433,6 +444,37 @@ describe(Home, () => {
           const subtotal = getShippingElement(Shipping.free);
           expect(subtotal).toBeInTheDocument();
         });
+      });
+    });
+  });
+
+  describe('vouchers', () => {
+    const getVoucherInput = () => screen.getByRole('textbox');
+
+    const getApplyVoucherButton = () =>
+      screen.getByRole('button', { name: Texts.cart.voucher.button() });
+
+    const applyVoucher = (voucher: string) => {
+      Events.typeOn(getVoucherInput())(voucher);
+      Events.clickOn(getApplyVoucherButton());
+    };
+
+    it('reduces total when percentage voucher is applied', async () => {
+      const { voucher, product } = setUpSuccess();
+
+      await waitFor(() => {
+        buyProduct(product);
+        applyVoucher(voucher.code);
+      });
+
+      await waitFor(() => {
+        const shipping = Shipping.minWeightPrice;
+        const subtotal = product.price;
+        const percentage = voucher.amount;
+
+        const total = shipping + decrease(subtotal, percentage);
+        const totalElement = getTotalElement(total);
+        expect(totalElement).toBeInTheDocument();
       });
     });
   });

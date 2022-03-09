@@ -1,4 +1,4 @@
-import { Voucher, VoucherType } from '@/types';
+import { Voucher, VoucherType } from '@/types/voucher.d';
 
 const isVoucher = (voucher: Voucher, type: VoucherType) =>
   voucher.type === type;

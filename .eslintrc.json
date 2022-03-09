@@ -27,6 +27,7 @@
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier", "import"],
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "off",
+    "react/require-default-props": "off",
     "react/jsx-one-expression-per-line": "off",
     "class-methods-use-this": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
