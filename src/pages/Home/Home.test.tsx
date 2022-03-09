@@ -17,7 +17,7 @@ import { Events } from '@/utils/testing/events';
 import { Screen } from '@/utils/testing/screen';
 import { makeVouchers } from '@/utils/testing/factories/vouchers';
 import { mockGetVouchersService } from '@/utils/testing/mocks/services/getVouchers';
-import { decrease } from '@/utils/math/percentage';
+import { decrease, discount } from '@/utils/math/percentage';
 
 jest.mock('@/services/products/getProducts');
 jest.mock('@/services/vouchers/getVouchers');
@@ -459,22 +459,50 @@ describe(Home, () => {
       Events.clickOn(getApplyVoucherButton());
     };
 
-    it('reduces total when percentage voucher is applied', async () => {
-      const { voucher, product } = setUpSuccess();
+    // eslint-disable-next-line no-shadow
+    const getDiscountElement = (discount: number) => {
+      const container = screen.getByTestId('financial@discount');
 
-      await waitFor(() => {
-        buyProduct(product);
-        applyVoucher(voucher.code);
+      return getByText(container, formatMoney(discount));
+    };
+
+    describe('percentage', () => {
+      it('reduces total when voucher is applied', async () => {
+        const { voucher, product } = setUpSuccess();
+
+        await waitFor(() => {
+          buyProduct(product);
+          applyVoucher(voucher.code);
+        });
+
+        await waitFor(() => {
+          const shipping = Shipping.minWeightPrice;
+          const subtotal = product.price;
+          const percentage = voucher.amount;
+
+          const total = shipping + decrease(subtotal, percentage);
+          const totalElement = getTotalElement(total);
+          expect(totalElement).toBeInTheDocument();
+        });
       });
 
-      await waitFor(() => {
-        const shipping = Shipping.minWeightPrice;
-        const subtotal = product.price;
-        const percentage = voucher.amount;
+      it('renders discount when voucher is applied', async () => {
+        const { voucher, product } = setUpSuccess();
 
-        const total = shipping + decrease(subtotal, percentage);
-        const totalElement = getTotalElement(total);
-        expect(totalElement).toBeInTheDocument();
+        await waitFor(() => {
+          buyProduct(product);
+          applyVoucher(voucher.code);
+        });
+
+        await waitFor(() => {
+          const subtotal = product.price;
+          const percentage = voucher.amount;
+
+          const discountElement = getDiscountElement(
+            discount(subtotal, percentage),
+          );
+          expect(discountElement).toBeInTheDocument();
+        });
       });
     });
   });

@@ -12,7 +12,10 @@ interface FinancialProps {
 }
 
 export function Financial({ products, voucher }: FinancialProps) {
-  const { total, subtotal, shipping } = useFinancial(products, voucher);
+  const { total, discount, subtotal, shipping } = useFinancial(
+    products,
+    voucher,
+  );
 
   return (
     <Styles.Container>
@@ -30,6 +33,14 @@ export function Financial({ products, voucher }: FinancialProps) {
         <Text>{Texts.cart.financial.shipping.text()}</Text>
 
         <Money>{shipping}</Money>
+      </Styles.FinancialInfo>
+
+      <Styles.Line />
+
+      <Styles.FinancialInfo data-testid="financial@discount">
+        <Text>{Texts.cart.financial.discount.text()}</Text>
+
+        <Money>{discount}</Money>
       </Styles.FinancialInfo>
 
       <Styles.Line />

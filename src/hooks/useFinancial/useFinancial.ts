@@ -12,7 +12,7 @@ export function useFinancial(
   const [total, setTotal] = React.useState(0);
   const [subtotal, setSubtotal] = React.useState(0);
   const [shipping, setShipping] = React.useState(0);
-  const [disccount, setDiscount] = React.useState(0);
+  const [discount, setDiscount] = React.useState(0);
 
   const calculateTotalWithVoucher = () => {
     const final = applyVoucher(voucher!, subtotal, shipping);
@@ -35,6 +35,7 @@ export function useFinancial(
 
   return {
     total,
+    discount,
     subtotal,
     shipping,
   };
