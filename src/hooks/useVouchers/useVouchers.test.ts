@@ -1,14 +1,14 @@
 import { useVouchers } from '@/hooks/useVouchers/useVouchers';
-import { renderReactQueryHook } from '@/utils/testing';
 import { getVouchers } from '@/services/vouchers';
 import { mockGetVouchersService } from '@/utils/testing/mocks/services/getVouchers';
 import { makeVouchers } from '@/utils/testing/factories/vouchers';
+import { Screen } from '@/utils/testing/screen';
 
 jest.mock('@/services/vouchers');
 
 describe(useVouchers, () => {
   const renderUseVouchers = () => {
-    const hook = renderReactQueryHook(useVouchers);
+    const hook = Screen.renderReactQueryHook(useVouchers);
 
     return { hook };
   };
