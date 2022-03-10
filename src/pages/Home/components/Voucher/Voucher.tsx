@@ -3,13 +3,29 @@ import { Button, Input } from '@/ui/components';
 import { Texts } from '@/ui/craft/texts';
 
 import * as Styles from './Voucher.styles';
+import { Voucher as VoucherType } from '@/types';
+import { useApplyVoucher } from '@/hooks/useApplyVoucher';
 
-export function Voucher() {
+interface VoucherProps {
+  applyVoucher: (voucher: VoucherType) => void;
+}
+
+export function Voucher({ applyVoucher }: VoucherProps) {
+  const { apply, code, isEmpty, setCode, hasApplied } =
+    useApplyVoucher(applyVoucher);
+
   return (
     <Styles.Container>
-      <Input placeholder={Texts.cart.voucher.input()} />
+      <Input
+        placeholder={Texts.cart.voucher.input()}
+        value={code}
+        onChangeValue={setCode}
+        disabled={hasApplied}
+      />
 
-      <Button>{Texts.cart.voucher.button()}</Button>
+      <Button onClick={apply} disabled={isEmpty || hasApplied}>
+        {Texts.cart.voucher.button()}
+      </Button>
     </Styles.Container>
   );
 }

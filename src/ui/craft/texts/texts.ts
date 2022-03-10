@@ -50,6 +50,10 @@ export const Texts = {
         text: asFn('Total'),
       },
 
+      discount: {
+        text: asFn('Discount'),
+      },
+
       subtotal: {
         text: asFn('Subtotal'),
       },

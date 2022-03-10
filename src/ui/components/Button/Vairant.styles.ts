@@ -26,6 +26,7 @@ export const SecondaryDisabled = css`
 
 export const Disabled = css`
   cursor: not-allowed;
+  opacity: 70%;
 
   &:hover {
     background: ${props => props.theme.colors.primary.brand};

@@ -6,3 +6,8 @@ export const sum = (...numbers: number[]) =>
 
 export const multiply = (...numbers: number[]) =>
   numbers.reduce((total, number) => total * number, 1);
+
+const absolute = (number: number) => Math.abs(number);
+
+export const sub = (...numbers: number[]) =>
+  numbers.reduce((total, number) => absolute(total) - absolute(number), 0);

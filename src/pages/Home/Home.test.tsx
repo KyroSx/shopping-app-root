@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { getByText, screen, waitFor } from '@testing-library/react';
 import { Home } from '@/pages/Home/Home';
 import {
@@ -10,13 +11,17 @@ import {
 } from '@/utils/testing/factories/products';
 import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
-import { decrement, sum } from '@/utils/math';
+import { decrement, sub, sum } from '@/utils/math';
 import { Product, ProductInCart, Products } from '@/types';
 import { Shipping } from '@/constants';
 import { Events } from '@/utils/testing/events';
 import { Screen } from '@/utils/testing/screen';
+import { makeVouchers } from '@/utils/testing/factories/vouchers';
+import { mockGetVouchersService } from '@/utils/testing/mocks/services/getVouchers';
+import { decrease, discount } from '@/utils/math/percentage';
 
 jest.mock('@/services/products/getProducts');
+jest.mock('@/services/vouchers/getVouchers');
 
 describe(Home, () => {
   const renderHome = () => {
@@ -27,11 +32,15 @@ describe(Home, () => {
 
   const renderHomeAndMockService = (initialProducts?: Products) => {
     const products: Products = initialProducts || makeProducts();
+    const vouchers = makeVouchers();
+
     mockGetProductsService(products);
+    mockGetVouchersService(vouchers);
     renderHome();
 
     return {
       products,
+      vouchers,
     };
   };
 
@@ -41,13 +50,18 @@ describe(Home, () => {
   };
 
   const setUpSuccess = () => {
-    const { products } = renderHomeAndMockService();
+    const { products, vouchers } = renderHomeAndMockService();
     const [product, product2, product3] = products;
+    const [percentualVoucher, fixedVoucher, shippingVoucher] = vouchers;
 
     return {
+      vouchers,
+      percentualVoucher,
+      fixedVoucher,
+      shippingVoucher,
+
       products,
       product,
-
       product1: product,
       product2,
       product3,
@@ -432,6 +446,158 @@ describe(Home, () => {
         await waitFor(() => {
           const subtotal = getShippingElement(Shipping.free);
           expect(subtotal).toBeInTheDocument();
+        });
+      });
+    });
+  });
+
+  describe('vouchers', () => {
+    const getVoucherInput = () => screen.getByRole('textbox');
+
+    const getApplyVoucherButton = () =>
+      screen.getByRole('button', { name: Texts.cart.voucher.button() });
+
+    const applyVoucher = (voucher: string) => {
+      Events.typeOn(getVoucherInput())(voucher);
+      Events.clickOn(getApplyVoucherButton());
+    };
+
+    const getDiscountElement = (discount: number) => {
+      const container = screen.getByTestId('financial@discount');
+
+      return getByText(container, formatMoney(discount));
+    };
+
+    it('disables button if input is empty', async () => {
+      setUpSuccess();
+
+      await waitFor(() => {
+        expect(getApplyVoucherButton()).toBeDisabled();
+      });
+    });
+
+    it('disables voucher input and button after succeed', async () => {
+      const { fixedVoucher: voucher, product } = setUpSuccess();
+
+      await waitFor(() => {
+        buyProduct(product);
+        applyVoucher(voucher.code);
+      });
+
+      await waitFor(() => {
+        expect(getVoucherInput()).toBeDisabled();
+        expect(getApplyVoucherButton()).toBeDisabled();
+      });
+    });
+
+    describe('percentage', () => {
+      it('reduces total when voucher is applied', async () => {
+        const { percentualVoucher, product } = setUpSuccess();
+
+        await waitFor(() => {
+          buyProduct(product);
+          applyVoucher(percentualVoucher.code);
+        });
+
+        await waitFor(() => {
+          const shipping = Shipping.minWeightPrice;
+          const subtotal = product.price;
+          const percentage = percentualVoucher.amount;
+
+          const total = shipping + decrease(subtotal, percentage);
+          const totalElement = getTotalElement(total);
+          expect(totalElement).toBeInTheDocument();
+        });
+      });
+
+      it('renders discount when voucher is applied', async () => {
+        const { percentualVoucher, product } = setUpSuccess();
+
+        await waitFor(() => {
+          buyProduct(product);
+          applyVoucher(percentualVoucher.code);
+        });
+
+        await waitFor(() => {
+          const subtotal = product.price;
+          const percentage = percentualVoucher.amount;
+
+          const discountElement = getDiscountElement(
+            discount(subtotal, percentage),
+          );
+          expect(discountElement).toBeInTheDocument();
+        });
+      });
+    });
+
+    describe('fixed', () => {
+      it('reduces total when voucher is applied', async () => {
+        const { fixedVoucher, product } = setUpSuccess();
+
+        await waitFor(() => {
+          buyProductTimes(product)(product.available);
+          applyVoucher(fixedVoucher.code);
+        });
+
+        await waitFor(() => {
+          const shipping = Shipping.minWeightPrice;
+          const subtotal = product.price * product.available;
+          const total = shipping + subtotal;
+          const discount = fixedVoucher.amount;
+
+          const totalElement = getTotalElement(sub(total, discount));
+          expect(totalElement).toBeInTheDocument();
+        });
+      });
+
+      it('renders discount when voucher is applied', async () => {
+        const { fixedVoucher, product } = setUpSuccess();
+
+        await waitFor(() => {
+          buyProduct(product);
+          applyVoucher(fixedVoucher.code);
+        });
+
+        await waitFor(() => {
+          const discount = fixedVoucher.amount;
+
+          const discountElement = getDiscountElement(discount);
+          expect(discountElement).toBeInTheDocument();
+        });
+      });
+    });
+
+    describe('shipping', () => {
+      it('does not reduce shipping if minValue is not satisfied', async () => {
+        const { shippingVoucher, product } = setUpSuccess();
+
+        await waitFor(() => {
+          buyProduct(product);
+          applyVoucher(shippingVoucher.code);
+        });
+
+        await waitFor(() => {
+          const shipping = Shipping.minWeightPrice;
+
+          const shippingElement = getShippingElement(shipping);
+          expect(shippingElement).toBeInTheDocument();
+        });
+      });
+
+      it('reduces shipping to 0 if minValue is satisfied', async () => {
+        const { shippingVoucher, product, product3 } = setUpSuccess();
+
+        await waitFor(() => {
+          buyProductTimes(product)(product.available);
+          buyProductTimes(product3)(product3.available);
+          applyVoucher(shippingVoucher.code);
+        });
+
+        await waitFor(() => {
+          const shipping = Shipping.free;
+
+          const shippingElement = getShippingElement(shipping);
+          expect(shippingElement).toBeInTheDocument();
         });
       });
     });

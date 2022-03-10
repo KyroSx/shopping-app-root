@@ -1,4 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+const Disabled = css`
+  opacity: 70%;
+  cursor: not-allowed;
+`;
 
 export const Input = styled.input`
   border-radius: ${props => props.theme.space.x2};
@@ -6,4 +11,6 @@ export const Input = styled.input`
 
   width: 100%;
   padding: ${props => `${props.theme.space.x6} ${props.theme.space.x8}`};
+
+  ${props => props.disabled && Disabled};
 `;

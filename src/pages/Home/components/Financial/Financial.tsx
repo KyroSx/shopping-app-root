@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProductsInCart } from '@/types';
+import { ProductsInCart, Voucher } from '@/types';
 import { Money, Text } from '@/ui/components';
 import { Texts } from '@/ui/craft/texts';
 import { useFinancial } from '@/hooks/useFinancial';
@@ -8,10 +8,14 @@ import * as Styles from './Financial.styles';
 
 interface FinancialProps {
   products: ProductsInCart;
+  voucher: Voucher | null;
 }
 
-export function Financial({ products }: FinancialProps) {
-  const { total, subtotal, shipping } = useFinancial(products);
+export function Financial({ products, voucher }: FinancialProps) {
+  const { total, discount, subtotal, shipping } = useFinancial(
+    products,
+    voucher,
+  );
 
   return (
     <Styles.Container>
@@ -29,6 +33,14 @@ export function Financial({ products }: FinancialProps) {
         <Text>{Texts.cart.financial.shipping.text()}</Text>
 
         <Money>{shipping}</Money>
+      </Styles.FinancialInfo>
+
+      <Styles.Line />
+
+      <Styles.FinancialInfo data-testid="financial@discount">
+        <Text>{Texts.cart.financial.discount.text()}</Text>
+
+        <Money>{discount}</Money>
       </Styles.FinancialInfo>
 
       <Styles.Line />
