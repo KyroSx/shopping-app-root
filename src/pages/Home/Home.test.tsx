@@ -575,6 +575,23 @@ describe(Home, () => {
           expect(shippingElement).toBeInTheDocument();
         });
       });
+
+      it('reduces shipping to 0 if minValue is satisfied', async () => {
+        const { shippingVoucher, product, product3 } = setUpSuccess();
+
+        await waitFor(() => {
+          buyProductTimes(product)(product.available);
+          buyProductTimes(product3)(product3.available);
+          applyVoucher(shippingVoucher.code);
+        });
+
+        await waitFor(() => {
+          const shipping = Shipping.free;
+
+          const shippingElement = getShippingElement(shipping);
+          expect(shippingElement).toBeInTheDocument();
+        });
+      });
     });
   });
 });
