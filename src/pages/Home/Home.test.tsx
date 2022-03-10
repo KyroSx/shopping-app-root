@@ -462,7 +462,6 @@ describe(Home, () => {
       Events.clickOn(getApplyVoucherButton());
     };
 
-    // eslint-disable-next-line no-shadow
     const getDiscountElement = (discount: number) => {
       const container = screen.getByTestId('financial@discount');
 
@@ -556,6 +555,24 @@ describe(Home, () => {
 
           const discountElement = getDiscountElement(discount);
           expect(discountElement).toBeInTheDocument();
+        });
+      });
+    });
+
+    describe('shipping', () => {
+      it('does not reduce shipping if minValue is not satisfied', async () => {
+        const { shippingVoucher, product } = setUpSuccess();
+
+        await waitFor(() => {
+          buyProduct(product);
+          applyVoucher(shippingVoucher.code);
+        });
+
+        await waitFor(() => {
+          const shipping = Shipping.minWeightPrice;
+
+          const shippingElement = getShippingElement(shipping);
+          expect(shippingElement).toBeInTheDocument();
         });
       });
     });
