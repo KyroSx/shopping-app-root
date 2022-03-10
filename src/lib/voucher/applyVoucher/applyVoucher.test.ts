@@ -1,4 +1,4 @@
-import { applyVoucher } from '@/lib/voucher';
+import { calculateVoucherDiscount } from '@/lib/voucher';
 import { Voucher, VoucherType } from '@/types';
 
 type vouchers = {
@@ -30,7 +30,7 @@ const vouchers: vouchers = {
 
 describe('Voucher', () => {
   it('should ignore no voucher', () => {
-    expect(applyVoucher(vouchers.none, 100, 30)).toEqual({
+    expect(calculateVoucherDiscount(vouchers.none, 100, 30)).toEqual({
       total: 130,
       shipping: 30,
       discount: 0,
@@ -38,7 +38,7 @@ describe('Voucher', () => {
   });
 
   it('should apply percentual voucher', () => {
-    expect(applyVoucher(vouchers.percentual, 100, 30)).toEqual({
+    expect(calculateVoucherDiscount(vouchers.percentual, 100, 30)).toEqual({
       total: 100,
       shipping: 30,
       discount: 30,
@@ -46,7 +46,7 @@ describe('Voucher', () => {
   });
 
   it('should apply fixed voucher', () => {
-    expect(applyVoucher(vouchers.fixed, 100, 30)).toEqual({
+    expect(calculateVoucherDiscount(vouchers.fixed, 100, 30)).toEqual({
       total: 30,
       shipping: 30,
       discount: 100,
@@ -54,7 +54,7 @@ describe('Voucher', () => {
   });
 
   it('should apply shipping voucher', () => {
-    expect(applyVoucher(vouchers.shipping, 100, 30)).toEqual({
+    expect(calculateVoucherDiscount(vouchers.shipping, 100, 30)).toEqual({
       total: 100,
       shipping: 0,
       discount: 30,
@@ -62,7 +62,7 @@ describe('Voucher', () => {
   });
 
   it('should apply shipping voucher if it is above min', () => {
-    expect(applyVoucher(vouchers.shipping, 20, 10)).toEqual({
+    expect(calculateVoucherDiscount(vouchers.shipping, 20, 10)).toEqual({
       total: 30,
       shipping: 10,
       discount: 0,

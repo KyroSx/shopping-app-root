@@ -3,7 +3,7 @@ import { ProductsInCart, Voucher } from '@/types';
 import { calculateSubtotal } from '@/lib/financial';
 import { calculateShipping } from '@/lib/shipping';
 import { sum } from '@/utils/math';
-import { applyVoucher } from '@/lib/voucher';
+import { calculateVoucherDiscount } from '@/lib/voucher';
 
 export function useFinancial(
   products: ProductsInCart,
@@ -14,24 +14,28 @@ export function useFinancial(
   const [shipping, setShipping] = React.useState(0);
   const [discount, setDiscount] = React.useState(0);
 
-  const calculateTotalWithVoucher = () => {
-    const final = applyVoucher(voucher!, subtotal, shipping);
+  const calculateTotalWithVoucher = React.useCallback(() => {
+    const final = calculateVoucherDiscount(voucher!, subtotal, shipping);
 
     setShipping(final.shipping);
     setDiscount(final.discount);
     setTotal(final.total);
-  };
+  }, [shipping, subtotal, voucher]);
 
-  React.useEffect(() => {
+  const calculateTotal = React.useCallback(() => {
     const subtotalCalculated = calculateSubtotal(products);
     const shippingCalculated = calculateShipping(products);
 
     setSubtotal(subtotalCalculated);
     setShipping(shippingCalculated);
     setTotal(sum(subtotalCalculated, shippingCalculated));
+  }, [products]);
 
-    if (voucher) calculateTotalWithVoucher();
-  }, [calculateTotalWithVoucher, products, voucher]);
+  React.useEffect(() => {
+    if (voucher) return calculateTotalWithVoucher();
+
+    return calculateTotal();
+  }, [calculateTotal, calculateTotalWithVoucher, voucher]);
 
   return {
     total,

@@ -11,7 +11,11 @@ import {
 } from '@/lib/voucher/applyVoucher/calculations';
 import { ApplyVoucher } from './applyVoucher.types';
 
-export const applyVoucher: ApplyVoucher = (voucher, subtotal, shipping) => {
+export const calculateVoucherDiscount: ApplyVoucher = (
+  voucher,
+  subtotal,
+  shipping,
+) => {
   const total = subtotal + shipping;
 
   if (!voucher) return calcNoVoucher(total, shipping);

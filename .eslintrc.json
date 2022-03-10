@@ -28,6 +28,7 @@
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "off",
     "react/require-default-props": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "react/jsx-one-expression-per-line": "off",
     "class-methods-use-this": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
