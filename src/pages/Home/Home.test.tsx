@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { getByText, screen, waitFor } from '@testing-library/react';
 import { Home } from '@/pages/Home/Home';
 import {
@@ -10,7 +11,7 @@ import {
 } from '@/utils/testing/factories/products';
 import { Texts } from '@/ui/craft/texts';
 import { formatMoney } from '@/utils/formatting';
-import { decrement, sum } from '@/utils/math';
+import { decrement, sub, sum } from '@/utils/math';
 import { Product, ProductInCart, Products } from '@/types';
 import { Shipping } from '@/constants';
 import { Events } from '@/utils/testing/events';
@@ -51,11 +52,13 @@ describe(Home, () => {
   const setUpSuccess = () => {
     const { products, vouchers } = renderHomeAndMockService();
     const [product, product2, product3] = products;
-    const [voucher] = vouchers;
+    const [percentualVoucher, fixedVoucher, shippingVoucher] = vouchers;
 
     return {
       vouchers,
-      voucher,
+      percentualVoucher,
+      fixedVoucher,
+      shippingVoucher,
 
       products,
       product,
@@ -467,7 +470,7 @@ describe(Home, () => {
     };
 
     it('disables voucher input and button after succeed', async () => {
-      const { voucher, product } = setUpSuccess();
+      const { fixedVoucher: voucher, product } = setUpSuccess();
 
       await waitFor(() => {
         buyProduct(product);
@@ -482,17 +485,17 @@ describe(Home, () => {
 
     describe('percentage', () => {
       it('reduces total when voucher is applied', async () => {
-        const { voucher, product } = setUpSuccess();
+        const { percentualVoucher, product } = setUpSuccess();
 
         await waitFor(() => {
           buyProduct(product);
-          applyVoucher(voucher.code);
+          applyVoucher(percentualVoucher.code);
         });
 
         await waitFor(() => {
           const shipping = Shipping.minWeightPrice;
           const subtotal = product.price;
-          const percentage = voucher.amount;
+          const percentage = percentualVoucher.amount;
 
           const total = shipping + decrease(subtotal, percentage);
           const totalElement = getTotalElement(total);
@@ -501,20 +504,57 @@ describe(Home, () => {
       });
 
       it('renders discount when voucher is applied', async () => {
-        const { voucher, product } = setUpSuccess();
+        const { percentualVoucher, product } = setUpSuccess();
 
         await waitFor(() => {
           buyProduct(product);
-          applyVoucher(voucher.code);
+          applyVoucher(percentualVoucher.code);
         });
 
         await waitFor(() => {
           const subtotal = product.price;
-          const percentage = voucher.amount;
+          const percentage = percentualVoucher.amount;
 
           const discountElement = getDiscountElement(
             discount(subtotal, percentage),
           );
+          expect(discountElement).toBeInTheDocument();
+        });
+      });
+    });
+
+    describe('fixed', () => {
+      it('reduces total when voucher is applied', async () => {
+        const { fixedVoucher, product } = setUpSuccess();
+
+        await waitFor(() => {
+          buyProductTimes(product)(product.available);
+          applyVoucher(fixedVoucher.code);
+        });
+
+        await waitFor(() => {
+          const shipping = Shipping.minWeightPrice;
+          const subtotal = product.price * product.available;
+          const total = shipping + subtotal;
+          const discount = fixedVoucher.amount;
+
+          const totalElement = getTotalElement(sub(total, discount));
+          expect(totalElement).toBeInTheDocument();
+        });
+      });
+
+      it('renders discount when voucher is applied', async () => {
+        const { fixedVoucher, product } = setUpSuccess();
+
+        await waitFor(() => {
+          buyProduct(product);
+          applyVoucher(fixedVoucher.code);
+        });
+
+        await waitFor(() => {
+          const discount = fixedVoucher.amount;
+
+          const discountElement = getDiscountElement(discount);
           expect(discountElement).toBeInTheDocument();
         });
       });
