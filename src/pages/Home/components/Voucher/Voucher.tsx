@@ -11,7 +11,8 @@ interface VoucherProps {
 }
 
 export function Voucher({ applyVoucher }: VoucherProps) {
-  const { apply, code, setCode, hasApplied } = useApplyVoucher(applyVoucher);
+  const { apply, code, isEmpty, setCode, hasApplied } =
+    useApplyVoucher(applyVoucher);
 
   return (
     <Styles.Container>
@@ -22,7 +23,7 @@ export function Voucher({ applyVoucher }: VoucherProps) {
         disabled={hasApplied}
       />
 
-      <Button onClick={apply} disabled={hasApplied}>
+      <Button onClick={apply} disabled={isEmpty || hasApplied}>
         {Texts.cart.voucher.button()}
       </Button>
     </Styles.Container>

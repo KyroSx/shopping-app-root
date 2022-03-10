@@ -16,7 +16,10 @@ export function useApplyVoucher(applyVoucher: (voucher: Voucher) => void) {
     }
   };
 
+  const isEmpty = code === '';
+
   return {
+    isEmpty,
     code,
     setCode,
     hasApplied,

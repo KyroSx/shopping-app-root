@@ -468,6 +468,14 @@ describe(Home, () => {
       return getByText(container, formatMoney(discount));
     };
 
+    it('disables button if input is empty', async () => {
+      setUpSuccess();
+
+      await waitFor(() => {
+        expect(getApplyVoucherButton()).toBeDisabled();
+      });
+    });
+
     it('disables voucher input and button after succeed', async () => {
       const { fixedVoucher: voucher, product } = setUpSuccess();
 
