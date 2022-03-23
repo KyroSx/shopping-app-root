@@ -23,3 +23,5 @@ export interface OptionsByLevel extends Options {
   queryFallbacks?: boolean;
   level?: number;
 }
+
+export type Roles = 'textbox' | 'button' | string;

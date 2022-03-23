@@ -13,6 +13,7 @@ import {
   Options,
   OptionsByLevel,
   OptionsByText,
+  Roles,
 } from '@/utils/testing/screen/query/get/get.types';
 
 jest.mock('@testing-library/react');
@@ -89,7 +90,7 @@ describe('Screen', () => {
 
       describe('by role', () => {
         const [role, container, options] = [
-          'role',
+          'role' as Roles,
           {} as any as HTMLElement,
           { exact: true } as OptionsByLevel,
         ];
