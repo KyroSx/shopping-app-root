@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { Screen } from './index';
 import { App } from '@/app';
@@ -9,6 +9,20 @@ jest.mock('@testing-library/react-hooks');
 
 describe('Screen', () => {
   beforeEach(jest.resetAllMocks);
+
+  describe('queries', () => {
+    describe('get', () => {
+      describe('by test id', () => {
+        const [testId] = ['any-test-id'];
+
+        it('calls screen.getByTestId', async () => {
+          Screen.getByTestId({ testId });
+
+          expect(screen.getByTestId).toHaveBeenCalledWith(testId);
+        });
+      });
+    });
+  });
 
   describe('render', () => {
     describe('components', () => {
