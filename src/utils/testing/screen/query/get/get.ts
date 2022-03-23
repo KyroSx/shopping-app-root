@@ -9,5 +9,5 @@ interface ByIdInput extends Options {
 export function getByTestId({ container, testId, ...options }: ByIdInput) {
   if (container) return RTL.getByTestId(container, testId, options);
 
-  return RTL.screen.getByTestId(testId);
+  return RTL.screen.getByTestId(testId, options);
 }

@@ -23,7 +23,13 @@ describe('Screen', () => {
         it('calls screen.getByTestId', async () => {
           Screen.getByTestId({ testId });
 
-          expect(screen.getByTestId).toHaveBeenCalledWith(testId);
+          expect(screen.getByTestId).toHaveBeenCalledWith(testId, {});
+        });
+
+        it('calls screen.getByTestId with options', async () => {
+          Screen.getByTestId({ testId, ...options });
+
+          expect(screen.getByTestId).toHaveBeenCalledWith(testId, options);
         });
 
         it('calls getByTestId with container', async () => {
