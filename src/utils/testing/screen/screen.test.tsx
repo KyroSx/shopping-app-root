@@ -44,6 +44,20 @@ describe('Screen', () => {
           expect(getByTestId).toHaveBeenCalledWith(container, testId, options);
         });
       });
+
+      describe('by text', () => {
+        const [text, container, options] = [
+          'any-text',
+          {} as any as HTMLElement,
+          { exact: true } as Options,
+        ];
+
+        it('calls screen.getByText', async () => {
+          Screen.get.byText({ text });
+
+          expect(screen.getByText).toHaveBeenCalledWith(text);
+        });
+      });
     });
   });
 
