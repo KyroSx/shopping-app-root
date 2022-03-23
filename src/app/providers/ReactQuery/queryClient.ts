@@ -6,6 +6,7 @@ export const QueryClientInstance = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: !Environment.isTesting(),
+      useErrorBoundary: true,
     },
   },
 });

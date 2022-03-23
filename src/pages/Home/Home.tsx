@@ -3,17 +3,13 @@ import { useProducts } from '@/hooks/useProducts';
 import { Texts } from '@/ui/craft/texts';
 import { ProductList, Cart } from '@/pages/Home/components';
 import { useCart } from '@/hooks/useCart';
-import { Text } from '@/ui/components';
 
 import * as Styles from './Home.styles';
 
 export const Home: React.FC = () => {
-  const { status, products: initialProducts } = useProducts();
+  const { products: initialProducts } = useProducts();
   const { products, addProductToCart, removeProductFromCart } =
     useCart(initialProducts);
-
-  if (status.isUnexpectedError)
-    return <Text>{Texts.global.error.unexpected()}</Text>;
 
   return (
     <Styles.Container>
