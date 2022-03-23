@@ -26,7 +26,7 @@ interface ByRole extends OptionsByLevel {
 }
 
 export function byRole({ container, role, ...options }: ByRole) {
-  if (container) return RTL.getByRole(container, role);
+  if (container) return RTL.getByRole(container, role, options);
 
   return RTL.screen.getByRole(role, options);
 }

@@ -109,7 +109,13 @@ describe('Screen', () => {
         it('calls getByRole with container', async () => {
           Screen.get.byRole({ role, container });
 
-          expect(getByRole).toHaveBeenCalledWith(container, role);
+          expect(getByRole).toHaveBeenCalledWith(container, role, {});
+        });
+
+        it('calls getByRole with options', async () => {
+          Screen.get.byRole({ role, container, ...options });
+
+          expect(getByRole).toHaveBeenCalledWith(container, role, options);
         });
       });
     });
