@@ -3,6 +3,7 @@ import {
   getByRole,
   getByTestId,
   getByText,
+  queryByTestId,
   render,
   screen,
 } from '@testing-library/react';
@@ -14,7 +15,7 @@ import {
   OptionsByLevel,
   OptionsByText,
   Roles,
-} from '@/utils/testing/screen/query/get/get.types';
+} from '@/utils/testing/screen/query/options.types';
 
 jest.mock('@testing-library/react');
 jest.mock('@testing-library/react-hooks');
@@ -117,6 +118,44 @@ describe('Screen', () => {
           Screen.get.byRole({ role, container, ...options });
 
           expect(getByRole).toHaveBeenCalledWith(container, role, options);
+        });
+      });
+    });
+
+    describe('query', () => {
+      describe('by test id', () => {
+        const [testId, container, options] = [
+          'any-test-id',
+          {} as any as HTMLElement,
+          { exact: true } as Options,
+        ];
+
+        it('calls screen.queryByTestId', async () => {
+          Screen.query.byTestId({ testId });
+
+          expect(screen.queryByTestId).toHaveBeenCalledWith(testId, {});
+        });
+
+        it('calls screen.queryByTestId with options', async () => {
+          Screen.query.byTestId({ testId, ...options });
+
+          expect(screen.queryByTestId).toHaveBeenCalledWith(testId, options);
+        });
+
+        it('calls queryByTestId with container', async () => {
+          Screen.query.byTestId({ testId, container });
+
+          expect(queryByTestId).toHaveBeenCalledWith(container, testId, {});
+        });
+
+        it('calls queryByTestId with options', async () => {
+          Screen.query.byTestId({ testId, container, ...options });
+
+          expect(queryByTestId).toHaveBeenCalledWith(
+            container,
+            testId,
+            options,
+          );
         });
       });
     });

@@ -1,28 +1,20 @@
 import * as RTL from '@testing-library/react';
-import { Options, OptionsByLevel, OptionsByText, Roles } from './get.types';
+import {
+  ByTestId,
+  ByRole,
+  ByText,
+} from '@/utils/testing/screen/query/by.types';
 
-interface ByIdInput extends Options {
-  testId: string;
-}
-
-export function byTestId({ container, testId, ...options }: ByIdInput) {
+export function byTestId({ container, testId, ...options }: ByTestId) {
   if (container) return RTL.getByTestId(container, testId, options);
 
   return RTL.screen.getByTestId(testId, options);
-}
-
-interface ByText extends OptionsByText {
-  text: string;
 }
 
 export function byText({ container, text, ...options }: ByText) {
   if (container) return RTL.getByText(container, text, options);
 
   return RTL.screen.getByText(text, options);
-}
-
-interface ByRole extends OptionsByLevel {
-  role: Roles;
 }
 
 export function byRole({ container, role, ...options }: ByRole) {
