@@ -1,10 +1,7 @@
 import { useProducts } from '@/hooks/useProducts';
 import { getProducts } from '@/services/products';
 import { makeProducts } from '@/utils/testing/factories/products';
-import {
-  mockGetProductsService,
-  mockGetProductsServiceToThrow,
-} from '@/utils/testing/mocks/services/getProducts';
+import { mockGetProductsService } from '@/utils/testing/mocks/services/getProducts';
 import { Screen } from '@/utils/testing/screen';
 
 jest.mock('@/services/products/getProducts');
@@ -28,15 +25,6 @@ describe(useProducts, () => {
     };
   };
 
-  const setUpError = () => {
-    mockGetProductsServiceToThrow();
-    const { hook } = renderUseProducts();
-
-    return {
-      hook,
-    };
-  };
-
   it('calls getProducts service', async () => {
     const { hook } = setUpSuccess();
 
@@ -51,12 +39,5 @@ describe(useProducts, () => {
     expect(hook.result.current.products).toEqual([]);
     await hook.waitForNextUpdate();
     expect(hook.result.current.products).toEqual(products);
-  });
-
-  it('returns hasUnexpectedErrorHappened if getProducts throws', async () => {
-    const { hook } = setUpError();
-
-    await hook.waitForNextUpdate();
-    expect(hook.result.current.status.isUnexpectedError).toEqual(true);
   });
 });
