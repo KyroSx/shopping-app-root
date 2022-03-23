@@ -3,7 +3,10 @@ import { getByTestId, render, screen } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { Screen } from './index';
 import { App } from '@/app';
-import { Options } from '@/utils/testing/screen/query/get/get.types';
+import {
+  Options,
+  OptionsByText,
+} from '@/utils/testing/screen/query/get/get.types';
 
 jest.mock('@testing-library/react');
 jest.mock('@testing-library/react-hooks');
@@ -49,13 +52,19 @@ describe('Screen', () => {
         const [text, container, options] = [
           'any-text',
           {} as any as HTMLElement,
-          { exact: true } as Options,
+          { exact: true, selector: '*' } as OptionsByText,
         ];
 
         it('calls screen.getByText', async () => {
           Screen.get.byText({ text });
 
-          expect(screen.getByText).toHaveBeenCalledWith(text);
+          expect(screen.getByText).toHaveBeenCalledWith(text, {});
+        });
+
+        it('calls screen.getByText with options', async () => {
+          Screen.get.byText({ text, ...options });
+
+          expect(screen.getByText).toHaveBeenCalledWith(text, options);
         });
       });
     });

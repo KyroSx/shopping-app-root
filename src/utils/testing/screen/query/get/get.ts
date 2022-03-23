@@ -1,5 +1,5 @@
 import * as RTL from '@testing-library/react';
-import { Options } from './get.types';
+import { Options, OptionsByText } from './get.types';
 
 interface ByIdInput extends Options {
   testId: string;
@@ -11,10 +11,10 @@ export function byTestId({ container, testId, ...options }: ByIdInput) {
   return RTL.screen.getByTestId(testId, options);
 }
 
-interface ByText extends Options {
+interface ByText extends OptionsByText {
   text: string;
 }
 
-export function byText({ text }: ByText) {
-  return RTL.screen.getByText(text);
+export function byText({ text, ...options }: ByText) {
+  return RTL.screen.getByText(text, options);
 }
