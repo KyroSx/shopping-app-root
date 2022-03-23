@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { getByTestId, render, screen } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { Screen } from './index';
 import { App } from '@/app';
@@ -13,12 +13,18 @@ describe('Screen', () => {
   describe('queries', () => {
     describe('get', () => {
       describe('by test id', () => {
-        const [testId] = ['any-test-id'];
+        const [testId, container] = ['any-test-id', {} as any as HTMLElement];
 
         it('calls screen.getByTestId', async () => {
           Screen.getByTestId({ testId });
 
           expect(screen.getByTestId).toHaveBeenCalledWith(testId);
+        });
+
+        it('calls getByTestId with container', async () => {
+          Screen.getByTestId({ testId, container });
+
+          expect(getByTestId).toHaveBeenCalledWith(container, testId);
         });
       });
     });
