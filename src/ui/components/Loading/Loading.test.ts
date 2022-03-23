@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 import { Loading } from '@/ui/components/Loading/Loading';
 import { useIsAppLoading } from '@/hooks/useIsAppLoading';
 import { Screen } from '@/utils/testing/screen';
@@ -35,10 +35,10 @@ describe(Loading, () => {
     mockIsFetching();
   });
 
-  it('renders loading if isFetching', async () => {
+  it('renders loading if isFetching', () => {
     setUpFetching();
 
-    const loading = await screen.findByTestId('loading');
+    const loading = Screen.get.byTestId({ testId: 'loading' });
     expect(loading).toBeInTheDocument();
   });
 
@@ -46,7 +46,7 @@ describe(Loading, () => {
     setUpNotFetching();
 
     await waitFor(() => {
-      const loading = screen.queryByTestId('loading');
+      const loading = Screen.query.byTestId({ testId: 'loading' });
       expect(loading).not.toBeInTheDocument();
     });
   });
