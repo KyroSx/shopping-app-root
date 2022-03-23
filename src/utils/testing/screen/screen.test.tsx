@@ -21,25 +21,25 @@ describe('Screen', () => {
         ];
 
         it('calls screen.getByTestId', async () => {
-          Screen.getByTestId({ testId });
+          Screen.get.byTestId({ testId });
 
           expect(screen.getByTestId).toHaveBeenCalledWith(testId, {});
         });
 
         it('calls screen.getByTestId with options', async () => {
-          Screen.getByTestId({ testId, ...options });
+          Screen.get.byTestId({ testId, ...options });
 
           expect(screen.getByTestId).toHaveBeenCalledWith(testId, options);
         });
 
         it('calls getByTestId with container', async () => {
-          Screen.getByTestId({ testId, container });
+          Screen.get.byTestId({ testId, container });
 
           expect(getByTestId).toHaveBeenCalledWith(container, testId, {});
         });
 
         it('calls getByTestId with options', async () => {
-          Screen.getByTestId({ testId, container, ...options });
+          Screen.get.byTestId({ testId, container, ...options });
 
           expect(getByTestId).toHaveBeenCalledWith(container, testId, options);
         });

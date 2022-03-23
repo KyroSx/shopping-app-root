@@ -6,7 +6,7 @@ interface ByIdInput extends Options {
   container?: HTMLElement;
 }
 
-export function getByTestId({ container, testId, ...options }: ByIdInput) {
+export function byTestId({ container, testId, ...options }: ByIdInput) {
   if (container) return RTL.getByTestId(container, testId, options);
 
   return RTL.screen.getByTestId(testId, options);
