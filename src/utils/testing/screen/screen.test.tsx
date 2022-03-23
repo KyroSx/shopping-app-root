@@ -1,5 +1,11 @@
 import React from 'react';
-import { getByTestId, getByText, render, screen } from '@testing-library/react';
+import {
+  getByRole,
+  getByTestId,
+  getByText,
+  render,
+  screen,
+} from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { Screen } from './index';
 import { App } from '@/app';
@@ -98,6 +104,12 @@ describe('Screen', () => {
           Screen.get.byRole({ role, ...options });
 
           expect(screen.getByRole).toHaveBeenCalledWith(role, options);
+        });
+
+        it('calls getByRole with container', async () => {
+          Screen.get.byRole({ role, container });
+
+          expect(getByRole).toHaveBeenCalledWith(container, role);
         });
       });
     });
