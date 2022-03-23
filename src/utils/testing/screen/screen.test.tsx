@@ -79,6 +79,20 @@ describe('Screen', () => {
           expect(getByText).toHaveBeenCalledWith(container, text, options);
         });
       });
+
+      describe('by role', () => {
+        const [role, container, options] = [
+          'role',
+          {} as any as HTMLElement,
+          { exact: true } as Options,
+        ];
+
+        it('calls screen.getByRole', async () => {
+          Screen.get.byRole({ role });
+
+          expect(screen.getByRole).toHaveBeenCalledWith(role);
+        });
+      });
     });
   });
 

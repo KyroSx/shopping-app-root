@@ -20,3 +20,11 @@ export function byText({ container, text, ...options }: ByText) {
 
   return RTL.screen.getByText(text, options);
 }
+
+interface ByRole extends Options {
+  role: string;
+}
+
+export function byRole({ role }: ByRole) {
+  return RTL.screen.getByRole(role);
+}
