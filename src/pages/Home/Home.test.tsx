@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import { screen, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 import { Home } from '@/pages/Home/Home';
 import {
   mockGetProductsService,
@@ -86,7 +86,7 @@ describe(Home, () => {
     Screen.get.byTestId({ testId: Texts.cart.product.testId(id) });
 
   const queryProductInCartContainer = (id: number) =>
-    screen.queryByTestId(Texts.cart.product.testId(id));
+    Screen.query.byTestId({ testId: Texts.cart.product.testId(id) });
 
   const getAvailableElement =
     (productContainer: HTMLElement) => (available: number) =>
@@ -232,11 +232,17 @@ describe(Home, () => {
     it('renders loading text', async () => {
       setUpSuccess();
 
-      const loadingText = await screen.findByText(Texts.global.loading.text());
-      expect(loadingText).toBeInTheDocument();
+      await waitFor(() => {
+        const loadingText = Screen.get.byText({
+          text: Texts.global.loading.text(),
+        });
+        expect(loadingText).toBeInTheDocument();
+      });
 
       await waitFor(() => {
-        const loading = screen.queryByText(Texts.global.loading.text());
+        const loading = Screen.query.byText({
+          text: Texts.global.loading.text(),
+        });
         expect(loading).not.toBeInTheDocument();
       });
     });
@@ -295,7 +301,9 @@ describe(Home, () => {
       await waitFor(() => {
         buyProduct(product);
 
-        const emptyState = screen.queryByText(Texts.cart.empty.description());
+        const emptyState = Screen.query.byText({
+          text: Texts.cart.empty.description(),
+        });
         expect(emptyState).not.toBeInTheDocument();
 
         const productContainer = getProductInCartContainer(product.id);
