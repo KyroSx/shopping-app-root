@@ -3,6 +3,7 @@ import { getByTestId, render, screen } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { Screen } from './index';
 import { App } from '@/app';
+import { Options } from '@/utils/testing/screen/query/get/get.types';
 
 jest.mock('@testing-library/react');
 jest.mock('@testing-library/react-hooks');
@@ -13,7 +14,11 @@ describe('Screen', () => {
   describe('queries', () => {
     describe('get', () => {
       describe('by test id', () => {
-        const [testId, container] = ['any-test-id', {} as any as HTMLElement];
+        const [testId, container, options] = [
+          'any-test-id',
+          {} as any as HTMLElement,
+          { exact: true } as Options,
+        ];
 
         it('calls screen.getByTestId', async () => {
           Screen.getByTestId({ testId });
@@ -24,7 +29,13 @@ describe('Screen', () => {
         it('calls getByTestId with container', async () => {
           Screen.getByTestId({ testId, container });
 
-          expect(getByTestId).toHaveBeenCalledWith(container, testId);
+          expect(getByTestId).toHaveBeenCalledWith(container, testId, {});
+        });
+
+        it('calls getByTestId with options', async () => {
+          Screen.getByTestId({ testId, container, ...options });
+
+          expect(getByTestId).toHaveBeenCalledWith(container, testId, options);
         });
       });
     });
