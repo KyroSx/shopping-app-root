@@ -4,6 +4,7 @@ import {
   getByTestId,
   getByText,
   queryByTestId,
+  queryByText,
   render,
   screen,
 } from '@testing-library/react';
@@ -156,6 +157,38 @@ describe('Screen', () => {
             testId,
             options,
           );
+        });
+      });
+
+      describe('by text', () => {
+        const [text, container, options] = [
+          'any-text',
+          {} as any as HTMLElement,
+          { exact: true, selector: '*' } as OptionsByText,
+        ];
+
+        it('calls screen.queryByText', async () => {
+          Screen.query.byText({ text });
+
+          expect(screen.queryByText).toHaveBeenCalledWith(text, {});
+        });
+
+        it('calls screen.queryByText with options', async () => {
+          Screen.query.byText({ text, ...options });
+
+          expect(screen.queryByText).toHaveBeenCalledWith(text, options);
+        });
+
+        it('calls queryByText with container', async () => {
+          Screen.query.byText({ text, container });
+
+          expect(queryByText).toHaveBeenCalledWith(container, text, {});
+        });
+
+        it('calls queryByText with options', async () => {
+          Screen.query.byText({ text, container, ...options });
+
+          expect(queryByText).toHaveBeenCalledWith(container, text, options);
         });
       });
     });
