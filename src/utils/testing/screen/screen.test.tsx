@@ -1,5 +1,5 @@
 import React from 'react';
-import { getByTestId, render, screen } from '@testing-library/react';
+import { getByTestId, getByText, render, screen } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { Screen } from './index';
 import { App } from '@/app';
@@ -65,6 +65,12 @@ describe('Screen', () => {
           Screen.get.byText({ text, ...options });
 
           expect(screen.getByText).toHaveBeenCalledWith(text, options);
+        });
+
+        it('calls getByText with container', async () => {
+          Screen.get.byText({ text, container });
+
+          expect(getByText).toHaveBeenCalledWith(container, text);
         });
       });
     });
