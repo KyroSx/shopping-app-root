@@ -10,3 +10,16 @@ export interface OptionsByText extends Options {
   ignore?: string | boolean;
   normalizer?: NormalizerFn;
 }
+
+export interface OptionsByLevel extends Options {
+  hidden?: boolean;
+  name?: string;
+  normalizer?: NormalizerFn;
+  selected?: boolean;
+  checked?: boolean;
+  pressed?: boolean;
+  current?: boolean | string;
+  expanded?: boolean;
+  queryFallbacks?: boolean;
+  level?: number;
+}

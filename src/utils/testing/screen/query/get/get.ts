@@ -1,5 +1,5 @@
 import * as RTL from '@testing-library/react';
-import { Options, OptionsByText } from './get.types';
+import { Options, OptionsByLevel, OptionsByText } from './get.types';
 
 interface ByIdInput extends Options {
   testId: string;
@@ -21,10 +21,10 @@ export function byText({ container, text, ...options }: ByText) {
   return RTL.screen.getByText(text, options);
 }
 
-interface ByRole extends Options {
+interface ByRole extends OptionsByLevel {
   role: string;
 }
 
-export function byRole({ role }: ByRole) {
-  return RTL.screen.getByRole(role);
+export function byRole({ role, ...options }: ByRole) {
+  return RTL.screen.getByRole(role, options);
 }

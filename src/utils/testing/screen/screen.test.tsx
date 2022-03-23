@@ -5,6 +5,7 @@ import { Screen } from './index';
 import { App } from '@/app';
 import {
   Options,
+  OptionsByLevel,
   OptionsByText,
 } from '@/utils/testing/screen/query/get/get.types';
 
@@ -84,13 +85,19 @@ describe('Screen', () => {
         const [role, container, options] = [
           'role',
           {} as any as HTMLElement,
-          { exact: true } as Options,
+          { exact: true } as OptionsByLevel,
         ];
 
         it('calls screen.getByRole', async () => {
           Screen.get.byRole({ role });
 
-          expect(screen.getByRole).toHaveBeenCalledWith(role);
+          expect(screen.getByRole).toHaveBeenCalledWith(role, {});
+        });
+
+        it('calls screen.getByRole with options', async () => {
+          Screen.get.byRole({ role, ...options });
+
+          expect(screen.getByRole).toHaveBeenCalledWith(role, options);
         });
       });
     });
