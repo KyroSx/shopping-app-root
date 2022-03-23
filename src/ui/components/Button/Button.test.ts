@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import { Button, ButtonProps } from '@/ui/components';
 import { Events } from '@/utils/testing/events';
 import { Screen } from '@/utils/testing/screen';
@@ -33,7 +32,7 @@ describe(Button, () => {
     };
   };
 
-  const getButton = () => screen.getByText('button');
+  const getButton = () => Screen.get.byText({ text: 'button' });
 
   it('calls onClick when click', () => {
     const { onClick } = setUp();

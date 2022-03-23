@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import { getByText, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { Home } from '@/pages/Home/Home';
 import {
   mockGetProductsService,
@@ -80,44 +80,56 @@ describe(Home, () => {
   };
 
   const getProductContainer = (id: number) =>
-    screen.getByTestId(Texts.productCard.testId(id));
+    Screen.get.byTestId({ testId: Texts.productCard.testId(id) });
 
   const getProductInCartContainer = (id: number) =>
-    screen.getByTestId(Texts.cart.product.testId(id));
+    Screen.get.byTestId({ testId: Texts.cart.product.testId(id) });
 
   const queryProductInCartContainer = (id: number) =>
     screen.queryByTestId(Texts.cart.product.testId(id));
 
   const getAvailableElement =
     (productContainer: HTMLElement) => (available: number) =>
-      getByText(productContainer, Texts.productCard.available(available));
+      Screen.get.byText({
+        container: productContainer,
+        text: Texts.productCard.available(available),
+      });
 
   const getQuantityElement =
     (productContainer: HTMLElement) => (quantity: number) =>
-      getByText(productContainer, Texts.cart.product.quantity(quantity));
+      Screen.get.byText({
+        container: productContainer,
+        text: Texts.cart.product.quantity(quantity),
+      });
 
   const getBuyButton = (productContainer: HTMLElement) =>
-    getByText(productContainer, Texts.productCard.button.text());
+    Screen.get.byText({
+      container: productContainer,
+      text: Texts.productCard.button.text(),
+    });
 
   const getBuyByCartButton = (productContainer: HTMLElement) =>
-    getByText(productContainer, Texts.cart.product.button.add());
+    Screen.get.byText({
+      container: productContainer,
+      text: Texts.cart.product.button.add(),
+    });
 
   const getTotalElement = (total: number) => {
-    const container = screen.getByTestId('financial@total');
+    const container = Screen.get.byTestId({ testId: 'financial@total' });
 
-    return getByText(container, formatMoney(total));
+    return Screen.get.byText({ container, text: formatMoney(total) });
   };
 
   const getSubtotalElement = (subtotal: number) => {
-    const container = screen.getByTestId('financial@subtotal');
+    const container = Screen.get.byTestId({ testId: 'financial@subtotal' });
 
-    return getByText(container, formatMoney(subtotal));
+    return Screen.get.byText({ container, text: formatMoney(subtotal) });
   };
 
   const getShippingElement = (shipping: number) => {
-    const container = screen.getByTestId('financial@shipping');
+    const container = Screen.get.byTestId({ testId: 'financial@shipping' });
 
-    return getByText(container, formatMoney(shipping));
+    return Screen.get.byText({ container, text: formatMoney(shipping) });
   };
 
   function buyProduct(product: ProductInCart | Product) {
@@ -144,10 +156,10 @@ describe(Home, () => {
   function removeProductByCart(product: ProductInCart | Product) {
     const productContainer = getProductInCartContainer(product.id);
 
-    const removeButton = getByText(
-      productContainer,
-      Texts.cart.product.button.remove(),
-    );
+    const removeButton = Screen.get.byText({
+      container: productContainer,
+      text: Texts.cart.product.button.remove(),
+    });
 
     Events.clickOn(removeButton);
   }
@@ -159,7 +171,9 @@ describe(Home, () => {
       setUpSuccess();
 
       await waitFor(() => {
-        const header = screen.getByText(Texts.global.layout.header.text());
+        const header = Screen.get.byText({
+          text: Texts.global.layout.header.text(),
+        });
         expect(header).toBeInTheDocument();
       });
     });
@@ -168,7 +182,9 @@ describe(Home, () => {
       setUpSuccess();
 
       await waitFor(() => {
-        const header = screen.getByText(Texts.global.layout.header.user());
+        const header = Screen.get.byText({
+          text: Texts.global.layout.header.user(),
+        });
         expect(header).toBeInTheDocument();
       });
     });
@@ -183,13 +199,16 @@ describe(Home, () => {
           const productContainer = getProductContainer(product.id);
           expect(productContainer).toBeInTheDocument();
 
-          const nameElement = getByText(productContainer, product.name);
+          const nameElement = Screen.get.byText({
+            container: productContainer,
+            text: product.name,
+          });
           expect(nameElement).toBeInTheDocument();
 
-          const priceElement = getByText(
-            productContainer,
-            formatMoney(product.price),
-          );
+          const priceElement = Screen.get.byText({
+            container: productContainer,
+            text: formatMoney(product.price),
+          });
           expect(priceElement).toBeInTheDocument();
 
           const availableElement = getAvailableElement(productContainer)(
@@ -205,7 +224,7 @@ describe(Home, () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText(Texts.global.error.unexpected()),
+          Screen.get.byText({ text: Texts.global.error.unexpected() }),
         ).toBeInTheDocument();
       });
     });
@@ -263,7 +282,9 @@ describe(Home, () => {
       setUpSuccess();
 
       await waitFor(() => {
-        const emptyState = screen.getByText(Texts.cart.empty.description());
+        const emptyState = Screen.get.byText({
+          text: Texts.cart.empty.description(),
+        });
         expect(emptyState).toBeInTheDocument();
       });
     });
@@ -321,10 +342,10 @@ describe(Home, () => {
             getQuantityElement(productContainer)(quantity);
           expect(quantityElement).toBeInTheDocument();
 
-          const selfSubtotalElement = getByText(
-            productContainer,
-            formatMoney(product.price * quantity),
-          );
+          const selfSubtotalElement = Screen.get.byText({
+            container: productContainer,
+            text: formatMoney(product.price * quantity),
+          });
           expect(selfSubtotalElement).toBeInTheDocument();
         });
       });
@@ -452,10 +473,13 @@ describe(Home, () => {
   });
 
   describe('vouchers', () => {
-    const getVoucherInput = () => screen.getByRole('textbox');
+    const getVoucherInput = () => Screen.get.byRole({ role: 'textbox' });
 
     const getApplyVoucherButton = () =>
-      screen.getByRole('button', { name: Texts.cart.voucher.button() });
+      Screen.get.byRole({
+        role: 'button',
+        name: Texts.cart.voucher.button(),
+      });
 
     const applyVoucher = (voucher: string) => {
       Events.typeOn(getVoucherInput())(voucher);
@@ -463,9 +487,9 @@ describe(Home, () => {
     };
 
     const getDiscountElement = (discount: number) => {
-      const container = screen.getByTestId('financial@discount');
+      const container = Screen.get.byTestId({ testId: 'financial@discount' });
 
-      return getByText(container, formatMoney(discount));
+      return Screen.get.byText({ container, text: formatMoney(discount) });
     };
 
     it('disables button if input is empty', async () => {
