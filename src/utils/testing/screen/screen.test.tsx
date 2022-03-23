@@ -70,7 +70,13 @@ describe('Screen', () => {
         it('calls getByText with container', async () => {
           Screen.get.byText({ text, container });
 
-          expect(getByText).toHaveBeenCalledWith(container, text);
+          expect(getByText).toHaveBeenCalledWith(container, text, {});
+        });
+
+        it('calls getByText with options', async () => {
+          Screen.get.byText({ text, container, ...options });
+
+          expect(getByText).toHaveBeenCalledWith(container, text, options);
         });
       });
     });

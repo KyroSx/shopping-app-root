@@ -16,7 +16,7 @@ interface ByText extends OptionsByText {
 }
 
 export function byText({ container, text, ...options }: ByText) {
-  if (container) return RTL.getByText(container, text);
+  if (container) return RTL.getByText(container, text, options);
 
   return RTL.screen.getByText(text, options);
 }
