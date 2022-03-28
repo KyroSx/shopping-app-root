@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/react';
 import React from 'react';
 
 import { Screen } from '@/utils/testing/screen';
@@ -21,24 +20,24 @@ describe(ErrorBoundary, () => {
     return <div data-testid="app">this-is-a-children</div>;
   }
 
-  it('renders children', async () => {
+  it('renders children', () => {
     renderWithApp();
 
-    const app = await screen.findByTestId('app');
+    const app = Screen.get.byTestId({ testId: 'app' });
     expect(app).toBeInTheDocument();
   });
 
-  it('does not render children if error happens', async () => {
+  it('does not render children if error happens', () => {
     renderWithAppThrows();
 
-    const app = screen.queryByTestId('app');
+    const app = Screen.query.byTestId({ testId: 'app' });
     expect(app).not.toBeInTheDocument();
   });
 
-  it('renders error page if error happens', async () => {
+  it('renders error page if error happens', () => {
     renderWithAppThrows();
 
-    const errorPage = await screen.findByTestId('error-page');
+    const errorPage = Screen.get.byTestId({ testId: 'error-page' });
     expect(errorPage).toBeInTheDocument();
   });
 });
