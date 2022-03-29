@@ -88,10 +88,16 @@ describe(Home, () => {
   const queryProductInCartContainer = (id: number) =>
     Screen.query.byTestId({ testId: Texts.cart.product.testId(id) });
 
-  const getSuccessToast = () =>
-    Screen.get.byText({
+  const getSuccessToast = () => {
+    return Screen.get.byText({
       text: Texts.cart.voucher.toast.success(),
     });
+  };
+  const getErrorToast = () => {
+    return Screen.get.byText({
+      text: Texts.cart.voucher.toast.error(),
+    });
+  };
 
   const getAvailableElement =
     (productContainer: HTMLElement) => (available: number) =>
@@ -537,6 +543,19 @@ describe(Home, () => {
 
       await waitFor(() => {
         expect(getSuccessToast()).toBeInTheDocument();
+      });
+    });
+
+    it('renders error-toast if it no voucher was found', async () => {
+      const { product } = setUpSuccess();
+
+      await waitFor(() => {
+        buyProduct(product);
+        applyVoucher('non-existing-voucher-code');
+      });
+
+      await waitFor(() => {
+        expect(getErrorToast()).toBeInTheDocument();
       });
     });
 

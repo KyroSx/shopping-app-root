@@ -46,6 +46,7 @@ export const Texts = {
 
       toast: {
         success: asFn('Voucher applied!!'),
+        error: asFn('Whoops!! Invalid Voucher.'),
       },
     },
 

@@ -6,7 +6,7 @@ import { Texts } from '@/ui/craft/texts';
 
 export function useApplyVoucher(applyVoucher: (voucher: Voucher) => void) {
   const { getVoucherByCode } = useVouchers();
-  const { success } = useToasts();
+  const { success, error } = useToasts();
 
   const [code, setCode] = React.useState('');
   const [hasApplied, setHasApplied] = React.useState(false);
@@ -18,6 +18,10 @@ export function useApplyVoucher(applyVoucher: (voucher: Voucher) => void) {
       applyVoucher(voucher);
       setHasApplied(true);
       success(Texts.cart.voucher.toast.success());
+    }
+
+    if (!voucher) {
+      error(Texts.cart.voucher.toast.error());
     }
   };
 
