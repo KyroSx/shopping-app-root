@@ -43,6 +43,10 @@ export const Texts = {
     voucher: {
       input: asFn('Discount Code'),
       button: asFn('Apply'),
+
+      toast: {
+        success: asFn('Voucher applied!!'),
+      },
     },
 
     financial: {
