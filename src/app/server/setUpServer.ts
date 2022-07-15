@@ -1,5 +1,6 @@
-import { createServer } from 'miragejs';
+import { createServer, Response } from 'miragejs';
 import { Endpoints } from '@/services/endpoints';
+import { UnexpectedError } from '@/errors/UnexpectedError';
 
 function makeStaticProducts() {
   return {
@@ -22,14 +23,32 @@ function makeStaticVouchers() {
   };
 }
 
-export function setUpServer() {
-  const server = createServer({
-    routes() {
-      this.get(Endpoints.products.all(), makeStaticProducts);
+function makeServerError() {
+  return new Response(500, {}, { message: UnexpectedError.props.message });
+}
 
-      this.get(Endpoints.vouchers.all(), makeStaticVouchers);
+function twentyPercent() {
+  return Math.random() * 100 < 20;
+}
+
+function enhanceWithFailureProbability(route: Function) {
+  if (twentyPercent()) return () => makeServerError();
+
+  return () => route();
+}
+
+export function setUpServer() {
+  return createServer({
+    routes() {
+      this.get(
+        Endpoints.products.all(),
+        enhanceWithFailureProbability(makeStaticProducts),
+      );
+
+      this.get(
+        Endpoints.vouchers.all(),
+        enhanceWithFailureProbability(makeStaticVouchers),
+      );
     },
   });
-
-  return server;
 }
