@@ -17,17 +17,6 @@ describe('Env', () => {
     process.env.NODE_ENV = env;
   }
 
-  function mockBaseUrl(url: string) {
-    process.env.REACT_APP_BASE_API_URL = url;
-  }
-
-  it('returns main-api-url', () => {
-    const url = 'http://main-api-url.com';
-    mockBaseUrl(url);
-
-    expect(Environment.apiUrl()).toBe(url);
-  });
-
   describe('isDevelopment', () => {
     it('returns true if NODE_ENV is "development"', () => {
       mockNodeEnv(NodeEnvs.development);

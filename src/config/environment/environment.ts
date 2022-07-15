@@ -5,10 +5,6 @@ export enum NodeEnvs {
 }
 
 export class Environment {
-  static apiUrl() {
-    return process.env.REACT_APP_BASE_API_URL;
-  }
-
   static isDevelopment() {
     return Environment.isNodeEnv(NodeEnvs.development);
   }
