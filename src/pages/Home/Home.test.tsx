@@ -88,6 +88,17 @@ describe(Home, () => {
   const queryProductInCartContainer = (id: number) =>
     Screen.query.byTestId({ testId: Texts.cart.product.testId(id) });
 
+  const getSuccessToast = () => {
+    return Screen.get.byText({
+      text: Texts.cart.voucher.toast.success(),
+    });
+  };
+  const getErrorToast = () => {
+    return Screen.get.byText({
+      text: Texts.cart.voucher.toast.error(),
+    });
+  };
+
   const getAvailableElement =
     (productContainer: HTMLElement) => (available: number) =>
       Screen.get.byText({
@@ -519,6 +530,32 @@ describe(Home, () => {
       await waitFor(() => {
         expect(getVoucherInput()).toBeDisabled();
         expect(getApplyVoucherButton()).toBeDisabled();
+      });
+    });
+
+    it('renders success-toast if it succeeds', async () => {
+      const { fixedVoucher: voucher, product } = setUpSuccess();
+
+      await waitFor(() => {
+        buyProduct(product);
+        applyVoucher(voucher.code);
+      });
+
+      await waitFor(() => {
+        expect(getSuccessToast()).toBeInTheDocument();
+      });
+    });
+
+    it('renders error-toast if it no voucher was found', async () => {
+      const { product } = setUpSuccess();
+
+      await waitFor(() => {
+        buyProduct(product);
+        applyVoucher('non-existing-voucher-code');
+      });
+
+      await waitFor(() => {
+        expect(getErrorToast()).toBeInTheDocument();
       });
     });
 

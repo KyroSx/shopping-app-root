@@ -1,0 +1,11 @@
+.Toastify__toast {
+  font-family: source sans pro,sans-serif;
+  font-size: 1rem;
+  color: #333333;
+  line-height: 1.5;
+
+  padding: 8px;
+  min-height: inherit;
+  border-radius: .2rem;
+  background-color: #efefef;
+}
