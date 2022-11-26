@@ -1,13 +1,27 @@
 import { useQuery } from 'react-query';
 
 import { validateParams } from './validateParams';
-import { UseQueryHandlerParams } from './useQueryHandler.types';
+import {
+  UseQueryHandlerParams,
+  UseQueryHandlerReturn,
+  Key,
+} from './useQueryHandler.types';
 
-export function useQueryHandler({
+export function useQueryHandler<
+  TQueryFnData = unknown,
+  TError = unknown,
+  TData = TQueryFnData,
+  TQueryKey extends Key = Key,
+>({
   key,
   function: fn,
   ...options
-}: UseQueryHandlerParams) {
+}: UseQueryHandlerParams<
+  TQueryFnData,
+  TError,
+  TData,
+  TQueryKey
+>): UseQueryHandlerReturn<TData, TError> {
   validateParams({ key, fn });
 
   return useQuery(key, fn, options);

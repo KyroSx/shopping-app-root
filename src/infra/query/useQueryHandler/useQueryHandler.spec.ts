@@ -1,24 +1,42 @@
 import { waitFor } from '@testing-library/react';
 
 import * as ReactQuery from 'react-query';
-import { renderReactQueryHook } from '@/utils/testing/screen/render';
+import {
+  HookResult,
+  renderReactQueryHook,
+} from '@/utils/testing/screen/render';
 
 import { useQueryHandler } from '.';
 import { UseQueryHandlerParams } from './useQueryHandler.types';
 
 describe(useQueryHandler, () => {
-  const setUp = (params: UseQueryHandlerParams) => {
-    const hook = renderReactQueryHook(useQueryHandler, params);
+  function setUp<TQueryFnData, TError, TData>(
+    params: UseQueryHandlerParams<
+      TQueryFnData,
+      TError,
+      TData
+    > = {} as UseQueryHandlerParams<TQueryFnData, TError, TData>,
+  ): {
+    params: UseQueryHandlerParams<TQueryFnData, TError, TData>;
+    hook: HookResult<UseQueryHandlerParams<TQueryFnData, TError, TData>>;
+  } {
+    const hook = renderReactQueryHook<
+      UseQueryHandlerParams<TQueryFnData, TError, TData>
+    >(
+      // @ts-ignore
+      useQueryHandler,
+      params,
+    );
 
     return {
       hook,
       params,
     };
-  };
+  }
 
   const ParamsMock = {
     getKey() {
-      return 'key';
+      return ['key'];
     },
     getFunction() {
       return jest.fn().mockResolvedValue(this.getData());
@@ -41,7 +59,7 @@ describe(useQueryHandler, () => {
 
   describe('errors', () => {
     it('has no key or function params', async () => {
-      const { hook } = setUp({});
+      const { hook } = setUp();
 
       expect(hook.result.error).toEqual(
         new Error('key and function are required'),
@@ -59,7 +77,7 @@ describe(useQueryHandler, () => {
 
     it('has key as empty string', async () => {
       const { hook } = setUp({
-        key: '',
+        key: '' as any,
         function: ParamsMock.getFunction(),
       });
 
@@ -69,7 +87,7 @@ describe(useQueryHandler, () => {
     it('has function as empty', async () => {
       const { hook } = setUp({
         key: ParamsMock.getKey(),
-        function: undefined,
+        function: undefined as any,
       });
 
       expect(hook.result.error).toEqual(new Error('function is required'));
@@ -78,7 +96,7 @@ describe(useQueryHandler, () => {
     it('has function as any but function', async () => {
       const { hook } = setUp({
         key: ParamsMock.getKey(),
-        function: [],
+        function: [] as any,
       });
 
       expect(hook.result.error).toEqual(
@@ -124,7 +142,7 @@ describe(useQueryHandler, () => {
 
       await waitFor(() => {
         expect(ReactQuery.useQuery).toHaveBeenCalledWith(
-          'key',
+          ['key'],
           params.function,
           expect.any(Object),
         );
@@ -145,7 +163,7 @@ describe(useQueryHandler, () => {
 
       await waitFor(() => {
         expect(ReactQuery.useQuery).toHaveBeenCalledWith(
-          'key',
+          ['key'],
           params.function,
           {
             retry: 1,
