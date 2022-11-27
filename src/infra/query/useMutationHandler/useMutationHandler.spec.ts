@@ -5,16 +5,33 @@ import * as ReactQuery from 'react-query';
 import { useMutationHandler } from './useMutationHandler';
 import { renderReactQueryHook } from '@/utils/testing/screen/render';
 import { randomItemFromList } from '@/utils/list/randomItemFromList';
+import { UseMutationHandlerParams } from './useMutationHandler.types';
 
 describe(useMutationHandler, () => {
-  const setUp = (params = {}) => {
-    const hook = renderReactQueryHook(useMutationHandler, params);
+  function setUp<
+    TData = unknown,
+    TError = unknown,
+    TVariables = void,
+    TContext = unknown,
+  >(
+    params: UseMutationHandlerParams<
+      TData,
+      TError,
+      TVariables,
+      TContext
+    > = {} as UseMutationHandlerParams<TData, TError, TVariables, TContext>,
+  ) {
+    const hook = renderReactQueryHook(
+      // @ts-ignore
+      useMutationHandler,
+      params,
+    );
 
     return {
       hook,
       params,
     };
-  };
+  }
 
   const ParamsMock = {
     getKey() {
