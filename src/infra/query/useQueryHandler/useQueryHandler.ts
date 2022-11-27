@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { validateParams } from './validateParams';
+import { validateParams } from '../validate';
 import {
   UseQueryHandlerParams,
   UseQueryHandlerReturn,

@@ -8,6 +8,7 @@ import {
 
 import { useQueryHandler } from '.';
 import { UseQueryHandlerParams } from './useQueryHandler.types';
+import { randomItemFromList } from '@/utils/list/randomItemFromList';
 
 describe(useQueryHandler, () => {
   function setUp<TQueryFnData, TError, TData>(
@@ -81,7 +82,16 @@ describe(useQueryHandler, () => {
         function: ParamsMock.getFunction(),
       });
 
-      expect(hook.result.error).toEqual(new Error('key is required'));
+      expect(hook.result.error).toEqual(new Error('key must be an array'));
+    });
+
+    it('has key as anything but array', async () => {
+      const { hook } = setUp({
+        key: randomItemFromList([null, undefined, 1, 'string', {}]) as any,
+        function: ParamsMock.getFunction(),
+      });
+
+      expect(hook.result.error).toEqual(new Error('key must be an array'));
     });
 
     it('has function as empty', async () => {

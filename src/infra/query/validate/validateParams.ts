@@ -1,16 +1,12 @@
-import { isListEmpty } from '@/utils/list/isEmpty';
-
-function isEmptyArray(key: any): boolean {
-  return Array.isArray(key) && isListEmpty(key);
-}
-
-function isNotFunction(fn: any): boolean {
-  return typeof fn !== 'function';
-}
+import { isArray, isEmptyArray, isNotFunction } from './checkers';
 
 export function validateParams({ key, fn }: any): void {
   if (!key && !fn) {
     throw new Error('key and function are required');
+  }
+
+  if (!isArray(key)) {
+    throw new Error('key must be an array');
   }
 
   if (!key && fn) {
