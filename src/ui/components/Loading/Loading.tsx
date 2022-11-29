@@ -1,7 +1,7 @@
 import React from 'react';
 import { Texts } from '@/ui/craft/texts';
 import { LoadingSpinner } from '@/ui/components/Loading/LoadingSpinner';
-import { useIsAppLoading } from '@/hooks/useIsAppLoading';
+import { useIsAppLoading } from '@/infra';
 
 import * as Styles from './Loading.styles';
 
