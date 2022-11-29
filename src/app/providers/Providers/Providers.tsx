@@ -1,11 +1,11 @@
 import React from 'react';
-import { ReactQueryProvider } from '@/app/providers/ReactQuery';
 import { ThemeProvider } from '@/app/providers/Theme';
+import { QueryProvider } from '@/infra';
 
 export const Providers: React.FC = ({ children }) => {
   return (
-    <ReactQueryProvider>
+    <QueryProvider>
       <ThemeProvider>{children}</ThemeProvider>
-    </ReactQueryProvider>
+    </QueryProvider>
   );
 };
