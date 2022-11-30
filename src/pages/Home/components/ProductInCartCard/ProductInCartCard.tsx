@@ -1,16 +1,10 @@
 import React from 'react';
-import { ProductInCart } from '@/types';
 import { Texts } from '@/ui/craft/texts';
 import { calculateTotalPrice, isNotAvailable } from '@/lib/product';
 import { ButtonVariants, Money, Text, Title } from '@/ui/components';
 
 import * as Styles from './ProductInCartCard.styles';
-
-interface ProductInCartCardProps {
-  children: ProductInCart;
-  incrementProduct: (product: ProductInCart) => void;
-  decrementProduct: (product: ProductInCart) => void;
-}
+import { ProductInCartCardProps } from './ProductInCartCard.types';
 
 export function ProductInCartCard({
   children: product,

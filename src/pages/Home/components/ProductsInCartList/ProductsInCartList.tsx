@@ -1,21 +1,15 @@
 import React from 'react';
-import { ProductInCart, ProductsInCart } from '@/types';
-import { ProductInCartCard, EmptyState } from '@/pages/Home/components';
+import { EmptyState, ProductInCartCard } from '@/pages/Home/components';
 import { isListEmpty } from '@/utils/list/isEmpty';
 
 import * as Styles from '@/pages/Home/components/Cart/Cart.styles';
-
-interface CartProps {
-  children: ProductsInCart;
-  incrementProduct: (product: ProductInCart) => void;
-  decrementProduct: (product: ProductInCart) => void;
-}
+import { ProductsInCartListProps } from './ProductsInCartList.types';
 
 export function ProductsInCartList({
   children: products,
   incrementProduct,
   decrementProduct,
-}: CartProps) {
+}: ProductsInCartListProps) {
   const productsInCart = products.filter(product => product.isInCart);
   const isEmpty = isListEmpty(productsInCart);
 

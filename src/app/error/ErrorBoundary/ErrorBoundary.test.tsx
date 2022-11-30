@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Screen } from '@/utils/testing/screen';
-import { ErrorBoundary, ErrorBoundaryProps } from '@/app/error';
+import { ErrorBoundary, ErrorBoundaryProps } from '.';
 
 describe(ErrorBoundary, () => {
   const render = (props: ErrorBoundaryProps) =>

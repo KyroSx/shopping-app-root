@@ -1,8 +1,7 @@
 import React from 'react';
-import { useProducts } from '@/hooks/useProducts';
 import { Texts } from '@/ui/craft/texts';
 import { ProductList, Cart } from '@/pages/Home/components';
-import { useCart } from '@/hooks/useCart';
+import { useCart, useProducts } from '@/hooks';
 
 import * as Styles from './Home.styles';
 

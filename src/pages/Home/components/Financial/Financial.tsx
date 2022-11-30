@@ -1,15 +1,10 @@
 import React from 'react';
-import { ProductsInCart, Voucher } from '@/types';
 import { Money, Text } from '@/ui/components';
 import { Texts } from '@/ui/craft/texts';
-import { useFinancial } from '@/hooks/useFinancial';
+import { useFinancial } from '@/hooks';
 
 import * as Styles from './Financial.styles';
-
-interface FinancialProps {
-  products: ProductsInCart;
-  voucher: Voucher | null;
-}
+import { FinancialProps } from './Financial.types';
 
 export function Financial({ products, voucher }: FinancialProps) {
   const { total, discount, subtotal, shipping } = useFinancial(

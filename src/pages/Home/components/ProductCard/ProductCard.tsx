@@ -1,15 +1,10 @@
 import React from 'react';
-import { Money, Title, Text, Dot } from '@/ui/components';
+import { Dot, Money, Text, Title } from '@/ui/components';
 import { Texts } from '@/ui/craft/texts';
 import { isNotAvailable } from '@/lib/product';
-import { ProductInCart } from '@/types';
 
 import * as Styles from './ProductCard.styles';
-
-interface ProductCardProps {
-  children: ProductInCart;
-  onClick: (product: ProductInCart) => void;
-}
+import { ProductCardProps } from './ProductCard.types';
 
 export function ProductCard({ children: product, onClick }: ProductCardProps) {
   const onClickThis = () => onClick(product);
