@@ -1,9 +1,9 @@
 import { waitFor } from '@testing-library/react';
 import { Loading } from '@/ui/components/Loading/Loading';
-import { useIsAppLoading } from '@/hooks/useIsAppLoading';
+import { useIsAppLoading } from '@/infra';
 import { Screen } from '@/utils/testing/screen';
 
-jest.mock('@/hooks/useIsAppLoading');
+jest.mock('@/infra/query/useIsAppLoading');
 
 describe(Loading, () => {
   const renderLoading = () => {
