@@ -2,13 +2,7 @@ import React from 'react';
 import { ButtonVariants } from '@/ui/components';
 
 import * as Styles from './Button.styles';
-
-type HtmlButton = React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-export interface ButtonProps extends HtmlButton {
-  children: string;
-  variant?: ButtonVariants;
-}
+import { ButtonProps } from './Button.types';
 
 export function Button({
   children,

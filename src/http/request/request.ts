@@ -1,20 +1,8 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { api } from '@/http/axios/api';
-import { HttpMethods, HttpStatusCodes } from '@/http/codes';
 import { isAxiosError } from '@/http/utils/axios';
 
-export type HttpRequest = {
-  url: string;
-  method: HttpMethods;
-  body?: any;
-  queryParams?: any;
-};
-
-export type HttpResponse<T = any> = {
-  body: T;
-  statusCode: HttpStatusCodes;
-  error?: AxiosError;
-};
+import { HttpRequest, HttpResponse } from './request.types';
 
 export async function request<T>(
   httpRequest: HttpRequest,

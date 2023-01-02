@@ -3,12 +3,8 @@ import { Button, Input } from '@/ui/components';
 import { Texts } from '@/ui/craft/texts';
 
 import * as Styles from './Voucher.styles';
-import { Voucher as VoucherType } from '@/types';
-import { useApplyVoucher } from '@/hooks/useApplyVoucher';
-
-interface VoucherProps {
-  applyVoucher: (voucher: VoucherType) => void;
-}
+import { useApplyVoucher } from '@/hooks/';
+import { VoucherProps } from './Voucher.types';
 
 export function Voucher({ applyVoucher }: VoucherProps) {
   const { apply, code, isEmpty, setCode, hasApplied } =

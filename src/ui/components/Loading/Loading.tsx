@@ -8,7 +8,9 @@ import * as Styles from './Loading.styles';
 export function Loading() {
   const { isLoading } = useIsAppLoading();
 
-  if (!isLoading) return null;
+  if (!isLoading) {
+    return null;
+  }
 
   return (
     <Styles.Container data-testid="loading">

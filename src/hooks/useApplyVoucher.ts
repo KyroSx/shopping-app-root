@@ -1,5 +1,5 @@
 import React from 'react';
-import { useVouchers } from '@/hooks/useVouchers';
+import { useVouchers } from '@/hooks';
 import { Voucher } from '@/types';
 
 export function useApplyVoucher(applyVoucher: (voucher: Voucher) => void) {

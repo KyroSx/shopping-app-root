@@ -6,13 +6,7 @@ import {
 } from '@/hooks/useCart/functions';
 import { ProductInCart, Products, ProductsInCart } from '@/types';
 
-export type AddProductToCart = (product: ProductInCart) => void;
-
-type Output = {
-  products: ProductsInCart;
-  addProductToCart: AddProductToCart;
-  removeProductFromCart: (product: ProductInCart) => void;
-};
+import { Output } from './useCart.types';
 
 export function useCart(initialProducts: Products = []): Output {
   const [products, setProducts] = React.useState<ProductsInCart>([]);

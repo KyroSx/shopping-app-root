@@ -1,13 +1,8 @@
 import React from 'react';
 import { ProductCard } from '@/pages/Home/components';
-import { ProductInCart, ProductsInCart } from '@/types';
 
 import * as Styles from './ProductList.styles';
-
-interface ProductListProps {
-  children: ProductsInCart;
-  addProductToCart: (product: ProductInCart) => void;
-}
+import { ProductListProps } from './ProductList.types';
 
 export function ProductList({
   children: products,
